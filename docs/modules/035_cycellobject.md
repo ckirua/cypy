@@ -1,0 +1,88 @@
+# cycellobject
+
+| Field | Value |
+|-------|--------|
+| Status | present |
+| Maps to | `cpython.cellobject` |
+| Sources | `src/cypy/cycellobject.pxd`, `.pyx`, `.pyi` |
+| Surface | public + cimport |
+| Tracker lifecycle | decided (tier A + depth) |
+| Format | v2 |
+| Indexed | full |
+
+## Why
+
+Closure cell objects for Cython/function tooling.
+
+## Inventory
+
+| Symbol | Export | Notes |
+|--------|--------|-------|
+| cell_check / new / get / set | public | |
+| cell_get_unchecked / set_unchecked | cimport | GET/SET macros |
+
+## Workflow status
+
+| Function | Status | Why |
+|----------|--------|-----|
+| cell_check / get / new | APPROVED | see benches |
+| cell_set | APPROVED (API) | mutation |
+| GET/SET unchecked | APPROVED (cimport) | no checks / SET skips INCREF |
+
+## Lifecycle
+
+| Field | Value |
+|-------|--------|
+| Iteration | 1 |
+| Last pass | 2026-07-21 — Phase 4 Tier B |
+| Next action | — |
+
+## Decision log
+
+| Function | Decision | Iteration |
+|----------|----------|-----------|
+| public | APPROVED | 1 |
+| macros | APPROVED (cimport) | 1 |
+
+## Bench notes
+
+- Harness: [`bench/cycellobject_bench.py`](../../bench/cycellobject_bench.py)
+
+## Bench results
+
+Harness: [`bench/cycellobject_bench.py`](../../bench/cycellobject_bench.py) · tier A · CPython 3.14 · N=80_000
+
+| operation | case | ratio | verdict |
+|-----------|------|-------|---------|
+| cell_check | cell | **0.48x** | APPROVED |
+| cell_check | miss | **0.40x** | APPROVED |
+| cell_get | filled | **0.51x** | APPROVED |
+| cell_new | empty | **0.94x** | APPROVED (API) |
+
+### Tier B (Cython baseline)
+
+Harness: [`bench/tier_b/cycellobject.py`](../../bench/tier_b/cycellobject.py) · `cycellobject_tb.pyx` · CPython 3.14.6 · Linux x86_64 · `CPY_TIERB_N=2_000_000` × `runs=5`  
+Ratio = cypy `cdef` loop / typed Cython baseline loop (opaque + sink). **Informational** — does not reopen Tier A.
+
+| operation | case | cypy mean±σ | p99 | cy-base mean±σ | ratio | p99× | note |
+|-----------|------|-------------|-----|----------------|-------|------|------|
+| cell_check | cell | 2.90±0.13ms | 3.04ms | 27.59±0.14ms | **0.11x** | 0.11x | cypy faster |
+
+**Tier B takeaway:** primary `cell_check` **0.11x** vs typed Cython baseline (cell).
+
+
+## Experiment conclusions
+
+**Tier B:** `cell_check` **0.10x** vs type-name baseline.
+
+| Topic | Finding |
+|-------|---------|
+| Why check/get win | Slot check and `PyCell_Get` beat `CellType`/`cell_contents` attribute paths |
+| Ownership / refcount | Public `cell_set` adjusts refs; `PyCell_SET` skips INCREF — cimport only |
+| ABI / safety | Unchecked GET/SET macros assume a live cell; wrong type → undefined |
+| Scale | Cell ops are O(1); no size crossover — cost is wrapper vs attribute |
+| New(None) | Empty cell allowed; construction ~ties Python `types.CellType` |
+
+## Done when
+
+- [x] Try-all + depth + benches + `.pyi`

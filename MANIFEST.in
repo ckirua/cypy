@@ -1,0 +1,10 @@
+include README.md
+include COVERAGE.md
+include pyproject.toml
+include setup.py
+graft src
+graft examples
+graft docs
+global-exclude *.so *.pyc *.pyo
+global-exclude __pycache__
+global-exclude .git*

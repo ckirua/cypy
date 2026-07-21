@@ -1,0 +1,6 @@
+# Tier B build artifacts (local-only; not required in CI for Phase 4)
+*.so
+*.pyd
+*.c
+*.html
+_build_temp/

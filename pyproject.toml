@@ -1,0 +1,56 @@
+[build-system]
+requires = [
+    "setuptools",
+    "wheel",
+    "Cython",
+    "picobuild",
+]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "cypy"
+description = "Fast CPython C-API helpers for Cython (dict/str/bytes and friends)"
+readme = "README.md"
+license = "MIT"
+authors = [{ name = "ckirua", email = "aquipongoalgo.dsz@gmail.com" }]
+requires-python = ">=3.14"
+dynamic = ["version"]
+keywords = [
+    "cython",
+    "cpython",
+    "c-api",
+    "performance",
+    "dict",
+    "str",
+    "bytes",
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Operating System :: OS Independent",
+    "Programming Language :: Cython",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.14",
+    "Programming Language :: Python :: Implementation :: CPython",
+    "Topic :: Software Development :: Libraries",
+    "Typing :: Typed",
+]
+dependencies = [
+    "Cython",
+    "picobuild",
+]
+
+[project.urls]
+Homepage = "https://github.com/ckirua/cypy"
+Repository = "https://github.com/ckirua/cypy"
+Issues = "https://github.com/ckirua/cypy/issues"
+Documentation = "https://github.com/ckirua/cypy#readme"
+
+[project.optional-dependencies]
+dev = ["pytest>=8.0.0", "build", "twine"]
+
+[tool.setuptools]
+include-package-data = true
+
+[tool.setuptools.dynamic]
+version = { attr = "cypy.__about__.__version__" }

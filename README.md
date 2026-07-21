@@ -1,0 +1,104 @@
+# cypy
+
+Fast CPython C-API helpers for Cython — typed hot-path wrappers for containers, strings, bytes, and related APIs.
+
+Requires **Python ≥ 3.14**. Map of what is covered: [`COVERAGE.md`](COVERAGE.md). License: [`LICENSE`](LICENSE) (MIT). Contributing: [`CONTRIBUTING.md`](CONTRIBUTING.md). Security: [`SECURITY.md`](SECURITY.md). Safety / footguns: [`docs/SAFETY.md`](docs/SAFETY.md). Contributor process lives under [`docs/`](docs/) (not required for end users).
+
+## Install
+
+### From git (users)
+
+```bash
+pip install "cypy @ git+https://github.com/ckirua/cypy.git@v1.0.0"
+# or unpinned tip of main:
+# pip install "git+https://github.com/ckirua/cypy.git"
+```
+
+Build deps (`setuptools`, `wheel`, `Cython`, `picobuild`) are pulled via `pyproject.toml` `[build-system]`.
+
+### Editable (contributors)
+
+```bash
+python3.14 -m venv .venv
+source .venv/bin/activate
+pip install setuptools wheel Cython picobuild
+pip install -e . --no-build-isolation
+```
+
+Release builds are **portable** by default (`-O3` only). For local microbenches that want CPU-tuned code:
+
+```bash
+CPY_NATIVE=1 pip install -e . --no-build-isolation
+```
+
+### Build artifacts
+
+```bash
+pip install build
+python -m build          # sdist + wheel under dist/
+# package_data ships .pxd / .pyi / py.typed / headers for cimport + typing
+```
+
+Optional typecheck smoke (after install):
+
+```bash
+# requires pyright or mypy
+pyright -c 'from cypy.hot import dict_get, list_append'  # or:
+python -c "from cypy.hot import dict_get, list_len; reveal_type = print"  # stubs via py.typed
+```
+
+## Smoke
+
+Prefer the curated starters module for micro-opts:
+
+```python
+from cypy.hot import bytes_len, dict_get, list_len, str_len
+
+assert bytes_len(b"ok") == 2
+assert str_len("hi") == 2
+assert dict_get({"a": 1}, "a") == 1
+assert list_len([1, 2]) == 2
+```
+
+Also supported: `from cypy.cydict import dict_get` / `from cypy import dict_get`, and Cython `cimport`. Soft letter/bare aliases were removed in **0.3** — use preferred names. Prefer a release-tag pin. Avoid `from cypy import *`.
+
+Full public surface remains on `from cypy import …` / `cypy.cy*`.
+
+**Footgun:** C-string helpers take **`bytes`**, not `str`. Prefer `*_cstr` (`map_getitem_cstr`) — see `examples/py_cstr_bytes.py`. Broader trusted-caller notes (unchecked OOB, borrowed pointers, `marshal_loads`): [`docs/SAFETY.md`](docs/SAFETY.md).
+
+## Examples
+
+Runnable scripts after install — see [`examples/README.md`](examples/README.md):
+
+```bash
+python examples/pyhot.py
+python examples/pybytes.py
+python examples/pydict.py
+```
+
+## Compatibility
+
+**1.0 policy:** **Core** (`cypy.__all__` + `cypy.hot`) and documented cimport contracts are frozen. Soft aliases were removed in **0.3**. Protocols / Runtime remain provisional under minors. See [`docs/RELEASE.md`](docs/RELEASE.md). Semantic twins like `dict_len`/`dict_size` stay dual (never identity-aliased). Prefer pin: `pip install "cypy @ git+https://github.com/ckirua/cypy.git@v1.0.0"`.
+
+Product tiers (Core / Protocols / Runtime): [`COVERAGE.md`](COVERAGE.md).
+
+## Benchmarks
+
+See [`bench/BENCH.md`](bench/BENCH.md). Quick Tier A run:
+
+```bash
+./bench/small.sh
+```
+
+## Docs
+
+| Doc | Audience |
+|-----|----------|
+| This README + [`examples/`](examples/) | External users |
+| [`COVERAGE.md`](COVERAGE.md) | What the library covers / does not (product map) |
+| [`CONTRIBUTING.md`](CONTRIBUTING.md) | Setup, checks, PR / freeze policy |
+| [`SECURITY.md`](SECURITY.md) | Vulnerability reporting |
+| [`docs/SAFETY.md`](docs/SAFETY.md) | Trusted-caller footguns |
+| [`docs/`](docs/) | Contributor pipeline, status, module trackers |
+
+Builtin monkey-patch experiments are **archived** under [`docs/future/MONKEY.md`](docs/future/MONKEY.md) and are **not** part of the package.

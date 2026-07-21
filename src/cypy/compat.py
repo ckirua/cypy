@@ -1,0 +1,233 @@
+"""Strategy B soft-alias ledger (Wave 6 / 0.3 hard trim).
+
+``COMPAT_MAP`` maps **removed soft** names → **preferred** names. Soft root
+aliases were dropped in **0.3**; ``soft_alias_removal_hint`` / package
+``__getattr__`` surface migration messages.
+
+``SEMANTIC_TWINS`` are **not** identity aliases — keep both (typed ``*_len`` vs
+checked ``*_size``). Letter soft twins were removed with the hard trim; only
+preferred pairs remain in the ledger.
+"""
+
+from __future__ import annotations
+
+__all__: tuple[str, ...] = (
+    "COMPAT_MAP",
+    "SEMANTIC_TWINS",
+    "SOFT_ALIAS_REMOVED_IN",
+    "CORE_FREEZE_AT",
+    "preferred_name",
+    "is_soft_alias",
+    "soft_alias_removal_hint",
+)
+
+# Soft aliases removed from the root barrel at this version (Strategy B).
+SOFT_ALIAS_REMOVED_IN: str = "0.3"
+
+# Core public + documented cimport contracts freeze at this version.
+CORE_FREEZE_AT: str = "1.0"
+
+COMPAT_MAP: dict[str, str] = {
+    "all_alnum_ascii": "str_all_alnum_ascii",
+    "all_alpha_ascii": "str_all_alpha_ascii",
+    "all_digits": "str_all_digits",
+    "as_str_or_empty": "str_as_or_empty",
+    "aycheck": "array_check",
+    "aycheck_exact": "array_check_exact",
+    "ayclone": "array_clone",
+    "aycopy": "array_copy",
+    "ayextend": "array_extend",
+    "aylen": "array_len",
+    "ayresize": "array_resize",
+    "ayresize_smart": "array_resize_smart",
+    "ayzero": "array_zero",
+    "bacheck": "bytearray_check",
+    "bacheck_exact": "bytearray_check_exact",
+    "baconcat": "bytearray_concat",
+    "bafrom_object": "bytearray_from_object",
+    "balen": "bytearray_len",
+    "baresize": "bytearray_resize",
+    "basize": "bytearray_size",
+    "bcheck": "bytes_check",
+    "bcheck_exact": "bytes_check_exact",
+    "bcontains": "bytes_contains",
+    "bfrom_object": "bytes_from_object",
+    "bg8": "ansi_bg8",
+    "blen": "bytes_len",
+    "bold": "ansi_bold",
+    "bsize": "bytes_size",
+    "char_at": "str_char_at",
+    "concat": "str_concat",
+    "concat3": "str_concat3",
+    "concat4": "str_concat4",
+    "contains": "str_contains",
+    "conv_string_to_double": "conv_cstr_to_double",
+    "dcheck": "dict_check",
+    "dcheck_exact": "dict_check_exact",
+    "dclear": "dict_clear",
+    "dcontains": "dict_contains",
+    "dcopy": "dict_copy",
+    "ddel": "dict_del",
+    "dget": "dict_get",
+    "dget_ref": "dict_get_ref",
+    "dget_with_error": "dict_get_with_error",
+    "dlen": "dict_len",
+    "dmerge": "dict_merge",
+    "dmerge_from_seq2": "dict_merge_from_seq2",
+    "dnew": "dict_new",
+    "dpop": "dict_pop",
+    "dproxy": "dict_proxy",
+    "dset": "dict_set",
+    "dsetdefault": "dict_setdefault",
+    "dsetdefault_ref": "dict_setdefault_ref",
+    "dsize": "dict_size",
+    "dt_delta_check": "dt_timedelta_check",
+    "dt_delta_check_exact": "dt_timedelta_check_exact",
+    "dt_delta_days": "dt_timedelta_days",
+    "dt_delta_microseconds": "dt_timedelta_microseconds",
+    "dt_delta_seconds": "dt_timedelta_seconds",
+    "dupdate": "dict_update",
+    "endswith": "str_endswith",
+    "fg256": "ansi_fg256",
+    "fg8": "ansi_fg8",
+    "file_write_string": "file_write_cstr",
+    "first_char": "str_first_char",
+    "float_from_string": "float_from_cstr",
+    "is_blank": "str_is_blank",
+    "is_empty": "str_is_empty",
+    "is_not_str": "str_is_not",
+    "is_str": "str_check_exact",
+    "lappend": "list_append",
+    "las_tuple": "list_as_tuple",
+    "last_char": "str_last_char",
+    "lcheck": "list_check",
+    "lcheck_exact": "list_check_exact",
+    "lclear": "list_clear",
+    "lcopy": "list_copy",
+    "lempty": "list_empty",
+    "lextend": "list_extend",
+    "lget": "list_get",
+    "lget_checked": "list_get_checked",
+    "lget_ref": "list_get_ref",
+    "linsert": "list_insert",
+    "llen": "list_len",
+    "lreverse": "list_reverse",
+    "lset_item": "list_set_item",
+    "lset_slice": "list_set_slice",
+    "lsize": "list_size",
+    "lslice": "list_slice",
+    "lsort": "list_sort",
+    "map_del_string": "map_del_cstr",
+    "map_getitem_string": "map_getitem_cstr",
+    "map_has_key_string": "map_has_key_cstr",
+    "map_setitem_string": "map_setitem_cstr",
+    "method_function": "method_get_function",
+    "method_self": "method_get_self",
+    "mod_add_string": "mod_add_cstr",
+    "mvcheck": "memoryview_check",
+    "mvfrom_object": "memoryview_from_object",
+    "mvget_contiguous": "memoryview_get_contiguous",
+    "none_to_empty": "str_none_to_empty",
+    "not_empty": "str_not_empty",
+    "obj_delattr_string": "obj_delattr_cstr",
+    "obj_getattr_string": "obj_getattr_cstr",
+    "obj_hasattr_string": "obj_hasattr_cstr",
+    "obj_setattr_string": "obj_setattr_cstr",
+    "reset": "ansi_reset",
+    "sadd": "set_add",
+    "sany_check": "set_any_check",
+    "sany_check_exact": "set_any_check_exact",
+    "scheck": "set_check",
+    "scheck_exact": "set_check_exact",
+    "sclear": "set_clear",
+    "scontains": "set_contains",
+    "scopy": "set_copy",
+    "sdiscard": "set_discard",
+    "sempty": "set_empty",
+    "sfrozen_check": "frozenset_check",
+    "sfrozen_check_exact": "frozenset_check_exact",
+    "sfrozen_empty": "frozenset_empty",
+    "sfrozen_new": "frozenset_new",
+    "slcheck": "slice_check",
+    "slen": "set_len",
+    "slindices_ex": "slice_indices_ex",
+    "slnew": "slice_new",
+    "slunpack": "slice_unpack",
+    "snew": "set_new",
+    "spop": "set_pop",
+    "sqcheck": "seq_check",
+    "sqconcat": "seq_concat",
+    "sqcontains": "seq_contains",
+    "sqcount": "seq_count",
+    "sqdel": "seq_del",
+    "sqdel_slice": "seq_del_slice",
+    "sqget": "seq_get",
+    "sqindex": "seq_index",
+    "sqinplace_concat": "seq_inplace_concat",
+    "sqinplace_repeat": "seq_inplace_repeat",
+    "sqlen": "seq_len",
+    "sqlist": "seq_list",
+    "sqrepeat": "seq_repeat",
+    "sqset": "seq_set",
+    "sqset_slice": "seq_set_slice",
+    "sqsize": "seq_size",
+    "sqslice": "seq_slice",
+    "sqtuple": "seq_tuple",
+    "ssize": "set_size",
+    "startswith": "str_startswith",
+    "streq": "str_eq",
+    "strip_ansi": "ansi_strip",
+    "strlen": "str_len",
+    "strneq": "str_ne",
+    "supdate": "set_update",
+    "tcheck": "tuple_check",
+    "tcheck_exact": "tuple_check_exact",
+    "tget": "tuple_get",
+    "tget_checked": "tuple_get_checked",
+    "time_time": "time_wall",
+    "tlen": "tuple_len",
+    "tpack2": "tuple_pack2",
+    "tpack3": "tuple_pack3",
+    "tpack4": "tuple_pack4",
+    "tsize": "tuple_size",
+    "tslice": "tuple_slice",
+    "ucheck": "str_check",
+    "ucheck_exact": "str_check_exact",
+    "wrap": "ansi_wrap",
+}
+
+# Typed/unchecked *_len vs checked *_size. Never identity-alias.
+SEMANTIC_TWINS: tuple[tuple[str, str], ...] = (
+    ("dict_len", "dict_size"),
+    ("list_len", "list_size"),
+    ("tuple_len", "tuple_size"),
+    ("bytes_len", "bytes_size"),
+    ("bytearray_len", "bytearray_size"),
+    ("set_len", "set_size"),
+    ("seq_len", "seq_size"),
+    ("obj_len", "obj_size"),
+)
+
+def preferred_name(name: str) -> str:
+    """Return the preferred spelling for ``name`` (identity if already preferred)."""
+    return COMPAT_MAP.get(name, name)
+
+
+def is_soft_alias(name: str) -> bool:
+    """Return True if ``name`` was a Strategy B soft alias removed in 0.3."""
+    return name in COMPAT_MAP
+
+
+def soft_alias_removal_hint(name: str) -> str | None:
+    """Return a migration hint if ``name`` was a soft alias; else ``None``.
+
+    Used by package ``__getattr__`` after the 0.3 hard trim.
+    """
+    pref = COMPAT_MAP.get(name)
+    if pref is None:
+        return None
+    return (
+        f"{name!r} was removed in {SOFT_ALIAS_REMOVED_IN}; "
+        f"use {pref!r} instead"
+    )
+

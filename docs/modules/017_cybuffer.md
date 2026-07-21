@@ -1,0 +1,104 @@
+# cybuffer
+
+| Field | Value |
+|-------|--------|
+| Status | present |
+| Maps to | `cpython.buffer` |
+| Sources | `src/cypy/cybuffer.pxd`, `.pyx`, `.pyi` |
+| Surface | public + cimport |
+| Tracker lifecycle | decided (tier A + depth) |
+| Format | v2 |
+| Indexed | full |
+
+## Why
+
+Buffer-protocol check/copy for Python, plus cdef wrappers for `Py_buffer*` lifecycle used from Cython.
+
+## Inventory
+
+| Symbol | Layer | Kind | Export | Notes |
+|--------|-------|------|--------|-------|
+| buf_check | cypy | cpdef | public | `PyObject_CheckBuffer` |
+| buf_copy_data | cypy | cpdef | public | `PyObject_CopyData` |
+| buf_get / buf_release | cypy | cdef | cimport | GetBuffer / Release |
+| buf_get_pointer / size_from_format | cypy | cdef | cimport | |
+| buf_to/from_contiguous / is_contiguous | cypy | cdef | cimport | |
+| buf_fill_* | cypy | cdef | cimport | FillInfo / strides |
+| PyBUF_* flags | C-API | tried | — | use `cpython.buffer` directly |
+| PyObject_Format | C-API | REJECTED | — | deprecated in include → `cpython.object` |
+| PyObject_CopyToObject | C-API | tried | — | covered by CopyData path; not wrapped (duplicate-ish) |
+
+## Workflow status
+
+| Function | Status | Why |
+|----------|--------|-----|
+| buf_check | APPROVED | primary **0.20x** |
+| buf_copy_data | APPROVED | **0.53x** |
+| buf_* pointer helpers | APPROVED (cimport) | `Py_buffer*` lifetime |
+| PyObject_Format | REJECTED | include says cimport from object |
+| PyBUF_* re-export | REJECTED | prefer `cpython.buffer` constants |
+
+## Lifecycle
+
+| Field | Value |
+|-------|--------|
+| Freeze | **1.0 Core** — public + documented cimport; see COVERAGE § 1.0 freeze |
+| Iteration | 1 |
+| Last pass | 2026-07-21 — Phase 4 Tier B |
+| Next action | — |
+
+## Decision log
+
+| Function | Hypothesis | Bench | Result | Decision | Iteration |
+|----------|------------|-------|--------|----------|-----------|
+| buf_check | Beat try/memoryview | hit/miss | **0.11–0.21x** | APPROVED | 1 |
+| buf_copy_data | Beat mv slice assign | 8B | **0.53x** | APPROVED | 1 |
+| GetBuffer family | Needed in Cython | ABI | cdef | APPROVED (cimport) | 1 |
+
+## Bench notes
+
+- Harness: [`bench/cybuffer_bench.py`](../../bench/cybuffer_bench.py) · N=80000 · CPython 3.14.6
+
+## Bench results
+
+| operation | case | cypy mean±σ | p99 | ratio | p99× | verdict |
+|-----------|------|-------------|-----|-------|------|---------|
+| buf_check | bytearray | 0.91±0.03ms | 0.95ms | 0.20x | 0.21x | pass |
+| buf_check | bytes | 0.95±0.07ms | 1.06ms | 0.21x | 0.23x | pass |
+| buf_check | list | 0.92±0.04ms | 0.98ms | 0.12x | 0.12x | pass |
+| buf_check | int | 0.88±0.01ms | 0.90ms | 0.11x | 0.12x | pass |
+| buf_copy_data | ba←ba 8 | 7.33±0.09ms | 7.46ms | 0.53x | 0.54x | pass |
+
+Summary: 5/5 faster · mean **0.23x**.
+
+### Tier B (Cython baseline)
+
+Harness: [`bench/tier_b/cybuffer.py`](../../bench/tier_b/cybuffer.py) · `cybuffer_tb.pyx` · CPython 3.14.6 · Linux x86_64 · `CPY_TIERB_N=2_000_000` × `runs=5`  
+Ratio = cypy `cdef` loop / typed Cython baseline loop (opaque + sink). **Informational** — does not reopen Tier A.
+
+| operation | case | cypy mean±σ | p99 | cy-base mean±σ | ratio | p99× | note |
+|-----------|------|-------------|-----|----------------|-------|------|------|
+| buf_check | hit | 2.91±0.01ms | 2.91ms | 2.93±0.15ms | **0.99x** | 0.93x | ~tie |
+
+**Tier B takeaway:** primary `buf_check` **0.99x** vs typed Cython baseline (hit).
+
+
+## Experiment conclusions
+
+**Tier B:** `buf_check` **1.00x** vs isinstance — ~parity.
+
+| Topic | Finding |
+|-------|---------|
+| Why `buf_check` wins | `PyObject_CheckBuffer` is a type-slot peek; baseline `try: memoryview` allocates/raises |
+| `buf_get`/`release` | Must pair; releasing twice / use-after-release is UB — cdef |
+| Flags | Not re-exported; cimport `PyBUF_*` from `cpython.buffer` |
+| CopyToObject | Left unwrapped — overlapping with CopyData + rare |
+| Why win | `PyObject_CheckBuffer` is a thin slot test vs catching BufferError in Python |
+| Scale | Copy path ~0.52x on small bytearray; large copies dominated by memcpy either way |
+| Safety | `buf_copy_data` requires writable destination; overlapping regions undefined |
+| ABI | Buffer protocol stable on 3.14; view getters stay cdef where pointers escape |
+
+
+## Done when
+
+- [x] Inventory + try-all + depth + benches + `.pyi`

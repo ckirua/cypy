@@ -1,0 +1,100 @@
+# cybytearray.pxd
+# Typed ``bytearray`` helpers. Public docs live in ``cybytearray.pyi``.
+# C pointers / uninit construction: cdef.
+
+from cpython.object cimport PyObject
+
+
+cdef extern from "Python.h":
+    bint PyByteArray_Check(object o) noexcept
+    bint PyByteArray_CheckExact(object o) noexcept
+    bytearray PyByteArray_FromObject(object o)
+    bytearray PyByteArray_FromStringAndSize(const char *string, Py_ssize_t len)
+    bytearray PyByteArray_Concat(object a, object b)
+    Py_ssize_t PyByteArray_Size(object bytearray) except -1
+    char* PyByteArray_AsString(object bytearray) except NULL
+    int PyByteArray_Resize(object bytearray, Py_ssize_t len) except -1
+    char* PyByteArray_AS_STRING(object bytearray) noexcept
+    Py_ssize_t PyByteArray_GET_SIZE(object bytearray) noexcept
+
+
+cdef inline bint bacheck(object p) noexcept:
+    return PyByteArray_Check(p)
+
+
+cdef inline bint bacheck_exact(object p) noexcept:
+    return PyByteArray_CheckExact(p)
+
+
+cdef inline Py_ssize_t balen(bytearray ba) noexcept:
+    return PyByteArray_GET_SIZE(ba)
+
+
+cdef inline Py_ssize_t basize(object ba) except -1:
+    return PyByteArray_Size(ba)
+
+
+cdef inline bytearray bafrom_object(object o):
+    return PyByteArray_FromObject(o)
+
+
+cdef inline bytearray baconcat(object a, object b):
+    return PyByteArray_Concat(a, b)
+
+
+cdef inline char* baas_string(bytearray ba) noexcept:
+    # Borrowed mutable buffer; do not outlive ba.
+    return PyByteArray_AS_STRING(ba)
+
+
+cdef inline char* baas_string_checked(object ba) except NULL:
+    return PyByteArray_AsString(ba)
+
+
+cdef inline bytearray bafrom_string_and_size(const char *string, Py_ssize_t n):
+    return PyByteArray_FromStringAndSize(string, n)
+
+
+cdef inline bytearray banew(Py_ssize_t n):
+    # Uninitialized — fill before Python exposure (unlike zeroed bytearray(n)).
+    return PyByteArray_FromStringAndSize(NULL, n)
+
+
+cdef inline int baresize(bytearray ba, Py_ssize_t n) except -1:
+    return PyByteArray_Resize(ba, n)
+
+# Wave 4 N1/N5 preferred names (0.3: soft letter/bare are cdef-only)
+
+cdef inline char* bytearray_as_string(bytearray ba) noexcept:
+    return baas_string(ba)
+
+cdef inline char* bytearray_as_string_checked(object ba) except NULL:
+    return baas_string_checked(ba)
+
+cpdef inline bint bytearray_check(object p) noexcept:
+    return bacheck(p)
+
+cpdef inline bint bytearray_check_exact(object p) noexcept:
+    return bacheck_exact(p)
+
+cpdef inline bytearray bytearray_concat(object a, object b):
+    return baconcat(a, b)
+
+cpdef inline bytearray bytearray_from_object(object o):
+    return bafrom_object(o)
+
+cdef inline bytearray bytearray_from_string_and_size(const char *string, Py_ssize_t n):
+    return bafrom_string_and_size(string, n)
+
+cpdef inline Py_ssize_t bytearray_len(bytearray ba) noexcept:
+    return balen(ba)
+
+cdef inline bytearray bytearray_new(Py_ssize_t n):
+    return banew(n)
+
+cpdef inline int bytearray_resize(bytearray ba, Py_ssize_t n) except -1:
+    return baresize(ba, n)
+
+cpdef inline Py_ssize_t bytearray_size(object ba) except -1:
+    return basize(ba)
+

@@ -1,0 +1,96 @@
+# cymethod
+
+| Field | Value |
+|-------|--------|
+| Status | present |
+| Maps to | `cpython.method` |
+| Sources | `src/cypy/cymethod.pxd`, `.pyx`, `.pyi` |
+| Surface | public + cimport |
+| Tracker lifecycle | decided (tier A + depth) |
+| Format | v2 |
+| Indexed | full |
+
+## Why
+
+Bound-method checks and field access. `PyMethod_New` is 2-arg on 3.14 (Cython Includes still show 3).
+
+## Inventory
+
+| Symbol | Export | Notes |
+|--------|--------|-------|
+| method_check / new | public | |
+| method_get_function / method_get_self | public | preferred spelling; checked `PyMethod_Function` / `Self` |
+| method_function / method_self | cimport impl | 0.3: cdef-only; prefer `method_get_*` |
+| method_function_unchecked / method_self_unchecked | cimport | unchecked `GET_*` macros (not identity with checked getters) |
+| PyMethod_Class | — | REJECTED (ABI missing 3.14) |
+
+## Workflow status
+
+| Function | Status | Why |
+|----------|--------|-----|
+| method_check / function / self / get_* | APPROVED | **0.41–0.52x** |
+| method_new | APPROVED (API) | **1.00x** ~tie |
+| *_unchecked (GET_*) | APPROVED (cimport) | unchecked |
+| Class | REJECTED | missing 3.14 |
+
+## Lifecycle
+
+| Field | Value |
+|-------|--------|
+| Iteration | 1 |
+| Last pass | 2026-07-21 — Phase 4 Tier B |
+| Next action | — |
+
+## Decision log
+
+| Function | Result | Decision | Iteration |
+|----------|--------|----------|-----------|
+| check/getters | 0.41–0.52x | APPROVED | 1 |
+| new | 1.00x | APPROVED (API) | 1 |
+| Class | missing | REJECTED | 1 |
+
+## Bench notes
+
+- Harness: [`bench/cymethod_bench.py`](../../bench/cymethod_bench.py) · N=80000
+
+## Bench results
+
+| operation | case | ratio | verdict |
+|-----------|------|-------|---------|
+| method_check | bound / function | 0.48x / 0.41x | pass |
+| method_function / self | | 0.52x / 0.50x | pass |
+| method_new | bind | 1.00x | API |
+
+Summary: 4/5 gate · mean **0.58x**.
+
+### Tier B (Cython baseline)
+
+Harness: [`bench/tier_b/cymethod.py`](../../bench/tier_b/cymethod.py) · `cymethod_tb.pyx` · CPython 3.14.6 · Linux x86_64 · `CPY_TIERB_N=2_000_000` × `runs=5`  
+Ratio = cypy `cdef` loop / typed Cython baseline loop (opaque + sink). **Informational** — does not reopen Tier A.
+
+| operation | case | cypy mean±σ | p99 | cy-base mean±σ | ratio | p99× | note |
+|-----------|------|-------------|-----|----------------|-------|------|------|
+| method_check | bound | 3.04±0.08ms | 3.14ms | 6.88±0.07ms | **0.44x** | 0.45x | cypy faster |
+
+**Tier B takeaway:** primary `method_check` **0.44x** vs typed Cython baseline (bound).
+
+
+## Experiment conclusions
+
+**Tier B:** `method_check` **0.43x** vs MethodType isinstance.
+
+| Topic | Finding |
+|-------|---------|
+| New arity | 3.14 `PyMethod_New(func, self)` — no `cls` (Py2 unbound removed) |
+| Class gone | No `PyMethod_Class` in headers |
+| GET_* | Unchecked inlines — cdef |
+| Cheap aliases | GET_FUNCTION/SELF wrapped alongside checked Function/Self |
+| Why win | Direct C method object fields vs descriptor `__func__`/`__self__` |
+| Scale | BindMethod ~tie with Python bind (1.04x) — API keep for Cython call sites |
+| Safety | GetFunction/GetSelf return borrowed refs — wrappers own for Python return |
+| Subtype | Check distinguishes builtin FunctionType vs bound method |
+
+
+## Done when
+
+- [x] Try-all + depth + benches + `.pyi`

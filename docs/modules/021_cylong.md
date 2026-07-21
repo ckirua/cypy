@@ -1,0 +1,100 @@
+# cylong
+
+| Field | Value |
+|-------|--------|
+| Status | present |
+| Maps to | `cpython.long` |
+| Sources | `src/cypy/cylong.pxd`, `.pyx`, `.pyi` |
+| Surface | public + cimport |
+| Tracker lifecycle | decided (tier A + depth) |
+| Format | v2 |
+| Indexed | full |
+
+## Why
+
+C↔`int` bridge and exactness checks (`bool` is a long subtype). From Python, `int()`/`float()` often beat boxed helpers — keep as API for Cython call sites.
+
+## Inventory
+
+| Symbol | Export | Notes |
+|--------|--------|-------|
+| long_check / exact | public | Exact rejects `bool` |
+| long_from_* (long/ulong/ssize/size/ll/ull/double) | public | C constructors |
+| long_as_* / masks / double | public | |
+| long_as_long_overflow | public | `(value, overflow)` tuple |
+| long_from_string / voidptr / as_voidptr / as_ll_overflow | cimport | pointers / out-param |
+| FromUnicode | REJECTED | deprecated path in include |
+
+## Workflow status
+
+| Function | Status | Why |
+|----------|--------|-----|
+| long_check* | APPROVED | **0.44–0.52x** |
+| long_as_long_overflow | APPROVED | **0.73x** |
+| long_from_* / long_as_* | APPROVED (API) | **1.14–1.40x** vs `int`/`float` — Cython C bridge |
+| string/voidptr/ll_overflow cdef | APPROVED (cimport) | |
+| FromUnicode | REJECTED | deprecated |
+
+## Lifecycle
+
+| Field | Value |
+|-------|--------|
+| Iteration | 1 |
+| Last pass | 2026-07-21 — Phase 4 Tier B |
+| Next action | — |
+
+## Decision log
+
+| Function | Result | Decision | Iteration |
+|----------|--------|----------|-----------|
+| long_check_exact vs bool | 0.52x; False for True | APPROVED | 1 |
+| from/as vs int() | 1.14–1.40x lose | APPROVED (API) | 1 |
+| overflow tuple | 0.73x | APPROVED | 1 |
+
+## Bench notes
+
+- Harness: [`bench/cylong_bench.py`](../../bench/cylong_bench.py) · N=80000
+
+## Bench results
+
+| operation | case | ratio | verdict |
+|-----------|------|-------|---------|
+| long_check | int / bool | 0.49x / 0.44x | pass |
+| long_check_exact | int / bool | 0.52x / 0.52x | pass |
+| long_from_long / ssize / double | | 1.14–1.40x | API |
+| long_as_long / ssize / double | | 1.14–1.28x | API |
+| long_as_long_overflow | small | 0.73x | pass |
+
+Summary: 5/11 gate · mean **0.93x**.
+
+### Tier B (Cython baseline)
+
+Harness: [`bench/tier_b/cylong.py`](../../bench/tier_b/cylong.py) · `cylong_tb.pyx` · CPython 3.14.6 · Linux x86_64 · `CPY_TIERB_N=2_000_000` × `runs=5`  
+Ratio = cypy `cdef` loop / typed Cython baseline loop (opaque + sink). **Informational** — does not reopen Tier A.
+
+| operation | case | cypy mean±σ | p99 | cy-base mean±σ | ratio | p99× | note |
+|-----------|------|-------------|-----|----------------|-------|------|------|
+| long_check | hit | 2.46±0.01ms | 2.47ms | 2.47±0.00ms | **1.00x** | 1.00x | ~tie |
+
+**Tier B takeaway:** primary `long_check` **1.00x** vs typed Cython baseline (hit).
+
+
+## Experiment conclusions
+
+**Tier B:** `long_check` **1.00x** vs isinstance — ~parity.
+
+| Topic | Finding |
+|-------|---------|
+| Check win | Fast type check; exact separates `bool` |
+| Why from/as lose | Small-int immortal / `int()` bytecode specializes; helpers still needed for typed C args in Cython |
+| Overflow | Tuple wrapper avoids manual out-param from Python |
+| Masks | Wrap without exception — document wraparound |
+| Why win | Check/Exact beat isinstance; overflow-checked AsLong wins when exception path matters |
+| Scale | FromLong/AsLong lose ~1.2x to Python int boxing specializing small ints |
+| Safety | `AsLongAndOverflow` sets overflow flag — must read flag, not only return value |
+| Subtype | bool is int subclass: Check true, Exact false — matches CPython |
+
+
+## Done when
+
+- [x] Try-all + depth + benches + `.pyi`

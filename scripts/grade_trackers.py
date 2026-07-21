@@ -1,0 +1,180 @@
+#!/usr/bin/env python3
+"""Grade docs/modules/NNN_*.md for Phase 3 depth remaster exit gate.
+
+Exit 0 only when every tracker is grade A.
+Usage: python scripts/grade_trackers.py [--json] [--write-audit]
+"""
+
+from __future__ import annotations
+
+import argparse
+import json
+import re
+import sys
+from collections import Counter
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parents[1]
+MODULES = ROOT / "docs" / "modules"
+
+# Known gold exemplars (always A if still well-formed)
+GOLD_ORDERS = {1, 2, 3, 4, 5, 6, 14}
+
+DEPTH_RE = re.compile(
+    r"(?i)why |scale|ABI|unique-ref|borrowed|steal|uninit|subtype|"
+    r"free-thread|GIL|safety|threshold|crossover|ownership|refcount|"
+    r"SystemError|NULL slot|demot"
+)
+TODO_RE = re.compile(
+    r"(?<![Nn]o silent )\bTODO\b|\bONGOING\b|bench pending|not measured",
+    re.I,
+)
+SEE_HARNESS_RE = re.compile(r"see harness|See harness", re.I)
+RATIO_RE = re.compile(r"\b0\.\d+x\b|\b1\.\d+x\b")
+NA_ROW_RE = re.compile(r"\|\s*[—\-]\s*\|.*\|\s*n/a\s*\|", re.I)
+
+
+def section(text: str, title: str) -> str:
+    m = re.search(rf"## {re.escape(title)}\n(.*?)(?=\n## |\Z)", text, re.S)
+    return m.group(1).strip() if m else ""
+
+
+def grade_file(path: Path) -> dict:
+    text = path.read_text(encoding="utf-8")
+    order = int(path.name[:3])
+    name = path.stem[4:]
+    bench = section(text, "Bench results")
+    exp = section(text, "Experiment conclusions")
+
+    see_harness = bool(SEE_HARNESS_RE.search(bench))
+    empty_see = bool(re.search(r"\|\s*see harness\s*\|", bench, re.I))
+    ratios = len(RATIO_RE.findall(bench))
+    na_only = bool(NA_ROW_RE.search(bench)) and ratios == 0
+    smoke_ok = bool(
+        re.search(r"(?i)smoke OK|ABI missing|cimport-only|n/a \(cimport\)|REJECTED ABI", bench)
+    )
+    todos = len(TODO_RE.findall(text))
+    depth_kw = len(DEPTH_RE.findall(exp))
+    exp_len = len(exp.strip())
+    cimport_hint = bool(
+        re.search(r"decided \(cimport\)|Surface \| cimport|cimport-only", text, re.I)
+    ) and not re.search(r"Surface \| public \+", text)
+
+    flags: list[str] = []
+    if todos:
+        flags.append(f"TODO×{todos}")
+    if see_harness or empty_see:
+        flags.append("see-harness")
+    if not bench.strip():
+        flags.append("no-bench-section")
+    if not exp.strip():
+        flags.append("no-exp-section")
+
+    # Grade
+    if see_harness or empty_see:
+        g = "C"
+    elif todos:
+        g = "C"
+    elif ratios >= 3 and depth_kw >= 2 and exp_len >= 300:
+        g = "A"
+    elif order in GOLD_ORDERS and ratios >= 1 and exp_len >= 250 and depth_kw >= 1 and not see_harness:
+        g = "A"
+    elif (na_only or smoke_ok or (cimport_hint and ratios == 0)) and depth_kw >= 2 and exp_len >= 250:
+        g = "A"  # cimport / ABI adequate
+    elif ratios >= 1 and depth_kw >= 2 and exp_len >= 250:
+        g = "A"
+    elif ratios >= 1 or (exp_len >= 200 and depth_kw >= 1):
+        g = "B"
+        if depth_kw < 2:
+            flags.append("thin-depth")
+        if ratios < 3 and not (na_only or smoke_ok or cimport_hint):
+            flags.append("thin-bench")
+    else:
+        g = "C"
+        if exp_len < 250:
+            flags.append("thin-exp")
+        if depth_kw < 2:
+            flags.append("thin-depth")
+        if ratios == 0 and not (na_only or smoke_ok):
+            flags.append("no-ratios")
+
+    return {
+        "order": order,
+        "name": name,
+        "file": path.name,
+        "grade": g,
+        "ratios": ratios,
+        "exp_len": exp_len,
+        "depth_kw": depth_kw,
+        "todos": todos,
+        "flags": flags,
+        "cimport_hint": cimport_hint,
+    }
+
+
+def main() -> int:
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--json", action="store_true")
+    ap.add_argument("--write-audit", action="store_true")
+    args = ap.parse_args()
+
+    rows = [grade_file(p) for p in sorted(MODULES.glob("[0-9][0-9][0-9]_*.md"))]
+    counts = Counter(r["grade"] for r in rows)
+    a = counts.get("A", 0)
+    total = len(rows)
+
+    if args.json:
+        print(json.dumps({"counts": dict(counts), "total": total, "rows": rows}, indent=2))
+    else:
+        print(f"grades: A={counts.get('A', 0)} B={counts.get('B', 0)} C={counts.get('C', 0)} total={total}")
+        for g in ("C", "B"):
+            bad = [r for r in rows if r["grade"] == g]
+            if not bad:
+                continue
+            print(f"\n=== {g} ({len(bad)}) ===")
+            for r in bad:
+                fl = ",".join(r["flags"]) or "-"
+                print(
+                    f"  {r['order']:03d} {r['name']:18s} ratios={r['ratios']} "
+                    f"exp={r['exp_len']:4d} depth_kw={r['depth_kw']}  {fl}"
+                )
+        print(f"\nexit_gate: {a}/{total} A  {'PASS' if a == total else 'FAIL'}")
+
+    if args.write_audit:
+        audit = ROOT / "docs" / "DEPTH_AUDIT.md"
+        lines = [
+            "# Depth audit (Phase 3)",
+            "",
+            "Generated by `scripts/grade_trackers.py --write-audit`.",
+            "Exit gate: **all 53 modules grade A**.",
+            "",
+            f"Snapshot: **A={counts.get('A', 0)} B={counts.get('B', 0)} C={counts.get('C', 0)}** / {total}",
+            "",
+            "| Order | Module | Grade | Ratios | Exp chars | Depth kw | Flags |",
+            "|------:|--------|:-----:|-------:|----------:|---------:|-------|",
+        ]
+        for r in rows:
+            fl = ", ".join(r["flags"]) if r["flags"] else "—"
+            lines.append(
+                f"| {r['order']} | {r['name']} | {r['grade']} | {r['ratios']} | "
+                f"{r['exp_len']} | {r['depth_kw']} | {fl} |"
+            )
+        lines.extend(
+            [
+                "",
+                "## Waves",
+                "",
+                "- **C:** stub benches / thin depth — remaster first",
+                "- **B:** upgrade depth to gold / cimport A bar",
+                "- **A:** spot-check only",
+                "",
+            ]
+        )
+        audit.write_text("\n".join(lines) + "\n", encoding="utf-8")
+        print(f"wrote {audit.relative_to(ROOT)}", file=sys.stderr)
+
+    return 0 if a == total and total >= 53 else 1
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

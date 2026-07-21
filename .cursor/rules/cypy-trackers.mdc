@@ -1,0 +1,23 @@
+---
+description: cypy module tracker v2 + per-module PR pipeline
+globs: docs/modules/**/*.md,docs/*.md,src/cypy/**
+alwaysApply: false
+---
+
+# cypy tracker conventions
+
+When editing `docs/modules/NNN_cy*.md` or `src/cypy/cy*`:
+
+1. Trackers use **v2** — see `docs/TEMPLATE.md` and exemplar `docs/modules/001_cytuple.md`.
+2. Keep vocabularies separate: presence, lifecycle, export, inventory layer, workflow decision (incl. **APPROVED (cimport)**).
+3. **Inventory is full** vs mapped Cython `Includes/cpython/*.pxd` (or declared custom surface). No skim. Skip `__Pyx_*` backports unless wrapped.
+4. Every inventory symbol gets workflow status.
+5. **APPROVED** / **APPROVED (cimport)** need decision-log evidence. **REJECTED** needs policy or measured why.
+6. Changing `.pxd` / exports → update the matching tracker in the same change. Public docs: **PEP 257 one-liners in `.pyi`** (no Args/Returns sections); `.pxd` lean (`#` safety only). See `docs/PIPELINE.md` “Public docstring style”.
+7. Bench gate: `docs/README.md` + `bench/BENCH.md` (tier A/B, mean ratio ≤ 0.95; evidence in `docs/modules/NNN_cy{name}.md`).
+8. **Ship pipeline:** `docs/PIPELINE.md` — try-all → evidence in tracker → **`.pyi` docs / lean `.pxd` before merge** → PR → merge only after user confirmation.
+9. **No silent skips** on measuring passes: every candidate tried (implement + bench/smoke) before TODO/REJECTED. **Cheap sibling aliases are compulsory** (e.g. `ConcatAndDel` next to `Concat`) — see PIPELINE.
+10. **Depth required:** try-all alone is not enough — probe why win/lose, scale, safety, unique-ref/ABI (see `docs/PIPELINE.md`). Write findings under Experiment conclusions **in `docs/modules/NNN_cy{name}.md`**.
+11. **Tracker update is mandatory (no skip):** same change as code must refresh Bench results + Experiment conclusions in the module tracker. PR body is not a substitute.
+12. Process docs live under `docs/`; `docs/modules/` is trackers only.
+13. Do not ask for merge until the PIPELINE **Before merge** checklist (incl. depth + tracker) is complete.
