@@ -19,6 +19,7 @@ Buffer-protocol check/copy for Python, plus cdef wrappers for `Py_buffer*` lifec
 | Symbol | Layer | Kind | Export | Notes |
 |--------|-------|------|--------|-------|
 | buf_check | cypy | cpdef | public | `PyObject_CheckBuffer` |
+| buf_eq | cypy | cpdef | public | buffer-protocol content eq; soft `buffer_eq` |
 | buf_copy_data | cypy | cpdef | public | `PyObject_CopyData` |
 | buf_get / buf_release | cypy | cdef | cimport | GetBuffer / Release |
 | buf_get_pointer / size_from_format | cypy | cdef | cimport | |
@@ -33,6 +34,7 @@ Buffer-protocol check/copy for Python, plus cdef wrappers for `Py_buffer*` lifec
 | Function | Status | Why |
 |----------|--------|-----|
 | buf_check | APPROVED | primary **0.20x** |
+| buf_eq | APPROVED | mirrors `memoryview_eq` over abstract buffers |
 | buf_copy_data | APPROVED | **0.53x** |
 | buf_* pointer helpers | APPROVED (cimport) | `Py_buffer*` lifetime |
 | PyObject_Format | REJECTED | include says cimport from object |

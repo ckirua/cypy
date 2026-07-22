@@ -7,3 +7,7 @@ def buf_check(obj: object) -> bool:
 def buf_copy_data(dest: object, src: object) -> int:
     """Copy buffer data from ``src`` into writable ``dest`` via ``PyObject_CopyData`` (``0`` / ``-1``). Returns 0 on success; errors raise — do not use as bool."""
     ...
+
+def buf_eq(a: object, b: object) -> bool:
+    """Return True if buffer-protocol views are equal (C-contiguous ``memcmp``; else memoryview richcompare). Format/size mismatch → False."""
+    ...
