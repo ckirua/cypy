@@ -489,6 +489,7 @@ from .cytuple import (
 )
 from .cyunicode import (
     uintern,
+    unicode_eq,
     uutf8_bytes,
 )
 
@@ -571,6 +572,7 @@ __all__: tuple[str, ...] = (
     "str_endswith",
     "uintern",
     "uutf8_bytes",
+    "unicode_eq",
     "ansi_wrap",
     "ansi_fg8",
     "ansi_bg8",

@@ -191,6 +191,7 @@ COMPAT_MAP: dict[str, str] = {
     "strip_ansi": "ansi_strip",
     "strlen": "str_len",
     "strneq": "str_ne",
+    "ueq": "unicode_eq",
     "supdate": "set_update",
     "tcheck": "tuple_check",
     "tcheck_exact": "tuple_check_exact",
