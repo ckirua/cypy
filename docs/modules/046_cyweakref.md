@@ -19,6 +19,7 @@ Weakref checks and NewRef/GetObject for Cython.
 | Symbol | Export | Notes |
 |--------|--------|-------|
 | check* / new_ref / new_proxy / get_object | public | |
+| weakref_eq / weakrefeq | public | referent eq (`weakref_richcompare`); soft `weakrefeq`; not `hot` |
 | GET_OBJECT | cimport | unchecked |
 
 ## Workflow status
@@ -26,6 +27,7 @@ Weakref checks and NewRef/GetObject for Cython.
 | Function | Status | Why |
 |----------|--------|-----|
 | check / new_ref / get_object | APPROVED | see benches |
+| weakref_eq / weakrefeq | APPROVED | referent equality (issue #39); not `hot` |
 | GET_OBJECT | APPROVED (cimport) | unchecked |
 
 ## Lifecycle
@@ -33,8 +35,16 @@ Weakref checks and NewRef/GetObject for Cython.
 | Field | Value |
 |-------|--------|
 | Iteration | 1 |
-| Last pass | 2026-07-21 — Phase 4 Tier B |
+| Last pass | 2026-07-22 — `weakref_eq` (#39) |
 | Next action | — |
+
+## Decision log
+
+| Function | Decision | Iteration |
+|----------|----------|-----------|
+| public | APPROVED | 1 |
+| weakref_eq / weakrefeq | APPROVED | 1 |
+| GET_OBJECT | APPROVED (cimport) | 1 |
 
 ## Bench notes
 
@@ -73,6 +83,7 @@ Ratio = cypy `cdef` loop / typed Cython baseline loop (opaque + sink). **Informa
 | Dead ref | Cleared refs yield None — treat carefully vs historical `Py_None` quirks |
 | ABI / safety | Unchecked `GET_OBJECT` macro is cimport-only; wrong type → crash |
 | Scale | Ref ops are O(1); callback registration dominates real workloads, not check/get |
+| `weakref_eq` | Referent equality (not identity): alive refs compare referents via `==`; dead → identity only (CPython `weakref_richcompare`). Soft `weakrefeq`. Unlike `capsule_eq` (identity). Leave off `hot` until measured win |
 
 ## Done when
 

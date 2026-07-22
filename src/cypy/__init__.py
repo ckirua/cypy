@@ -282,6 +282,7 @@ from .cyweakref import (
     weakref_check,
     weakref_check_ref,
     weakref_check_proxy,
+    weakref_eq,
     weakref_new_ref,
     weakref_new_proxy,
     weakref_get_object,

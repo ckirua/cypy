@@ -2,7 +2,7 @@
 # Weakref helpers. Public docs in ``cyweakref.pyi``.
 # GET_OBJECT macro: cdef.
 
-from cpython.object cimport PyObject
+from cpython.object cimport PyObject, PyObject_RichCompareBool, Py_EQ
 from cpython.ref cimport Py_INCREF
 
 
@@ -43,6 +43,19 @@ cpdef inline object weakref_get_object(object ref):
     cdef object obj = <object>p
     Py_INCREF(obj)
     return obj
+
+
+cdef inline bint weakrefeq(object a, object b) except -1:
+    # Weakref equality matches CPython ``weakref_richcompare``: compare
+    # referents when both alive; identity when either is dead. Soft
+    # ``weakrefeq``. Callers should pass weakref/proxy objects. Not on ``hot``.
+    if a is b:
+        return True
+    return <bint>PyObject_RichCompareBool(a, b, Py_EQ)
+
+
+cpdef inline bint weakref_eq(object a, object b) except -1:
+    return weakrefeq(a, b)
 
 
 cdef inline object weakref_get_object_unchecked(object ref):
