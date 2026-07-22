@@ -3,6 +3,13 @@
 All notable changes to `cypy` are documented here. Version from
 [`src/cypy/__about__.py`](src/cypy/__about__.py).
 
+## [1.6.0] — 2026-07-22 — `bytes_ne`
+
+### Added
+
+- **`bytes_ne`** (`cybytes`): typed `bytes` inequality (`not bytes_eq` / soft `bne`).
+  On `cypy` / `cypy.hot` / `cypy.buffers` (mirrors `str_ne` API; pairs with `bytes_eq`).
+
 ## [1.5.0] — 2026-07-22 — `memoryview_eq`
 
 ### Added

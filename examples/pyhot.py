@@ -9,6 +9,7 @@ from cypy.hot import (
     bytes_contains,
     bytes_eq,
     bytes_len,
+    bytes_ne,
     dict_get,
     dict_len,
     list_append,
@@ -31,6 +32,7 @@ def main() -> None:
     assert tuple_pack2(1, 2) == (1, 2)
     assert bytes_len(b"ok") == 2 and bytes_contains(b"ab", b"a")
     assert bytes_eq(b"ok", b"ok") and not bytes_eq(b"ok", b"no")
+    assert bytes_ne(b"ok", b"no") and not bytes_ne(b"ok", b"ok")
     assert bytearray_eq(bytearray(b"ok"), bytearray(b"ok"))
     from array import array as Array
     assert array_eq(Array("i", [1, 2]), Array("i", [1, 2]))
