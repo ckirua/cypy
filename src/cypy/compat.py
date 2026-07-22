@@ -172,6 +172,7 @@ COMPAT_MAP: dict[str, str] = {
     "sfrozen_empty": "frozenset_empty",
     "sfrozen_new": "frozenset_new",
     "slcheck": "slice_check",
+    "sleq": "slice_eq",
     "slen": "set_len",
     "slindices_ex": "slice_indices_ex",
     "slnew": "slice_new",
