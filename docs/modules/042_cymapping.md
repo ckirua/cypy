@@ -19,6 +19,7 @@ Abstract mapping protocol. Prefer ``cydict`` when type known.
 | Symbol | Export | Notes |
 |--------|--------|-------|
 | map_check / len / has_key* / del* / keys / values / items / getitem_string / setitem_string | public | |
+| mapeq | public | identity/size + richcompare; preferred `map_eq` |
 
 ## Workflow status
 
@@ -26,6 +27,7 @@ Abstract mapping protocol. Prefer ``cydict`` when type known.
 |----------|--------|-----|
 | map_check / has_key / getitem_string | APPROVED | see benches |
 | map_len / keys | APPROVED (API) | often lose to builtins |
+| mapeq / map_eq | APPROVED | identity/size + richcompare (issue #24) |
 
 ## Lifecycle
 
@@ -33,8 +35,14 @@ Abstract mapping protocol. Prefer ``cydict`` when type known.
 |-------|--------|
 | Freeze | **Provisional (Protocols)** after 1.0 — not Core; may evolve under minors |
 | Iteration | 1 |
-| Last pass | 2026-07-21 — Phase 4 Tier B |
+| Last pass | 2026-07-22 — `map_eq` (#24) |
 | Next action | — |
+
+## Decision log
+
+| Symbol | Ask | Evidence | Decision | Iter |
+|--------|-----|----------|----------|------|
+| mapeq | Abstract `==` | identity/size + richcompare | APPROVED | 1 |
 
 ## Bench notes
 
@@ -72,7 +80,8 @@ Ratio = cypy `cdef` loop / typed Cython baseline loop (opaque + sink). **Informa
 | Topic | Finding |
 |-------|---------|
 | Why checks win | Mapping flag / abstract check beats `isinstance(Mapping)` |
-| Why prefer typed | When dict known, `cydict` (`dget`/`dcontains`) avoids abstract protocol dispatch |
+| Why prefer typed | When dict known, `cydict` (`dget`/`dcontains`/`dict_eq`) avoids abstract protocol dispatch |
+| `map_eq` | Same semantics as `==` (identity/size short-circuit then richcompare); prefer `dict_eq` when typed |
 | Scale | Abstract ops stay O(1) wrapper cost; large maps dominated by hash lookup either way |
 | Safety | `HasKey` never raises on miss (unlike `o[k]`); string helpers are cheap aliases |
 | Subtype | Works for any mapping subtype implementing the protocol — not dict-only |
