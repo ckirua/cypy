@@ -507,6 +507,7 @@ from .cygc cimport (
 )
 from .cymemoryview cimport (
     memoryview_check,
+    memoryview_eq,
     mvfrom_buffer,
     mvfrom_memory,
     memoryview_from_object,
@@ -1238,6 +1239,7 @@ __all__: tuple[str, ...] = (
     "list_slice",
     "list_sort",
     "memoryview_check",
+    "memoryview_eq",
     "memoryview_from_object",
     "memoryview_get_contiguous",
     "mod_add_cstr",

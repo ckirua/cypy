@@ -6,6 +6,10 @@ def memoryview_check(p: object) -> bool:
     """Return True if ``p`` is a :class:`memoryview` (``PyMemoryView_Check``)."""
     ...
 
+def memoryview_eq(a: memoryview, b: memoryview) -> bool:
+    """Return True if views are equal (C-contiguous ``memcmp`` fast path; else richcompare)."""
+    ...
+
 def memoryview_from_object(obj: object) -> memoryview:
     """Return ``memoryview(obj)`` via ``PyMemoryView_FromObject``."""
     ...

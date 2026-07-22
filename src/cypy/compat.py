@@ -128,6 +128,7 @@ COMPAT_MAP: dict[str, str] = {
     "method_self": "method_get_self",
     "mod_add_string": "mod_add_cstr",
     "mvcheck": "memoryview_check",
+    "mveq": "memoryview_eq",
     "mvfrom_object": "memoryview_from_object",
     "mvget_contiguous": "memoryview_get_contiguous",
     "none_to_empty": "str_none_to_empty",

@@ -347,6 +347,7 @@ from .cygc import (
 )
 from .cymemoryview import (
     memoryview_check,
+    memoryview_eq,
     memoryview_from_object,
     memoryview_get_contiguous,
 )
@@ -573,6 +574,7 @@ __all__: tuple[str, ...] = (
     "array_clone",
     "array_zero",
     "memoryview_check",
+    "memoryview_eq",
     "memoryview_from_object",
     "buf_check",
     "slice_check",

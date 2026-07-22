@@ -3,6 +3,14 @@
 All notable changes to `cypy` are documented here. Version from
 [`src/cypy/__about__.py`](src/cypy/__about__.py).
 
+## [1.5.0] — 2026-07-22 — `memoryview_eq`
+
+### Added
+
+- **`memoryview_eq`** (`cymemoryview`): typed `memoryview` equality — C-contiguous
+  same layout/`memcmp` fast path; non-contiguous falls back to richcompare.
+  Soft `mveq` cdef-only; on `cypy` / `cypy.hot` / `cypy.buffers`.
+
 ## [1.4.0] — 2026-07-22 — `array_eq`
 
 ### Added
