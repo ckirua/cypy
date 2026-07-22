@@ -37,6 +37,7 @@ from .cyarray import (
 )
 from .cybool import (
     bool_check,
+    bool_eq,
     bool_from_long,
     bool_true,
     bool_false,
@@ -622,5 +623,6 @@ __all__: tuple[str, ...] = (
     "slice_check",
     "slice_new",
     "bool_check",
+    "bool_eq",
     "bool_from_long",
 )

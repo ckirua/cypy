@@ -19,6 +19,7 @@
 | Symbol | Export | Notes |
 |--------|--------|-------|
 | bool_check | public | `PyBool_Check` |
+| bool_eq | public | identity + richcompare; soft `booleq` |
 | bool_from_long | public | `PyBool_FromLong` |
 | bool_true / bool_false | public | FromLong(1/0) cheap aliases |
 | Py_True / Py_False macros | C-API | covered by true/false helpers |
@@ -28,6 +29,7 @@
 | Function | Status | Why |
 |----------|--------|-----|
 | bool_check (primary) | APPROVED | **0.41–0.50x** |
+| booleq / bool_eq | APPROVED | identity + richcompare (issue #26); not on `hot` |
 | bool_true / bool_false | APPROVED | **0.63x** |
 | bool_from_long | APPROVED (API) | **1.06–1.12x** vs `bool()` — keep for C `long` from Cython |
 
@@ -37,7 +39,7 @@
 |-------|--------|
 | Freeze | **1.0 Core** — public + documented cimport; see COVERAGE § 1.0 freeze |
 | Iteration | 1 |
-| Last pass | 2026-07-21 — Phase 4 Tier B |
+| Last pass | 2026-07-22 — `bool_eq` (#26) |
 | Next action | — |
 
 ## Decision log
@@ -46,6 +48,7 @@
 |----------|--------|----------|-----------|
 | bool_check | 0.41–0.50x | APPROVED | 1 |
 | bool_from_long | 1.06–1.12x | APPROVED (API) | 1 |
+| booleq / bool_eq | identity + richcompare; scalar completeness | APPROVED | 1 |
 
 ## Bench notes
 
@@ -86,6 +89,7 @@ Ratio = cypy `cdef` loop / typed Cython baseline loop (opaque + sink). **Informa
 | Scale | FromLong loses slightly to cached `True`/`False` singletons (1.07–1.09x) — API keep |
 | Safety | Always returns immortal True/False singletons — no new allocations on FromLong |
 | ABI | Bool is long subclass; CheckExact false for int |
+| `bool_eq` | Same semantics as `==` (identity then richcompare); True/False hit identity; leave off `hot` (clarity / completeness, not a measured hot-path win) |
 
 
 ## Done when

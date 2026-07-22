@@ -39,6 +39,7 @@ from .cyatomic cimport (
 )
 from .cybool cimport (
     bool_check,
+    bool_eq,
     bool_from_long,
     bool_true,
     bool_false,
@@ -777,6 +778,7 @@ __all__: tuple[str, ...] = (
     "memory_order_release",
     "memory_order_seq_cst",
     "bool_check",
+    "bool_eq",
     "bool_from_long",
     "bool_true",
     "bool_false",
