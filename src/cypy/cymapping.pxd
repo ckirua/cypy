@@ -1,6 +1,9 @@
 # cymapping.pxd
 # Mapping protocol helpers. Public docs in ``cymapping.pyi``.
 
+from cpython.object cimport PyObject_RichCompareBool, Py_EQ
+
+
 cdef extern from "Python.h":
     bint PyMapping_Check(object o) noexcept
     Py_ssize_t PyMapping_Length(object o) except -1
@@ -15,8 +18,21 @@ cdef extern from "Python.h":
     int PyMapping_SetItemString(object o, const char *key, object v) except -1
 
 
+cdef inline bint mapeq(object a, object b):
+    # Identity / size short-circuit + richcompare (same semantics as ``==``).
+    # Soft name ``mapeq``; prefer typed ``dict_eq`` when known.
+    if a is b:
+        return True
+    if PyMapping_Length(a) != PyMapping_Length(b):
+        return False
+    return <bint>PyObject_RichCompareBool(a, b, Py_EQ)
+
+
 cpdef inline bint map_check(object o) noexcept:
     return PyMapping_Check(o)
+
+cpdef inline bint map_eq(object a, object b):
+    return mapeq(a, b)
 
 cpdef inline Py_ssize_t map_len(object o) except -1:
     return PyMapping_Length(o)

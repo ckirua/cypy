@@ -245,6 +245,7 @@ from .cycontextvars import (
 )
 from .cymapping import (
     map_check,
+    map_eq,
     map_len,
     map_has_key,
     map_has_key_cstr,

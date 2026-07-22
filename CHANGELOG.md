@@ -3,6 +3,14 @@
 All notable changes to `cypy` are documented here. Version from
 [`src/cypy/__about__.py`](src/cypy/__about__.py).
 
+## [1.22.0] — 2026-07-22 — `map_eq`
+
+### Added
+
+- **`map_eq`** (`cymapping`): abstract mapping equality — identity/size
+  short-circuit + richcompare (same semantics as ``==``). Soft ``mapeq``. Prefer
+  typed ``dict_eq`` when known. On ``cypy`` / ``cypy.protocols``.
+
 ## [1.21.0] — 2026-07-22 — `seq_eq`
 
 ### Added

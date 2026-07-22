@@ -289,6 +289,7 @@ from .cycontextvars cimport (
 )
 from .cymapping cimport (
     map_check,
+    map_eq,
     map_len,
     map_has_key,
     map_has_key_cstr,
@@ -1085,6 +1086,7 @@ __all__: tuple[str, ...] = (
     "ctxvar_set",
     "ctxvar_reset",
     "map_check",
+    "map_eq",
     "map_len",
     "map_has_key",
     "map_del",

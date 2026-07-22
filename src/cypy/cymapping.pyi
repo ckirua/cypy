@@ -2,6 +2,9 @@
 def map_check(o: object) -> bool:
     """Return True if ``o`` provides the mapping protocol."""
     ...
+def map_eq(a: object, b: object) -> bool:
+    """Return True if mappings are equal (identity/size short-circuit + richcompare; prefer ``dict_eq`` when typed)."""
+    ...
 def map_len(o: object) -> int:
     """Return ``len(o)`` via ``PyMapping_Length``."""
     ...
