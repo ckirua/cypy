@@ -57,7 +57,7 @@ Hot-path len/check/from_object/concat/resize for typed exact `bytearray`, plus f
 |-------|--------|
 | Freeze | **1.0 Core** — public + documented cimport; see COVERAGE § 1.0 freeze |
 | Iteration | 1 |
-| Last pass | 2026-07-21 — Phase 4 Tier B (Cython baseline) |
+P26-07-22 — `*_eq` inventory Tier A (`cyeq_inventory_bench`)|
 | Next action | — |
 
 ## Decision log
@@ -111,6 +111,16 @@ Ratio = cypy `cdef` loop / typed Cython baseline loop (opaque + sink). **Informa
 
 **Tier B takeaway:** primary `balen` **1.03x** vs typed `len` — ~parity.
 
+
+### `*_eq` inventory (Tier A depth)
+
+Harness: [`bench/cyeq_inventory_bench.py`](../../bench/cyeq_inventory_bench.py) · N=80_000 × runs=11 · CPython 3.14
+
+| operation | case | cypy mean±σ | p99 | ratio | p99× | verdict |
+|-----------|------|-------------|-----|-------|------|---------|
+| bytearray_eq | eq short | 1.05±0.06ms | 1.17ms | **0.49x** | 0.52x | APPROVED |
+| bytearray_eq | ne short | 1.09±0.06ms | 1.22ms | **0.50x** | 0.52x | APPROVED |
+| bytearray_eq | eq 1KiB | 1.63±0.05ms | 1.72ms | **0.62x** | 0.61x | APPROVED |
 ## Experiment conclusions
 
 **Tier B:** primary `balen` **1.03x** vs typed `len` — ~parity.

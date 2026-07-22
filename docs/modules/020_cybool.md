@@ -39,7 +39,7 @@
 |-------|--------|
 | Freeze | **1.0 Core** — public + documented cimport; see COVERAGE § 1.0 freeze |
 | Iteration | 1 |
-| Last pass | 2026-07-22 — `bool_eq` (#26) |
+P26-07-22 — `*_eq` inventory Tier A (`cyeq_inventory_bench`)|
 | Next action | — |
 
 ## Decision log
@@ -76,6 +76,15 @@ Ratio = cypy `cdef` loop / typed Cython baseline loop (opaque + sink). **Informa
 **Tier B takeaway:** primary `bool_check` **0.93x** vs typed Cython baseline (hit).
 
 
+
+### `*_eq` inventory (Tier A depth)
+
+Harness: [`bench/cyeq_inventory_bench.py`](../../bench/cyeq_inventory_bench.py) · N=80_000 × runs=11 · CPython 3.14
+
+| operation | case | cypy mean±σ | p99 | ratio | p99× | verdict |
+|-----------|------|-------------|-----|-------|------|---------|
+| bool_eq | True | 0.93±0.05ms | 1.04ms | **0.60x** | 0.65x | APPROVED |
+| bool_eq | ne | 1.13±0.03ms | 1.19ms | **0.68x** | 0.67x | APPROVED |
 ## Experiment conclusions
 
 **Tier B:** `bool_check` **0.88x** vs isinstance.

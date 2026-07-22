@@ -38,7 +38,7 @@ Float type checks and C `double` bridge. From Python, `float()` often wins; help
 | Field | Value |
 |-------|--------|
 | Iteration | 1 |
-| Last pass | 2026-07-22 — `float_eq` (#27) |
+P26-07-22 — `*_eq` inventory Tier A (`cyeq_inventory_bench`)|
 | Next action | — |
 
 ## Decision log
@@ -77,6 +77,15 @@ Ratio = cypy `cdef` loop / typed Cython baseline loop (opaque + sink). **Informa
 **Tier B takeaway:** primary `float_check` **1.00x** vs typed Cython baseline (hit).
 
 
+
+### `*_eq` inventory (Tier A depth)
+
+Harness: [`bench/cyeq_inventory_bench.py`](../../bench/cyeq_inventory_bench.py) · N=80_000 × runs=11 · CPython 3.14
+
+| operation | case | cypy mean±σ | p99 | ratio | p99× | verdict |
+|-----------|------|-------------|-----|-------|------|---------|
+| float_eq | eq | 1.01±0.03ms | 1.06ms | **0.67x** | 0.67x | APPROVED |
+| float_eq | ne | 1.03±0.06ms | 1.12ms | **0.68x** | 0.70x | APPROVED |
 ## Experiment conclusions
 
 **Tier B:** `float_check` **0.99x** vs isinstance — ~parity.

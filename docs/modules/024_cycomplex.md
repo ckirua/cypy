@@ -40,7 +40,7 @@ Complex type checks and C `double` real/imag bridge. From Python, attribute acce
 | Field | Value |
 |-------|--------|
 | Iteration | 1 |
-| Last pass | 2026-07-22 — `complex_eq` (#28) |
+P26-07-22 — `*_eq` inventory Tier A (`cyeq_inventory_bench`)|
 | Next action | — |
 
 ## Decision log
@@ -81,6 +81,15 @@ Ratio = cypy `cdef` loop / typed Cython baseline loop (opaque + sink). **Informa
 **Tier B takeaway:** primary `complex_check` **0.97x** vs typed Cython baseline (hit).
 
 
+
+### `*_eq` inventory (Tier A depth)
+
+Harness: [`bench/cyeq_inventory_bench.py`](../../bench/cyeq_inventory_bench.py) · N=80_000 × runs=11 · CPython 3.14
+
+| operation | case | cypy mean±σ | p99 | ratio | p99× | verdict |
+|-----------|------|-------------|-----|-------|------|---------|
+| complex_eq | eq | 1.15±0.11ms | 1.31ms | **0.62x** | 0.66x | APPROVED |
+| complex_eq | ne | 1.10±0.06ms | 1.26ms | **0.60x** | 0.65x | APPROVED |
 ## Experiment conclusions
 
 **Tier B:** `complex_check` **0.93x** vs isinstance.

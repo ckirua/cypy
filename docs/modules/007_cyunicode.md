@@ -48,7 +48,7 @@ Zero-copy UTF-8 borrow + intern for Cython; public owning `bytes` / `uintern` fo
 |-------|--------|
 | Freeze | **1.0 Core** — public + documented cimport; see COVERAGE § 1.0 freeze |
 | Iteration | 2 |
-| Last pass | 2026-07-22 — `unicode_from_string` (issue #1) |
+P26-07-22 — `*_eq` inventory Tier A (`cyeq_inventory_bench`)|
 | Next action | — |
 
 ## Decision log
@@ -90,6 +90,16 @@ Ratio = cypy `cdef` loop / typed Cython baseline loop (opaque + sink). **Informa
 
 **Tier B takeaway:** `uutf8_bytes` **1.00x** vs `AsUTF8String` — thin wrapper parity.
 
+
+### `*_eq` inventory (Tier A depth)
+
+Harness: [`bench/cyeq_inventory_bench.py`](../../bench/cyeq_inventory_bench.py) · N=80_000 × runs=11 · CPython 3.14
+
+| operation | case | cypy mean±σ | p99 | ratio | p99× | verdict |
+|-----------|------|-------------|-----|-------|------|---------|
+| unicode_eq | ascii eq | 0.96±0.03ms | 1.01ms | **0.64x** | 0.63x | APPROVED |
+| unicode_eq | ascii ne | 1.11±0.05ms | 1.22ms | **0.67x** | 0.70x | APPROVED |
+| unicode_eq | non-ascii eq | 0.96±0.03ms | 1.03ms | **0.64x** | 0.65x | APPROVED |
 ## Experiment conclusions
 
 **Tier B:** `uutf8_bytes` **1.00x** vs `AsUTF8String` — thin wrapper parity.

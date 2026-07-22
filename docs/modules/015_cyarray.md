@@ -47,7 +47,7 @@ Stable `cypy` names over Cython’s `array.pxd` inline helpers (`clone`/`copy`/`
 |-------|--------|
 | Freeze | **1.0 Core** — public + documented cimport; see COVERAGE § 1.0 freeze |
 | Iteration | 1 |
-| Last pass | 2026-07-21 — Phase 4 Tier B (Cython baseline) |
+P26-07-22 — `*_eq` inventory Tier A (`cyeq_inventory_bench`)|
 | Next action | — |
 
 ## Decision log
@@ -95,6 +95,16 @@ Ratio = cypy `cdef` loop / typed Cython baseline loop (opaque + sink). **Informa
 
 **Tier B takeaway:** primary `aylen` **1.04x** vs typed `len` — ~parity.
 
+
+### `*_eq` inventory (Tier A depth)
+
+Harness: [`bench/cyeq_inventory_bench.py`](../../bench/cyeq_inventory_bench.py) · N=80_000 × runs=11 · CPython 3.14
+
+| operation | case | cypy mean±σ | p99 | ratio | p99× | verdict |
+|-----------|------|-------------|-----|-------|------|---------|
+| array_eq | eq small | 1.11±0.05ms | 1.22ms | **0.59x** | 0.63x | APPROVED |
+| array_eq | ne small | 1.10±0.02ms | 1.14ms | **0.60x** | 0.58x | APPROVED |
+| array_eq | eq n=64 | 1.23±0.04ms | 1.30ms | **0.40x** | 0.42x | APPROVED |
 ## Experiment conclusions
 
 **Tier B:** primary `aylen` **1.04x** vs typed `len` — ~parity.

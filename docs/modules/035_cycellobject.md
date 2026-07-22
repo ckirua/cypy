@@ -36,7 +36,7 @@ Closure cell objects for Cython/function tooling.
 | Field | Value |
 |-------|--------|
 | Iteration | 1 |
-| Last pass | 2026-07-22 — `cell_eq` (#37) |
+P26-07-22 — `*_eq` inventory Tier A (`cyeq_inventory_bench`)|
 | Next action | — |
 
 ## Decision log
@@ -74,6 +74,16 @@ Ratio = cypy `cdef` loop / typed Cython baseline loop (opaque + sink). **Informa
 **Tier B takeaway:** primary `cell_check` **0.11x** vs typed Cython baseline (cell).
 
 
+
+### `*_eq` inventory (Tier A depth)
+
+Harness: [`bench/cyeq_inventory_bench.py`](../../bench/cyeq_inventory_bench.py) · N=80_000 × runs=11 · CPython 3.14
+
+| operation | case | cypy mean±σ | p99 | ratio | p99× | verdict |
+|-----------|------|-------------|-----|-------|------|---------|
+| cell_eq | identity | 0.95±0.04ms | 1.00ms | **0.51x** | 0.50x | APPROVED |
+| cell_eq | same value | 1.36±0.06ms | 1.46ms | **0.72x** | 0.72x | APPROVED |
+| cell_eq | ne | 1.34±0.02ms | 1.37ms | **0.71x** | 0.68x | APPROVED |
 ## Experiment conclusions
 
 **Tier B:** `cell_check` **0.10x** vs type-name baseline.
