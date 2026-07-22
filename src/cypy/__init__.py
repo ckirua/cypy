@@ -45,6 +45,7 @@ from .cybool import (
 from .cycomplex import (
     complex_check,
     complex_check_exact,
+    complex_eq,
     complex_from_doubles,
     complex_real_as_double,
     complex_imag_as_double,
