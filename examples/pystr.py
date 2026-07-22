@@ -7,6 +7,7 @@ from cypy import (
     str_all_alnum_ascii,
     str_all_digits,
     str_as_or_empty,
+    str_cmp,
     str_contains,
     str_eq,
     str_is,
@@ -59,6 +60,7 @@ CONTAINS_CASES: tuple[tuple[str, str, bool], ...] = (
 )
 
 def main() -> None:
+    assert str_cmp("a", "b") < 0 and str_cmp("b", "a") > 0 and str_cmp("x", "x") == 0
     print(f"str_len({SYMBOL!r}) -> {str_len(SYMBOL)!r}")
     assert str_len(SYMBOL) == len(SYMBOL)
     assert str_len("") == 0

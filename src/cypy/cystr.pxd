@@ -102,6 +102,18 @@ cdef inline bint strneq(str a, str b) noexcept:
     return not streq(a, b)
 
 
+cdef inline int scmp(str a, str b) noexcept:
+    # Three-way compare → -1 / 0 / 1 (``PyUnicode_Compare``, identity short-circuit).
+    if a is b:
+        return 0
+    cdef int r = PyUnicode_Compare(a, b)
+    if r < 0:
+        return -1
+    if r > 0:
+        return 1
+    return 0
+
+
 cdef inline bint startswith(str s, str prefix) noexcept:
     cdef Py_ssize_t sn = PyUnicode_GET_LENGTH(s)
     cdef Py_ssize_t pn = PyUnicode_GET_LENGTH(prefix)
@@ -360,6 +372,9 @@ cpdef inline bint str_startswith(str s, str prefix) noexcept:
 
 cpdef inline bint str_eq(str a, str b) noexcept:
     return streq(a, b)
+
+cpdef inline int str_cmp(str a, str b) noexcept:
+    return scmp(a, b)
 
 cpdef inline Py_ssize_t str_len(str s) noexcept:
     return strlen(s)
