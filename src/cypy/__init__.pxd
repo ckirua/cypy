@@ -384,6 +384,7 @@ from .cymarshal cimport (
 from .cybuffer cimport (
     buf_check,
     buf_copy_data,
+    buf_eq,
     buf_fill_contiguous_strides,
     buf_fill_info,
     buf_from_contiguous,
@@ -839,6 +840,7 @@ __all__: tuple[str, ...] = (
     "obj_free",
     "obj_type_ptr",
     "buf_check",
+    "buf_eq",
     "buf_copy_data",
     "buf_fill_contiguous_strides",
     "buf_fill_info",

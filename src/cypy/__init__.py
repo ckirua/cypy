@@ -291,6 +291,7 @@ from .cymarshal import (
 from .cybuffer import (
     buf_check,
     buf_copy_data,
+    buf_eq,
 )
 from .cybytearray import (
     bytearray_check,
@@ -585,6 +586,7 @@ __all__: tuple[str, ...] = (
     "memoryview_ne",
     "memoryview_from_object",
     "buf_check",
+    "buf_eq",
     "slice_check",
     "slice_new",
     "bool_check",

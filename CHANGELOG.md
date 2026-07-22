@@ -3,6 +3,16 @@
 All notable changes to `cypy` are documented here. Version from
 [`src/cypy/__about__.py`](src/cypy/__about__.py).
 
+## [1.8.0] — 2026-07-22 — `buf_eq`
+
+### Added
+
+- **`buf_eq`** (`cybuffer`): abstract buffer-protocol equality — acquire
+  `PyBUF_FULL_RO` views, format/size/shape gates, C-contiguous `memcmp` fast
+  path, non-contiguous → `memoryview` richcompare. Soft alias `buffer_eq`
+  (COMPAT only). On `cypy` / `cypy.buffers` (not `hot` — heavier than typed
+  `bytes_eq`).
+
 ## [1.7.0] — 2026-07-22 — `bytearray_ne` / `array_ne` / `memoryview_ne`
 
 ### Added

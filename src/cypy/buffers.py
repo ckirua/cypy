@@ -7,7 +7,7 @@ Typed buffer-adjacent Core helpers. Prefer ``bytes_len`` / ``bytes_contains`` /
 from __future__ import annotations
 
 from .cyarray import array_check, array_check_exact, array_clone, array_eq, array_len, array_ne, array_zero
-from .cybuffer import buf_check
+from .cybuffer import buf_check, buf_eq
 from .cybytearray import (
     bytearray_check,
     bytearray_check_exact,
@@ -54,6 +54,7 @@ __all__: tuple[str, ...] = (
     "memoryview_ne",
     "memoryview_from_object",
     "buf_check",
+    "buf_eq",
     "slice_check",
     "slice_new",
 )
