@@ -20,6 +20,8 @@ def main() -> None:
     print()
     session.section("bytes_contains vs `in`  [primary]")
     session.compare("bytes_contains", tb.cypy_bcontains, tb.baseline_bcontains, HAY, NEEDLE, N, param="small multi hit")
+    session.section("bytes_eq vs `==`")
+    session.compare("bytes_eq", tb.cypy_beq, tb.baseline_beq, HAY, HAY, N, param="equal")
     session.section("bytes_len / bytes_check")
     session.compare("bytes_len", tb.cypy_blen, tb.baseline_blen, HAY, N, param="small")
     session.compare("bytes_check", tb.cypy_bcheck, tb.baseline_bcheck, HAY, N, param="bytes")

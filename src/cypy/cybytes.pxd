@@ -4,7 +4,7 @@
 
 from cpython.object cimport PyObject
 from libc.stddef cimport size_t
-from libc.string cimport memchr
+from libc.string cimport memchr, memcmp
 
 cdef extern from "string.h":
     void* memmem(const void *haystack, size_t haystacklen,
@@ -68,6 +68,18 @@ cdef inline bint bcontains(bytes haystack, bytes needle) noexcept:
     return memmem(hp, <size_t>hlen, np, <size_t>nlen) is not NULL
 
 
+cdef inline bint beq(bytes a, bytes b) noexcept:
+    # Identity / len short-circuit + memcmp on typed bytes (mirror streq).
+    if a is b:
+        return True
+    cdef Py_ssize_t la = PyBytes_GET_SIZE(a)
+    if la != PyBytes_GET_SIZE(b):
+        return False
+    if la == 0:
+        return True
+    return memcmp(PyBytes_AS_STRING(a), PyBytes_AS_STRING(b), <size_t>la) == 0
+
+
 cdef inline bytes bfrom_object(object o):
     return PyBytes_FromObject(o)
 
@@ -127,6 +139,9 @@ cdef inline bytes bytes_concat_and_del(bytes left, object newpart):
 
 cpdef inline bint bytes_contains(bytes haystack, bytes needle) noexcept:
     return bcontains(haystack, needle)
+
+cpdef inline bint bytes_eq(bytes a, bytes b) noexcept:
+    return beq(a, b)
 
 cpdef inline bytes bytes_from_object(object o):
     return bfrom_object(o)

@@ -17,6 +17,7 @@ from cypy import (
     bytes_check,
     bytes_check_exact,
     bytes_contains,
+    bytes_eq,
     bytes_from_object,
     bytes_len,
     bytes_size,
@@ -30,6 +31,10 @@ NEEDLE_MISS = b"zz"
 NEEDLE_ONE = b"a"
 HAY_1K = (b"a" * 1022) + b"xy"
 HAY_8K = (b"a" * 8190) + b"xy"
+EQ_SHORT = b"BTCUSDT"
+EQ_SHORT_NE = b"ETHUSDT"
+EQ_1K = b"a" * 1024
+EQ_1K_NE = (b"a" * 1023) + b"b"
 
 
 def py_blen(b: bytes) -> int:
@@ -38,6 +43,10 @@ def py_blen(b: bytes) -> int:
 
 def py_bcontains(haystack: bytes, needle: bytes) -> bool:
     return needle in haystack
+
+
+def py_beq(a: bytes, b: bytes) -> bool:
+    return a == b
 
 
 def py_bcheck(p: object) -> bool:
@@ -97,6 +106,14 @@ def main() -> None:
         b"zz",
         param="8KiB miss",
     )
+
+    session.section("bytes_eq vs `==`")
+    session.compare("bytes_eq", bytes_eq, py_beq, EQ_SHORT, EQ_SHORT, param="eq same")
+    session.compare("bytes_eq", bytes_eq, py_beq, EQ_SHORT, EQ_SHORT_NE, param="ne same-len")
+    session.compare("bytes_eq", bytes_eq, py_beq, EQ_SHORT, b"BTC", param="ne short")
+    session.compare("bytes_eq", bytes_eq, py_beq, EQ_1K, EQ_1K, param="eq 1KiB")
+    session.compare("bytes_eq", bytes_eq, py_beq, EQ_1K, EQ_1K_NE, param="ne 1KiB")
+    session.compare("bytes_eq", bytes_eq, py_beq, b"", b"", param="eq empty")
 
     session.section("bytes_len / bytes_size vs len")
     session.compare("bytes_len", bytes_len, py_blen, HAYSTACK, param="bytes_len")

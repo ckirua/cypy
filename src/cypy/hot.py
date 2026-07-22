@@ -8,7 +8,7 @@
 from __future__ import annotations
 
 from .cyansi import ansi_fg8, ansi_strip, ansi_wrap
-from .cybytes import bytes_contains, bytes_len
+from .cybytes import bytes_contains, bytes_eq, bytes_len
 from .cydict import dict_contains, dict_get, dict_len, dict_pop, dict_set, dict_setdefault
 from .cylist import list_append, list_get, list_get_checked, list_len
 from .cyset import set_add, set_contains
@@ -38,6 +38,7 @@ __all__: tuple[str, ...] = (
     # bytes
     "bytes_len",
     "bytes_contains",
+    "bytes_eq",
     # str
     "str_len",
     "str_eq",
