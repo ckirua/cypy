@@ -208,6 +208,7 @@ from .cydatetime import (
     dt_date_eq,
     dt_datetime_check,
     dt_datetime_check_exact,
+    dt_datetime_eq,
     dt_time_check,
     dt_time_check_exact,
     dt_time_eq,

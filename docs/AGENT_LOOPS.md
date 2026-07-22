@@ -4,7 +4,7 @@ How to grind through open `[eq/…]` enhancement issues on [ckirua/cypy](https:/
 
 ## Resume pointer (2026-07-22)
 
-Open `[eq/…]` from **#33** (`dt_datetime_eq`) upward. Skip **#44**. Already on `main` through **#32** (`dt_time_eq`); version ≥ 1.30.0.
+Open `[eq/…]` from **#34** (`dt_timedelta_eq`) upward. Skip **#44**. Already on `main` through **#33** (`dt_datetime_eq`); version ≥ 1.31.0.
 
 ## Scope (always bake into the prompt)
 

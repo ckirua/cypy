@@ -20,6 +20,10 @@ def dt_datetime_check_exact(o: object) -> bool:
     """Return True if ``type(o) is datetime`` (``PyDateTime_CheckExact``)."""
     ...
 
+def dt_datetime_eq(a: object, b: object) -> bool:
+    """Return True if ``a == b`` for datetimes (exact naive fields; else richcompare)."""
+    ...
+
 def dt_time_check(o: object) -> bool:
     """Return True if ``o`` is a ``time`` or subtype (``PyTime_Check``)."""
     ...

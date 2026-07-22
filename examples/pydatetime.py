@@ -9,6 +9,8 @@ from cypy import (
     dt_date_eq,
     dt_date_new,
     dt_date_year,
+    dt_datetime_eq,
+    dt_datetime_new,
     dt_time_eq,
     dt_time_new,
     dt_timedelta_check,
@@ -30,11 +32,21 @@ def main() -> None:
     assert dt_time_eq(time(1, 2, 3, fold=0), time(1, 2, 3, fold=1))  # fold ignored
     assert not dt_time_eq(time(1), time(1, tzinfo=timezone.utc))  # naive vs aware
 
+    dt = dt_datetime_new(2026, 7, 21, 12, 30, 45, 1000)
+    assert dt_datetime_eq(dt, datetime(2026, 7, 21, 12, 30, 45, 1000))
+    assert not dt_datetime_eq(dt, datetime(2026, 7, 21, 12, 30, 45, 1001))
+    assert dt_datetime_eq(dt, dt)
+    assert dt_datetime_eq(
+        datetime(2020, 1, 1, fold=0), datetime(2020, 1, 1, fold=1)
+    )  # fold ignored
+    assert not dt_datetime_eq(dt, datetime(2026, 7, 21, 12, 30, 45, 1000, tzinfo=timezone.utc))
+    assert not dt_datetime_eq(dt, date(2026, 7, 21))  # datetime vs date
+
     td = dt_timedelta_new(1, 2, 3)
     assert dt_timedelta_check(td)
     assert dt_timedelta_days(td) == 1
     assert isinstance(td, timedelta)
-    print("ok", d, t, td)
+    print("ok", d, t, dt, td)
 
 if __name__ == "__main__":
     main()
