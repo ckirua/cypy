@@ -116,7 +116,7 @@ Ratio = cypy `cdef` loop / typed Cython baseline `==` loop (opaque + sink). **In
 | Scale | Create ~tie with `ModuleType(name)`; GetDict wins vs `mod.__dict__` (~0.49x) |
 | Safety | SetDoc/AddObject mutate module state — GIL / free-threading: serialize writers |
 | ABI | Multi-phase init helpers stay for extension authors (cimport) |
-| `mod_eq` | Identity (`a is b`) — CPython `object.__eq__`; soft `modeq`; leave off `hot` until measured win |
+| `mod_eq` | Identity (`a is b`) — CPython `object.__eq__`; soft `modeq`; measured; leave off `hot` (clarity / not a starter) |
 
 
 ## Done when

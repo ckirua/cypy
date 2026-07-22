@@ -108,7 +108,7 @@ Ratio = cypy `cdef` loop / typed Cython baseline `==` loop (opaque + sink). **In
 | Scale | `iter(range)` constructor ~1.09x lose — prefer builtin `iter` for construction |
 | Safety | Next/Send/Throw match generator protocol; StopIteration must propagate |
 | ABI | Iterator API stable on 3.14 |
-| `iter_eq` | Identity (`a is b`) — typical CPython `object.__eq__`; soft `itereq`; leave off `hot` until measured win |
+| `iter_eq` | Identity (`a is b`) — typical CPython `object.__eq__`; soft `itereq`; measured; leave off `hot` (clarity / not a starter) |
 
 
 ## Done when

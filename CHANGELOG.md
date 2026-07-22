@@ -3,6 +3,19 @@
 All notable changes to `cypy` are documented here. Version from
 [`src/cypy/__about__.py`](src/cypy/__about__.py).
 
+## [1.43.0] — 2026-07-22 — full public-ops inventory (Tier A + rollups)
+
+### Docs / benches
+
+- Close public-barrel coverage: ``cystr_order`` / ``cyaccessors`` / ``cyruntime``
+  inventory harnesses (+ ``cystr_order`` Tier B). ``OPS_INVENTORY.md`` now
+  **0 pending** (427 compares / 11 explicit ``n/a``). Rollup:
+  ``docs/OPS_INVENTORY_TIERB.md``. Coverage gate:
+  ``python3.14 scripts/ops_inventory_coverage.py --strict``.
+- Notable: ``str_cmp`` Tier B **0.26x**; ``conv_strnicmp`` Tier A **~0.27x**;
+  honest loses include ``mod_import_object`` (~2x) and ``codec_strict_errors``
+  (exception path). Stale “leave off hot until measured” tracker notes refreshed.
+
 ## [1.42.5] — 2026-07-22 — ne/search ops inventory (Tier A+B)
 
 ### Docs / benches

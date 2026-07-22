@@ -125,7 +125,7 @@ Ratio = cypy `cdef` loop / typed Cython baseline `==` loop (opaque + sink). **In
 | Scale | FromLong/AsLong lose ~1.2x to Python int boxing specializing small ints |
 | Safety | `AsLongAndOverflow` sets overflow flag — must read flag, not only return value |
 | Subtype | bool is int subclass: Check true, Exact false — matches CPython |
-| `long_eq` | Same semantics as `==` (identity then richcompare); `int_eq` thin alias; leave off `hot` until benches beat specialized `==` |
+| `long_eq` | Same semantics as `==` (identity then richcompare); `int_eq` thin alias; measured; leave off `hot` (prefer specialized paths / clarity) |
 
 
 ## Done when

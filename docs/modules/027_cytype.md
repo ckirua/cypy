@@ -112,7 +112,7 @@ Ratio = cypy `cdef` loop / typed Cython baseline `==` loop (opaque + sink). **In
 | Scale | IsSubtype bool<int ~tie with Python issubclass (1.03x) — clarity keep |
 | Safety | Ready/Modified are process-global type mutations — not for hot paths |
 | ABI | Heap-type helpers remain; classic class APIs gone (see cyinstance) |
-| `type_eq` | Identity (`a is b`) — CPython type default; not metaclass `__eq__`; soft `typeeq` (`teq` is `tuple_eq`); leave off `hot` until measured win |
+| `type_eq` | Identity (`a is b`) — CPython type default; not metaclass `__eq__`; soft `typeeq` (`teq` is `tuple_eq`); measured; leave off `hot` (clarity / not a starter) |
 
 
 ## Done when
