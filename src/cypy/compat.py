@@ -100,6 +100,7 @@ COMPAT_MAP: dict[str, str] = {
     "dt_delta_microseconds": "dt_timedelta_microseconds",
     "dt_delta_seconds": "dt_timedelta_seconds",
     "dteq_date": "dt_date_eq",
+    "dteq_delta": "dt_timedelta_eq",
     "dteq_dt": "dt_datetime_eq",
     "dteq_time": "dt_time_eq",
     "dupdate": "dict_update",
