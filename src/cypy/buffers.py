@@ -1,7 +1,7 @@
 """Category facade: bytes / bytearray / array / memoryview / buffer / slice.
 
-Typed buffer-adjacent Core helpers. Prefer ``bytes_len`` / ``bytes_contains``
-from ``cypy.hot`` for the common bytes hot path.
+Typed buffer-adjacent Core helpers. Prefer ``bytes_len`` / ``bytes_contains`` /
+``bytes_eq`` from ``cypy.hot`` for the common bytes hot path.
 """
 
 from __future__ import annotations
@@ -18,6 +18,7 @@ from .cybytes import (
     bytes_check,
     bytes_check_exact,
     bytes_contains,
+    bytes_eq,
     bytes_len,
     bytes_size,
 )
@@ -30,6 +31,7 @@ __all__: tuple[str, ...] = (
     "bytes_len",
     "bytes_size",
     "bytes_contains",
+    "bytes_eq",
     "bytearray_check",
     "bytearray_check_exact",
     "bytearray_len",

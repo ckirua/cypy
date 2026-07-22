@@ -14,6 +14,10 @@ def bytes_contains(haystack: bytes, needle: bytes) -> bool:
     """Return True if ``needle`` is in ``haystack`` (``memchr``/``memmem`` under 256B, else ``in``)."""
     ...
 
+def bytes_eq(a: bytes, b: bytes) -> bool:
+    """Return True if ``a == b`` (identity/len check + ``memcmp`` on typed ``bytes``)."""
+    ...
+
 def bytes_from_object(o: object) -> bytes:
     """Return ``bytes`` from a buffer-protocol object (``PyBytes_FromObject``)."""
     ...

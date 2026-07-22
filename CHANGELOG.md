@@ -3,6 +3,14 @@
 All notable changes to `cypy` are documented here. Version from
 [`src/cypy/__about__.py`](src/cypy/__about__.py).
 
+## [1.1.0] — 2026-07-22 — `bytes_eq`
+
+### Added
+
+- **`bytes_eq`** (`cybytes`): typed `bytes` equality — identity/len short-circuit +
+  `memcmp` on `PyBytes_AS_STRING` (mirrors `str_eq`). Soft letter `beq` stays
+  cdef-only; preferred name on `cypy` / `cypy.hot` / `cypy.buffers`.
+
 ## [1.0.0] — 2026-07-21 — Core freeze
 
 ### Frozen

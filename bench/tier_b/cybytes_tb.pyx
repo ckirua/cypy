@@ -1,5 +1,5 @@
 # cython: language_level=3, boundscheck=False, wraparound=False, initializedcheck=False
-from cypy.cybytes cimport bytes_contains, bytes_len, bytes_check, bytes_check_exact
+from cypy.cybytes cimport bytes_contains, bytes_eq, bytes_len, bytes_check, bytes_check_exact
 include "_sink.pxi"
 
 cpdef bint baseline_bcontains(bytes haystack, bytes needle, Py_ssize_t n):
@@ -15,6 +15,22 @@ cpdef bint cypy_bcontains(bytes haystack, bytes needle, Py_ssize_t n):
     cdef bint r = False
     for k in range(n):
         r = bytes_contains(<bytes>tb_obj(haystack, k), needle)
+        tb_sink_bint(r)
+    return r
+
+cpdef bint baseline_beq(bytes a, bytes b, Py_ssize_t n):
+    cdef Py_ssize_t k
+    cdef bint r = False
+    for k in range(n):
+        r = <bytes>tb_obj(a, k) == b
+        tb_sink_bint(r)
+    return r
+
+cpdef bint cypy_beq(bytes a, bytes b, Py_ssize_t n):
+    cdef Py_ssize_t k
+    cdef bint r = False
+    for k in range(n):
+        r = bytes_eq(<bytes>tb_obj(a, k), b)
         tb_sink_bint(r)
     return r
 
@@ -65,4 +81,3 @@ cpdef bint cypy_bcheck_exact(object p, Py_ssize_t n):
         r = bytes_check_exact(tb_obj(p, k))
         tb_sink_bint(r)
     return r
-

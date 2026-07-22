@@ -47,7 +47,7 @@ If this skill is loaded from `~/.cursor/skills/` via symlink into a cypy checkou
 ## Default import (Python)
 
 ```python
-from cypy.hot import dict_get, dict_len, list_len, list_get, list_append, bytes_len, bytes_contains, str_len
+from cypy.hot import dict_get, dict_len, list_len, list_get, list_append, bytes_len, bytes_contains, bytes_eq, str_len
 ```
 
 `cypy.hot` re-exports only the micro-opt starters (see `cypy.hot.__all__`).
@@ -73,7 +73,7 @@ Prefer these in hot paths when types are known (all available via `cypy.hot`):
 | `len(xs)` / `xs[i]` / `xs.append` | `list_len`/`list_get`/`list_append` (use `list_get_checked` when bounds matter) |
 | `x in s` / `s.add` | `set_contains`, `set_add` |
 | `len(t)` / `t[i]` / small packs | `tuple_len`, `tuple_get`, `tuple_pack2`… |
-| `len(b)` / `needle in hay` (bytes) | `bytes_len`, `bytes_contains` |
+| `len(b)` / `needle in hay` / `a == b` (bytes) | `bytes_len`, `bytes_contains`, `bytes_eq` |
 | `len(s)` / `a == b` / `sub in s` | `str_len`, `str_eq`, `str_contains` |
 | ANSI color wrap | `ansi_wrap`, `ansi_fg8`, `ansi_strip` |
 
@@ -81,7 +81,7 @@ Prefer these in hot paths when types are known (all available via `cypy.hot`):
 
 ```cython
 from cypy.cydict cimport dict_get, dict_len
-from cypy.cybytes cimport bytes_len, bytes_contains
+from cypy.cybytes cimport bytes_len, bytes_contains, bytes_eq
 ```
 
 Or `cimport cypy` / package `__init__.pxd` for wider cimport-only plumbing (`cyerr`, `cymem`, `cythread`, `cyatomic`, …) — **not** as pure-Python replacements.

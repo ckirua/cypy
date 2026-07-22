@@ -7,7 +7,7 @@ Read only when the high-value table in `SKILL.md` is not enough. Prefer examples
 | Module | Example script | Typical symbols |
 |--------|----------------|-----------------|
 | cytuple | `examples/pytuple.py` | `tuple_check`, `tuple_len`, `tuple_get`, `tuple_pack2`… |
-| cybytes | `examples/pybytes.py` | `bytes_len`, `bytes_contains`, `bytes_check` |
+| cybytes | `examples/pybytes.py` | `bytes_len`, `bytes_contains`, `bytes_eq`, `bytes_check` |
 | cydict | `examples/pydict.py` | `dict_get`, `dict_set`, `dict_pop`, `dict_len`, `dict_contains` |
 | cylist | `examples/pylist.py` | `list_len`, `list_get`, `list_append`, … |
 | cyset | `examples/pyset.py` | `set_contains`, `set_add`, `set_len`, … |

@@ -1,9 +1,9 @@
-"""Python usage of :func:`cypy.bytes_len` and :func:`cypy.bytes_contains`.
+"""Python usage of :func:`cypy.bytes_len`, :func:`cypy.bytes_contains`, :func:`cypy.bytes_eq`.
 
 Run: python examples/pybytes.py
 """
 
-from cypy import bytes_contains, bytes_len
+from cypy import bytes_contains, bytes_eq, bytes_len
 PAYLOAD: bytes = b"BTCUSDT"
 HAYSTACK: bytes = b"abcabc"
 
@@ -14,6 +14,14 @@ BCONTAINS_CASES: tuple[tuple[bytes, bytes, bool], ...] = (
     (HAYSTACK, b"xy", False), # multi-byte miss
     (HAYSTACK, b"", True),    # empty needle
     (b"", b"a", False),       # empty haystack
+)
+
+BEQ_CASES: tuple[tuple[bytes, bytes, bool], ...] = (
+    (PAYLOAD, PAYLOAD, True),       # identity
+    (PAYLOAD, b"BTCUSDT", True),    # equal content
+    (PAYLOAD, b"ETHUSDT", False),   # same len, different
+    (PAYLOAD, b"BTC", False),       # different len
+    (b"", b"", True),               # empty
 )
 
 def main() -> None:
@@ -28,6 +36,18 @@ def main() -> None:
         status = "ok" if result == expected == py_result else "FAIL"
         print(
             f"{status:4}  {needle!r:>6} in {haystack!r:>10}  "
+            f"-> {result!r}  (python {py_result!r})"
+        )
+        assert result == expected
+        assert result == py_result
+
+    print()
+    for a, b, expected in BEQ_CASES:
+        result = bytes_eq(a, b)
+        py_result = a == b
+        status = "ok" if result == expected == py_result else "FAIL"
+        print(
+            f"{status:4}  bytes_eq({a!r}, {b!r})  "
             f"-> {result!r}  (python {py_result!r})"
         )
         assert result == expected
