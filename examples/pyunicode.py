@@ -1,6 +1,8 @@
 """Python usage for cypy cyunicode.
 
 Run: python examples/pyunicode.py
+
+Cimport-only ``unicode_from_string``: see ``bench/tier_b/cyunicode_tb.pyx`` smoke.
 """
 from cypy import uutf8_bytes, uintern
 

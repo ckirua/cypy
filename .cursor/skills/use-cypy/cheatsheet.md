@@ -12,7 +12,7 @@ Read only when the high-value table in `SKILL.md` is not enough. Prefer examples
 | cylist | `examples/pylist.py` | `list_len`, `list_get`, `list_append`, … |
 | cyset | `examples/pyset.py` | `set_contains`, `set_add`, `set_len`, … |
 | cystr | `examples/pystr.py` | `str_len`, `str_eq`, `str_contains`, `str_startswith` |
-| cyunicode | `examples/pyunicode.py` | `uutf8_bytes`, `uintern` |
+| cyunicode | `examples/pyunicode.py` | `uutf8_bytes`, `uintern` (+ cimport `unicode_from_string`) |
 | cyansi | `examples/wrap_ansi.py` | `ansi_wrap`, `ansi_fg8`, `ansi_strip` |
 | cygc | `examples/pygc.py` | `gc_collect`, `gc_is_enabled` |
 
