@@ -101,6 +101,7 @@ from .cyobject import (
     obj_delattr_cstr,
     obj_richcompare,
     obj_richcompare_bool,
+    obj_eq,
     obj_repr,
     obj_str,
     obj_bytes,

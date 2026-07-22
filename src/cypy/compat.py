@@ -144,6 +144,7 @@ COMPAT_MAP: dict[str, str] = {
     "map_setitem_string": "map_setitem_cstr",
     "mapeq": "map_eq",
     "neq_num": "num_eq",
+    "oeq": "obj_eq",
     "method_function": "method_get_function",
     "method_self": "method_get_self",
     "mod_add_string": "mod_add_cstr",

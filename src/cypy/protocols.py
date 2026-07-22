@@ -9,7 +9,7 @@ from __future__ import annotations
 
 from .cymapping import map_check, map_eq, map_has_key, map_len
 from .cynumber import num_check, num_eq
-from .cyobject import obj_len, obj_size
+from .cyobject import obj_eq, obj_len, obj_size
 from .cysequence import seq_check, seq_contains, seq_eq, seq_get, seq_len, seq_size
 
 __all__: tuple[str, ...] = (
@@ -25,6 +25,7 @@ __all__: tuple[str, ...] = (
     "seq_contains",
     "num_check",
     "num_eq",
+    "obj_eq",
     "obj_len",
     "obj_size",
 )

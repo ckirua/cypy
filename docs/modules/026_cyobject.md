@@ -19,6 +19,7 @@ Abstract object protocol for Cython call sites. From Python, builtins usually wi
 | Symbol | Export | Notes |
 |--------|--------|-------|
 | attr / call / truth / len / item / type helpers | public | |
+| obj_eq / oeq | public | RichCompareBool(EQ); soft `oeq`; on `protocols`, not `hot` |
 | obj_size | public | Length alias |
 | typecheck / TYPE / Generic* / Malloc* | cimport | |
 | Cmp / Compare | — | REJECTED (ABI missing) |
@@ -30,6 +31,7 @@ Abstract object protocol for Cython call sites. From Python, builtins usually wi
 | Function | Status | Why |
 |----------|--------|-----|
 | obj_richcompare_bool | APPROVED | **0.71x** |
+| obj_eq / oeq | APPROVED | thin EQ wrap of richcompare_bool (issue #35); on `protocols`, not `hot` |
 | most public helpers | APPROVED (API) | **0.98–1.23x** — Cython bridge |
 | typecheck / malloc / generic | APPROVED (cimport) | pointers / allocator |
 | Cmp / Compare | REJECTED | missing 3.14 |
@@ -42,7 +44,7 @@ Abstract object protocol for Cython call sites. From Python, builtins usually wi
 |-------|--------|
 | Freeze | **Provisional (Protocols)** after 1.0 — not Core; may evolve under minors |
 | Iteration | 1 |
-| Last pass | 2026-07-21 — Phase 4 Tier B |
+| Last pass | 2026-07-22 — `obj_eq` (#35) |
 | Next action | — |
 
 ## Decision log
@@ -50,6 +52,7 @@ Abstract object protocol for Cython call sites. From Python, builtins usually wi
 | Function | Result | Decision | Iteration |
 |----------|--------|----------|-----------|
 | richcompare_bool | 0.71x | APPROVED | 1 |
+| obj_eq / oeq | thin EQ wrap; identity short-circuit (nan is nan → True) | APPROVED | 1 |
 | hasattr/getattr/len/… | 1.03–1.23x | APPROVED (API) | 1 |
 | Cmp/Compare | ctypes missing | REJECTED | 1 |
 
@@ -91,6 +94,7 @@ Ratio = cypy `cdef` loop / typed Cython baseline loop (opaque + sink). **Informa
 | Why richcompare wins | Avoids Python `==` bytecode / richcmp indirection in this microbench |
 | Prefer typed | Use container modules when type known |
 | Cheap alias | `obj_size` ≡ `obj_len` |
+| `obj_eq` | Same as `obj_richcompare_bool(..., Py_EQ)`; identity short-circuit (``nan is nan`` → True); prefer typed ``*_eq``; on `cypy.protocols`, leave off `hot` |
 | ABI | `PyObject_Cmp`/`Compare` gone; `Py_SIZE` is macro (not ctypes export) |
 | Malloc | Process heap via Python allocator — cdef only |
 
