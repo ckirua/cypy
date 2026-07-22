@@ -234,6 +234,7 @@ COMPAT_MAP: dict[str, str] = {
     "tslice": "tuple_slice",
     "ucheck": "str_check",
     "ucheck_exact": "str_check_exact",
+    "weakrefeq": "weakref_eq",
     "wrap": "ansi_wrap",
 }
 

@@ -3,6 +3,16 @@
 All notable changes to `cypy` are documented here. Version from
 [`src/cypy/__about__.py`](src/cypy/__about__.py).
 
+## [1.37.0] — 2026-07-22 — `weakref_eq`
+
+### Added
+
+- **`weakref_eq`** (`cyweakref`): weakref/proxy equality via identity
+  short-circuit + ``PyObject_RichCompareBool`` (``Py_EQ``) — CPython
+  ``weakref_richcompare`` (referent ``==`` when both alive; identity when
+  either is dead). Soft ``weakrefeq``. On ``cypy`` (not ``hot`` — Runtime;
+  validate win before promoting).
+
 ## [1.36.0] — 2026-07-22 — `capsule_eq`
 
 ### Added

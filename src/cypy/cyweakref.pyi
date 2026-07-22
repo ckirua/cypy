@@ -17,3 +17,6 @@ def weakref_new_proxy(ob: object, callback: object = None) -> object:
 def weakref_get_object(ref: object) -> object:
     """Return the referent of ``ref``, or ``None`` if dead (owned ref)."""
     ...
+def weakref_eq(a: object, b: object) -> bool:
+    """Return True if weakrefs equal (referent ``==`` when alive; identity if dead)."""
+    ...
