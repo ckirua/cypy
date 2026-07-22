@@ -3,6 +3,14 @@
 All notable changes to `cypy` are documented here. Version from
 [`src/cypy/__about__.py`](src/cypy/__about__.py).
 
+## [1.15.0] — 2026-07-22 — `uutf8_eq`
+
+### Added
+
+- **`uutf8_eq`** (`cyunicode`, **cimport-only**): compare UTF-8 byte views of two
+  ``str`` via ``uutf8_and_size`` + ``memcmp`` (embedded NUL OK). Borrowed
+  pointers must not outlive the arguments.
+
 ## [1.14.0] — 2026-07-22 — `str_lt` / `str_le` / `str_gt` / `str_ge`
 
 ### Added

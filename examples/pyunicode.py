@@ -2,7 +2,7 @@
 
 Run: python examples/pyunicode.py
 
-Cimport-only ``unicode_from_string``: see ``bench/tier_b/cyunicode_tb.pyx`` smoke.
+Cimport-only ``unicode_from_string`` / ``uutf8_eq``: see ``bench/tier_b/cyunicode_tb.pyx`` smoke.
 """
 from cypy import uutf8_bytes, uintern, unicode_eq
 

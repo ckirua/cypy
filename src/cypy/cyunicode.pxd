@@ -4,6 +4,8 @@
 # ``uutf8*`` borrowed pointers must not outlive ``s``.
 
 from cpython.object cimport PyObject
+from libc.stddef cimport size_t
+from libc.string cimport memcmp
 from .cystr cimport str_eq
 from cpython.unicode cimport (
     PyUnicode_AsUTF8,
@@ -26,6 +28,21 @@ cdef inline const char *uutf8(str s) except NULL:
 cdef inline const char *uutf8_and_size(str s, Py_ssize_t *size) except NULL:
     # Borrowed UTF-8 + byte length.
     return PyUnicode_AsUTF8AndSize(s, size)
+
+
+cdef inline bint uutf8_eq(str a, str b) except -1:
+    # Compare UTF-8 byte views (embedded NUL OK via size). Pointers must not outlive ``a``/``b``.
+    if a is b:
+        return True
+    cdef Py_ssize_t sa
+    cdef Py_ssize_t sb
+    cdef const char *pa = uutf8_and_size(a, &sa)
+    cdef const char *pb = uutf8_and_size(b, &sb)
+    if sa != sb:
+        return False
+    if sa == 0:
+        return True
+    return memcmp(pa, pb, <size_t>sa) == 0
 
 
 cdef inline void uintern_in_place(str s) except *:
