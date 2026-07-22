@@ -3,6 +3,16 @@
 All notable changes to `cypy` are documented here. Version from
 [`src/cypy/__about__.py`](src/cypy/__about__.py).
 
+## [1.25.0] — 2026-07-22 — `float_eq`
+
+### Added
+
+- **`float_eq`** (`cyfloat`): float/value equality with Python parity (NaN != NaN
+  even for the same object, ``+0.0 == -0.0``). Float/float uses C ``double ==``;
+  mixed types use ``PyObject_RichCompare`` (not ``RichCompareBool``, which
+  identity-shortcuts NaN). Soft ``feq``. On ``cypy`` (not ``hot`` — clarity /
+  scalar completeness).
+
 ## [1.24.0] — 2026-07-22 — `bool_eq`
 
 ### Added

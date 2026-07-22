@@ -346,6 +346,7 @@ from .cyfloat import (
     float_as_double,
     float_check,
     float_check_exact,
+    float_eq,
     float_from_double,
     float_from_cstr,
 )

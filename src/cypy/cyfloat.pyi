@@ -8,6 +8,10 @@ def float_check_exact(p: object) -> bool:
     """Return True if ``type(p) is float`` (``PyFloat_CheckExact``)."""
     ...
 
+def float_eq(a: object, b: object) -> bool:
+    """Return True if values are equal with Python float parity (NaN != NaN, ``+0.0 == -0.0``)."""
+    ...
+
 def float_from_double(v: float) -> object:
     """Return ``float(v)`` via ``PyFloat_FromDouble``."""
     ...

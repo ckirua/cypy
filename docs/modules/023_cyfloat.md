@@ -19,6 +19,7 @@ Float type checks and C `double` bridge. From Python, `float()` often wins; help
 | Symbol | Export | Notes |
 |--------|--------|-------|
 | float_check / exact | public | |
+| float_eq | public | float/float C `==`; else RichCompare; soft `feq` |
 | float_from_double / from_string / as_double | public | |
 | float_as_double_unchecked | cimport | `AS_DOUBLE` macro |
 
@@ -27,6 +28,7 @@ Float type checks and C `double` bridge. From Python, `float()` often wins; help
 | Function | Status | Why |
 |----------|--------|-----|
 | float_check* | APPROVED | **0.41–0.57x** |
+| feq / float_eq | APPROVED | C `double ==` / RichCompare (issue #27); not on `hot` |
 | float_from_string | APPROVED (API) | **1.03x** ~tie |
 | float_from_double / as_double | APPROVED (API) | **1.30–1.53x** — C bridge |
 | AS_DOUBLE unchecked | APPROVED (cimport) | no type check |
@@ -36,7 +38,7 @@ Float type checks and C `double` bridge. From Python, `float()` often wins; help
 | Field | Value |
 |-------|--------|
 | Iteration | 1 |
-| Last pass | 2026-07-21 — Phase 4 Tier B |
+| Last pass | 2026-07-22 — `float_eq` (#27) |
 | Next action | — |
 
 ## Decision log
@@ -45,6 +47,7 @@ Float type checks and C `double` bridge. From Python, `float()` often wins; help
 |----------|--------|----------|-----------|
 | float_check | 0.41–0.52x | APPROVED | 1 |
 | from/as | 1.03–1.53x | APPROVED (API) | 1 |
+| feq / float_eq | float/float C `==`; else RichCompare; NaN/−0 Python parity | APPROVED | 1 |
 
 ## Bench notes
 
@@ -87,6 +90,7 @@ Ratio = cypy `cdef` loop / typed Cython baseline loop (opaque + sink). **Informa
 | Why From/As lose | Python float specialize small constants; C-API pays conversion framing (~1.3–1.5x) |
 | Safety | AsDouble on non-float uses number protocol — may call `__float__` and set errors |
 | Scale | String parse ~tie with `float('2.5')` (1.04x) |
+| `float_eq` | Float/float: C `double ==` (NaN != NaN, `+0.0 == -0.0`). Mixed: `PyObject_RichCompare` — **not** `RichCompareBool` (identity-shortcuts same-object NaN → True). Leave off `hot` |
 
 
 ## Done when

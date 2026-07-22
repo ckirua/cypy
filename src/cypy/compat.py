@@ -104,6 +104,7 @@ COMPAT_MAP: dict[str, str] = {
     "fg8": "ansi_fg8",
     "file_write_string": "file_write_cstr",
     "first_char": "str_first_char",
+    "feq": "float_eq",
     "float_from_string": "float_from_cstr",
     "is_blank": "str_is_blank",
     "is_empty": "str_is_empty",
