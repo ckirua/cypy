@@ -2,7 +2,10 @@
 # ``memoryview`` helpers. Public docs in ``cymemoryview.pyi``.
 # FromMemory / FromBuffer / GET_* macros: cdef (pointers / lifetime).
 
-from cpython.buffer cimport Py_buffer, PyBUF_READ, PyBUF_WRITE
+from cpython.buffer cimport Py_buffer, PyBUF_READ, PyBUF_WRITE, PyBuffer_IsContiguous
+from cpython.object cimport PyObject_RichCompareBool, Py_EQ
+from libc.stddef cimport size_t
+from libc.string cimport memcmp, strcmp
 
 
 cdef extern from "Python.h":
@@ -17,6 +20,33 @@ cdef extern from "Python.h":
 
 cdef inline bint mvcheck(object p) noexcept:
     return PyMemoryView_Check(p)
+
+
+cdef inline bint mveq(memoryview a, memoryview b):
+    # Contiguous same-layout fast path; else richcompare (correct for strides).
+    if a is b:
+        return True
+    cdef Py_buffer *pa = PyMemoryView_GET_BUFFER(a)
+    cdef Py_buffer *pb = PyMemoryView_GET_BUFFER(b)
+    cdef int i
+    cdef size_t nbytes
+    if pa.ndim != pb.ndim or pa.itemsize != pb.itemsize or pa.len != pb.len:
+        return False
+    if pa.format is NULL or pb.format is NULL:
+        if pa.format is not pb.format:
+            return <bint>PyObject_RichCompareBool(a, b, Py_EQ)
+    elif strcmp(pa.format, pb.format) != 0:
+        return False
+    if pa.shape is not NULL and pb.shape is not NULL:
+        for i in range(pa.ndim):
+            if pa.shape[i] != pb.shape[i]:
+                return False
+    if not PyBuffer_IsContiguous(pa, b'C') or not PyBuffer_IsContiguous(pb, b'C'):
+        return <bint>PyObject_RichCompareBool(a, b, Py_EQ)
+    nbytes = <size_t>pa.len
+    if nbytes == 0:
+        return True
+    return memcmp(pa.buf, pb.buf, nbytes) == 0
 
 
 cdef inline memoryview mvfrom_object(object obj):
@@ -52,6 +82,9 @@ cdef inline object mvget_base(memoryview mview) noexcept:
 
 cpdef inline bint memoryview_check(object p) noexcept:
     return mvcheck(p)
+
+cpdef inline bint memoryview_eq(memoryview a, memoryview b):
+    return mveq(a, b)
 
 cdef inline memoryview memoryview_from_buffer(Py_buffer *view):
     return mvfrom_buffer(view)

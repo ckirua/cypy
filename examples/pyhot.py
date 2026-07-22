@@ -13,6 +13,7 @@ from cypy.hot import (
     dict_len,
     list_append,
     list_len,
+    memoryview_eq,
     set_add,
     set_contains,
     str_len,
@@ -33,6 +34,7 @@ def main() -> None:
     assert bytearray_eq(bytearray(b"ok"), bytearray(b"ok"))
     from array import array as Array
     assert array_eq(Array("i", [1, 2]), Array("i", [1, 2]))
+    assert memoryview_eq(memoryview(b"ok"), memoryview(b"ok"))
     assert str_len("hi") == 2
     print("ok", dict_len(d), list_len(xs), bytes_len(b"ok"))
 

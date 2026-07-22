@@ -23,7 +23,7 @@ from .cybytes import (
     bytes_len,
     bytes_size,
 )
-from .cymemoryview import memoryview_check, memoryview_from_object
+from .cymemoryview import memoryview_check, memoryview_eq, memoryview_from_object
 from .cyslice import slice_check, slice_new
 
 __all__: tuple[str, ...] = (
@@ -45,6 +45,7 @@ __all__: tuple[str, ...] = (
     "array_clone",
     "array_zero",
     "memoryview_check",
+    "memoryview_eq",
     "memoryview_from_object",
     "buf_check",
     "slice_check",
