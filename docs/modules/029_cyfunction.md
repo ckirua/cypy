@@ -107,7 +107,7 @@ Ratio = cypy `cdef` loop / typed Cython baseline `==` loop (opaque + sink). **In
 | Getter win | Direct C struct fields vs descriptor attr |
 | Borrowed | Get* return borrowed — wrappers INCREF for safe owned Python refs |
 | SetDefaults/Closure | SystemError on bad types — documented by C-API |
-| `func_eq` | Identity (`a is b`) — CPython `object.__eq__`; soft `funceq`; leave off `hot` until measured win |
+| `func_eq` | Identity (`a is b`) — CPython `object.__eq__`; soft `funceq`; measured; leave off `hot` (clarity / not a starter) |
 
 ## Done when
 

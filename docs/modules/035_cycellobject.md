@@ -111,7 +111,7 @@ Ratio = cypy `cdef` loop / typed Cython baseline `==` loop (opaque + sink). **In
 | ABI / safety | Unchecked GET/SET macros assume a live cell; wrong type → undefined |
 | Scale | Cell ops are O(1); no size crossover — cost is wrapper vs attribute |
 | New(None) | Empty cell allowed; construction ~ties Python `types.CellType` |
-| `cell_eq` | Content equality via richcompare (not identity); empty↔empty True; soft `celleq`; leave off `hot` until measured win |
+| `cell_eq` | Content equality via richcompare (not identity); empty↔empty True; soft `celleq`; measured; leave off `hot` (clarity / not a starter) |
 
 ## Done when
 

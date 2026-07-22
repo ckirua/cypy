@@ -108,7 +108,7 @@ Ratio = cypy `cdef` loop / typed Cython baseline `==` loop (opaque + sink). **In
 | ABI / safety | Frame steal is a hard ABI contract; wrong ownership → crash / double-free |
 | QualName | Cheap sibling of New; same steal semantics — cimport only |
 | Prefer | Public checks for type gates; construction stays cdef for Cython runtime authors |
-| `gen_eq` | Identity (`a is b`) — CPython `object.__eq__`; soft `geneq`; leave off `hot` until measured win |
+| `gen_eq` | Identity (`a is b`) — CPython `object.__eq__`; soft `geneq`; measured; leave off `hot` (clarity / not a starter) |
 
 ## Done when
 

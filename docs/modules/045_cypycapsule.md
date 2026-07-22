@@ -107,7 +107,7 @@ Ratio = cypy `cdef` loop / typed Cython baseline `==` loop (opaque + sink). **In
 | ABI | Pointer get/set/import stay cimport; wrong name → NULL / exception |
 | Scale | Check is O(1); no payload size — capsule holds an opaque pointer |
 | Prefer | Public checks for gates; all pointer mutation in cdef under GIL |
-| `capsule_eq` | Identity only (`a is b`); same pointer/name ≠ equal; soft `capsuleeq`; leave off `hot` until measured win |
+| `capsule_eq` | Identity only (`a is b`); same pointer/name ≠ equal; soft `capsuleeq`; measured; leave off `hot` (clarity / not a starter) |
 
 ## Done when
 

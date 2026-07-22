@@ -62,7 +62,7 @@ Hot-path equality, contains, coerce/guards, concat, and ASCII classifiers for ty
 |-------|--------|
 | Freeze | **1.0 Core** — public + documented cimport; see COVERAGE § 1.0 freeze |
 | Iteration | 1 |
-| Last pass | 2026-07-22 — Tier B `*_eq` inventory|
+| Last pass | 2026-07-22 — str_order inventory (Tier A+B) |
 | Next action | — |
 
 ## Decision log
@@ -148,9 +148,21 @@ Ratio = cypy `cdef` loop / typed Cython baseline `==` loop (opaque + sink). **In
 **Tier B `*_eq` notes:**
 - **`str_eq`:** Equal ~tie; ne ascii **1.61x** lose vs Cython `str == str` (unicode compare path). Tier A win is Python overhead.
 
+### str_order inventory (Tier A + B)
+
+Harness: [`bench/cystr_order_inventory_bench.py`](../../bench/cystr_order_inventory_bench.py) · Tier B [`bench/tier_b/cystr_order.py`](../../bench/tier_b/cystr_order.py).
+
+| operation | ratio A | ratio B | note |
+|-----------|---------|---------|------|
+| `str_cmp` | **0.50–0.56x** | **0.26x** | pass |
+| `str_lt`/`le`/`gt`/`ge` | **0.58–0.72x** | **0.47–0.63x** | pass |
+| `str_check` / `str_is` | **0.40–0.57x** | ~tie | Tier A win is call overhead |
+
 ## Experiment conclusions
 
 **Tier B `*_eq` inventory:** see section **Tier B — `*_eq` (inventory)** table. Equal ~tie; ne ascii **1.61x** lose vs Cython `str == str` (unicode compare path). Tier A win is Python overhead.
+
+**str_order inventory:** `str_cmp` / ordering gate-pass; Tier B `str_cmp` **0.26x** vs typed three-way.
 
 **Tier B:** primary `contains` **0.87x** vs typed `in` — still ahead of Cython emit on short hit.
 

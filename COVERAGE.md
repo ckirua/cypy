@@ -5,6 +5,7 @@ Product contract for what `cypy` is, what it ships, and how to choose helpers.
 `cypy` is **not** a reimplementation of the Python standard library, and it is **not** a full 1:1 port of Cython’s `Includes/cpython`. It is a curated **CPython C-API accelerator** for Cython on **Python ≥ 3.14**.
 
 Authoritative symbol lists: `src/cypy/__init__.py` / `__init__.pxd` `__all__`, plus `cypy.hot` for micro-opt starters. Per-module decisions: [`docs/modules/`](docs/modules/).
+Timed public-ops checklist: [`docs/OPS_INVENTORY.md`](docs/OPS_INVENTORY.md) (gate: `scripts/ops_inventory_coverage.py --strict`).
 
 ---
 

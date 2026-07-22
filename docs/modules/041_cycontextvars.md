@@ -110,3 +110,7 @@ Ratio = cypy `cdef` loop / typed Cython baseline `==` loop (opaque + sink). **In
 
 - [x] Try-all + depth + benches + `.pyi`
 - [x] `context_eq` / `ctxeq` (issue #44) — public (not hot)
+
+### Ops remaining inventory (Tier A)
+
+Harnesses: [`bench/cyaccessors_inventory_bench.py`](../../bench/cyaccessors_inventory_bench.py) / [`bench/cyruntime_inventory_bench.py`](../../bench/cyruntime_inventory_bench.py). See [`OPS_INVENTORY.md`](../OPS_INVENTORY.md) + [`OPS_INVENTORY_TIERB.md`](../OPS_INVENTORY_TIERB.md) for status / Tier B n/a.

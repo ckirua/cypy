@@ -132,12 +132,16 @@ Ratio = cypy `cdef` loop / typed Cython baseline `==` loop (opaque + sink). **In
 | Scale | DateFromDate / Delta constructors win; timezone edges left to datetime module |
 | Safety | Must call `PyDateTime_IMPORT` once before macros — wrappers ensure import |
 | ABI | datetime C-API via capsule; missing import → segfault risk if bypassed |
-| `dt_date_eq` | Exact `date` pairs: C y/m/d compare; subtypes / date↔datetime via richcompare (Python `==`; date≠datetime); leave off `hot` until measured win |
-| `dt_time_eq` | Exact naive `time` pairs: C h/m/s/us (fold ignored); aware/subtypes via richcompare (Python `==` offset rules); leave off `hot` until measured win |
-| `dt_datetime_eq` | Exact naive `datetime` pairs: C y/m/d/h/m/s/us (fold ignored); aware/subtypes / date↔datetime via richcompare (Python `==`); leave off `hot` until measured win |
-| `dt_timedelta_eq` | Exact `timedelta` pairs: C days/seconds/microseconds; subtypes via richcompare (Python `==`); leave off `hot` until measured win |
+| `dt_date_eq` | Exact `date` pairs: C y/m/d compare; subtypes / date↔datetime via richcompare (Python `==`; date≠datetime); measured; leave off `hot` (clarity / not a starter) |
+| `dt_time_eq` | Exact naive `time` pairs: C h/m/s/us (fold ignored); aware/subtypes via richcompare (Python `==` offset rules); measured; leave off `hot` (clarity / not a starter) |
+| `dt_datetime_eq` | Exact naive `datetime` pairs: C y/m/d/h/m/s/us (fold ignored); aware/subtypes / date↔datetime via richcompare (Python `==`); measured; leave off `hot` (clarity / not a starter) |
+| `dt_timedelta_eq` | Exact `timedelta` pairs: C days/seconds/microseconds; subtypes via richcompare (Python `==`); measured; leave off `hot` (clarity / not a starter) |
 
 
 ## Done when
 
 - [x] Try-all + depth + benches + `.pyi`
+
+### Ops remaining inventory (Tier A)
+
+Harnesses: [`bench/cyaccessors_inventory_bench.py`](../../bench/cyaccessors_inventory_bench.py) / [`bench/cyruntime_inventory_bench.py`](../../bench/cyruntime_inventory_bench.py). See [`OPS_INVENTORY.md`](../OPS_INVENTORY.md) + [`OPS_INVENTORY_TIERB.md`](../OPS_INVENTORY_TIERB.md) for status / Tier B n/a.
