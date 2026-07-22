@@ -179,6 +179,7 @@ from .cygenobject import (
 )
 from .cycellobject import (
     cell_check,
+    cell_eq,
     cell_new,
     cell_get,
     cell_set,

@@ -2,7 +2,7 @@
 # Closure cell helpers. Public docs in ``cycellobject.pyi``.
 # GET/SET macros: cdef unchecked.
 
-from cpython.object cimport PyObject
+from cpython.object cimport PyObject, PyObject_RichCompareBool, Py_EQ
 
 
 cdef extern from "Python.h":
@@ -28,6 +28,19 @@ cpdef inline object cell_get(object cell):
 
 cpdef inline int cell_set(object cell, object value) except -1:
     return PyCell_Set(cell, value)
+
+
+cdef inline bint celleq(object a, object b) except -1:
+    # Cell equality is content equality (CPython ``cell_richcompare``) —
+    # empty↔empty True; equal contents True; not identity. Soft ``celleq``.
+    # Callers should pass cell objects. Not on ``hot`` — validate win first.
+    if a is b:
+        return True
+    return <bint>PyObject_RichCompareBool(a, b, Py_EQ)
+
+
+cpdef inline bint cell_eq(object a, object b) except -1:
+    return celleq(a, b)
 
 
 cdef inline object cell_get_unchecked(object cell):

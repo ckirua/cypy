@@ -15,3 +15,7 @@ def cell_get(cell: object) -> object:
 def cell_set(cell: object, value: object) -> int:
     """Set the contents of ``cell`` via ``PyCell_Set``; returns 0. Returns 0 on success; errors raise — do not use as bool."""
     ...
+
+def cell_eq(a: object, b: object) -> bool:
+    """Return True if cell contents compare equal (not identity; empty↔empty True)."""
+    ...
