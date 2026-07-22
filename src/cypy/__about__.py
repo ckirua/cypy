@@ -1,3 +1,3 @@
 """Package version string for ``cypy`` (PEP 440)."""
 
-__version__ = "1.18.0"
+__version__ = "1.19.0"

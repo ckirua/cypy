@@ -62,6 +62,10 @@ def set_len(s: set) -> int:
     """Return ``len(s)`` via ``PySet_GET_SIZE`` (exact ``set``)."""
     ...
 
+def set_eq(a: set, b: set) -> bool:
+    """Return True if typed sets are equal (identity/size short-circuit + richcompare)."""
+    ...
+
 def set_new(iterable: object) -> set:
     """Return a new set from ``iterable`` via ``PySet_New``."""
     ...

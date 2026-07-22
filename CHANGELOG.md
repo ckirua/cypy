@@ -3,6 +3,14 @@
 All notable changes to `cypy` are documented here. Version from
 [`src/cypy/__about__.py`](src/cypy/__about__.py).
 
+## [1.19.0] — 2026-07-22 — `set_eq`
+
+### Added
+
+- **`set_eq`** (`cyset`): typed ``set`` equality — identity/size short-circuit +
+  richcompare (same semantics as ``==``). Soft ``seteq`` (not ``seq`` — avoids
+  ``seq_*`` / ``sq*`` confusion). On ``cypy`` / ``cypy.containers``.
+
 ## [1.18.0] — 2026-07-22 — `dict_eq`
 
 ### Added

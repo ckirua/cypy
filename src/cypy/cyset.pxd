@@ -2,7 +2,7 @@
 # Typed ``set`` / any-set helpers. Public docs live in ``cyset.pyi``.
 # ``supdate`` uses exported ``_PySet_Update`` (no public PySet_Update).
 
-from cpython.object cimport PyObject
+from cpython.object cimport PyObject, PyObject_RichCompareBool, Py_EQ
 
 
 cdef extern from "Python.h":
@@ -67,6 +67,16 @@ cdef inline frozenset sfrozen_new(object iterable):
 
 cdef inline Py_ssize_t slen(set s) noexcept:
     return PySet_GET_SIZE(s)
+
+
+cdef inline bint seteq(set a, set b):
+    # Identity / size short-circuit + richcompare (same semantics as ``==``).
+    # Soft name ``seteq`` (not ``seq``) avoids confusion with ``seq_*`` / ``sq*``.
+    if a is b:
+        return True
+    if PySet_GET_SIZE(a) != PySet_GET_SIZE(b):
+        return False
+    return <bint>PyObject_RichCompareBool(a, b, Py_EQ)
 
 
 cdef inline Py_ssize_t ssize(object anyset) except -1:
@@ -148,6 +158,9 @@ cpdef inline frozenset frozenset_new(object iterable):
 
 cpdef inline Py_ssize_t set_len(set s) noexcept:
     return slen(s)
+
+cpdef inline bint set_eq(set a, set b):
+    return seteq(a, b)
 
 cpdef inline set set_new(object iterable):
     return snew(iterable)
