@@ -414,6 +414,7 @@ from .cysequence import (
     seq_slice,
     seq_set,
     seq_del,
+    seq_eq,
     seq_set_slice,
     seq_del_slice,
     seq_count,

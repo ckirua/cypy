@@ -3,6 +3,14 @@
 All notable changes to `cypy` are documented here. Version from
 [`src/cypy/__about__.py`](src/cypy/__about__.py).
 
+## [1.21.0] — 2026-07-22 — `seq_eq`
+
+### Added
+
+- **`seq_eq`** (`cysequence`): abstract sequence equality — identity/size
+  short-circuit + richcompare (same semantics as ``==``). Soft ``sqeq``. Prefer
+  typed ``list_eq`` / ``tuple_eq`` when known. On ``cypy`` / ``cypy.protocols``.
+
 ## [1.20.0] — 2026-07-22 — `frozenset_eq`
 
 ### Added

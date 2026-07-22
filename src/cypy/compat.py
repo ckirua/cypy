@@ -177,6 +177,7 @@ COMPAT_MAP: dict[str, str] = {
     "sqcount": "seq_count",
     "sqdel": "seq_del",
     "sqdel_slice": "seq_del_slice",
+    "sqeq": "seq_eq",
     "sqget": "seq_get",
     "sqindex": "seq_index",
     "sqinplace_concat": "seq_inplace_concat",

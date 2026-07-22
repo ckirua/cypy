@@ -57,7 +57,7 @@ As of **`1.0.0`**:
 | Module | Prefer instead when typed | Notes |
 |--------|---------------------------|--------|
 | `cymapping` | `cydict` | `map_*` — checks often win; `map_len` often loses to `len` |
-| `cysequence` | `cylist` / `cytuple` | `sq*` — prefer typed list/tuple helpers |
+| `cysequence` | `cylist` / `cytuple` | `sq*` / `seq_eq` — prefer typed `list_eq`/`tuple_eq` |
 | `cynumber` | `cylong` / `cyfloat` / `cycomplex` / `cybool` | Binary ops often lose; checks useful |
 | `cyobject` | typed module above | Last resort attr/item/call bridges |
 
