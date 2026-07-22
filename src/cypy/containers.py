@@ -33,6 +33,7 @@ from .cylist import (
     list_get_checked,
     list_get_ref,
     list_insert,
+    list_eq,
     list_len,
     list_size,
 )
@@ -79,6 +80,7 @@ __all__: tuple[str, ...] = (
     "dict_new",
     "list_check",
     "list_check_exact",
+    "list_eq",
     "list_len",
     "list_size",
     "list_get",

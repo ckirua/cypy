@@ -120,6 +120,7 @@ COMPAT_MAP: dict[str, str] = {
     "lget_checked": "list_get_checked",
     "lget_ref": "list_get_ref",
     "linsert": "list_insert",
+    "leq": "list_eq",
     "llen": "list_len",
     "lreverse": "list_reverse",
     "lset_item": "list_set_item",

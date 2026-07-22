@@ -25,6 +25,7 @@ Hot-path get/append/len/slice for typed exact `list`, plus full include try-all.
 | lget | cypy | cpdef | public | `PyList_GET_ITEM` unchecked |
 | lget_checked | cypy | cpdef | public | `PyList_GetItem` |
 | lget_ref | cypy | cpdef | public | `PyList_GetItemRef` |
+| leq | cypy | cpdef | public | identity/len + richcompare; preferred `list_eq` |
 | llen | cypy | cpdef | public | `PyList_GET_SIZE` — exact `list` |
 | lsize | cypy | cpdef | public | `PyList_Size` — subtypes OK |
 | lappend | cypy | cpdef | public | `PyList_Append` |
@@ -49,6 +50,7 @@ Hot-path get/append/len/slice for typed exact `list`, plus full include try-all.
 | lget | APPROVED | primary **0.68x** |
 | lget_checked | APPROVED | **0.70x** |
 | lget_ref | APPROVED | **0.67x** |
+| leq / list_eq | APPROVED | identity/len + richcompare (issue #18) |
 | llen / lsize | APPROVED | **0.58x** / **0.59x** |
 | lcheck / exact | APPROVED | **0.51x** / **0.58x** |
 | lempty | APPROVED | **0.75x** vs `[]` |
