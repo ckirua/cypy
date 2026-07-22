@@ -5,7 +5,7 @@ Run: python examples/pyarray.py
 
 from array import array
 
-from cypy import array_check, array_clone, array_eq, array_len, array_zero
+from cypy import array_check, array_clone, array_eq, array_len, array_ne, array_zero
 PAYLOAD = array("i", [1, 2, 3, 4])
 
 def main() -> None:
@@ -17,6 +17,7 @@ def main() -> None:
     assert not array_eq(PAYLOAD, array("i", [1, 2, 3, 5]))
     assert not array_eq(PAYLOAD, array("I", [1, 2, 3, 4]))  # typecode mismatch
     assert array_eq(array("d"), array("d"))
+    assert array_ne(PAYLOAD, array("i", [1, 2, 3, 5])) and not array_ne(PAYLOAD, array("i", [1, 2, 3, 4]))
 
     clone = array_clone(PAYLOAD, 4, zero=True)
     print(f"array_clone(..., zero=True) -> {list(clone)!r}")

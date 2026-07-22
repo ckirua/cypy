@@ -6,13 +6,14 @@ Typed buffer-adjacent Core helpers. Prefer ``bytes_len`` / ``bytes_contains`` /
 
 from __future__ import annotations
 
-from .cyarray import array_check, array_check_exact, array_clone, array_eq, array_len, array_zero
+from .cyarray import array_check, array_check_exact, array_clone, array_eq, array_len, array_ne, array_zero
 from .cybuffer import buf_check
 from .cybytearray import (
     bytearray_check,
     bytearray_check_exact,
     bytearray_eq,
     bytearray_len,
+    bytearray_ne,
     bytearray_size,
 )
 from .cybytes import (
@@ -24,7 +25,7 @@ from .cybytes import (
     bytes_len,
     bytes_size,
 )
-from .cymemoryview import memoryview_check, memoryview_eq, memoryview_from_object
+from .cymemoryview import memoryview_check, memoryview_eq, memoryview_from_object, memoryview_ne
 from .cyslice import slice_check, slice_new
 
 __all__: tuple[str, ...] = (
@@ -38,16 +39,19 @@ __all__: tuple[str, ...] = (
     "bytearray_check",
     "bytearray_check_exact",
     "bytearray_eq",
+    "bytearray_ne",
     "bytearray_len",
     "bytearray_size",
     "array_check",
     "array_check_exact",
     "array_eq",
+    "array_ne",
     "array_len",
     "array_clone",
     "array_zero",
     "memoryview_check",
     "memoryview_eq",
+    "memoryview_ne",
     "memoryview_from_object",
     "buf_check",
     "slice_check",

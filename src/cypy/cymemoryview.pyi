@@ -10,6 +10,10 @@ def memoryview_eq(a: memoryview, b: memoryview) -> bool:
     """Return True if views are equal (C-contiguous ``memcmp`` fast path; else richcompare)."""
     ...
 
+def memoryview_ne(a: memoryview, b: memoryview) -> bool:
+    """Return True if views differ (``not memoryview_eq``; same contig/richcompare rules)."""
+    ...
+
 def memoryview_from_object(obj: object) -> memoryview:
     """Return ``memoryview(obj)`` via ``PyMemoryView_FromObject``."""
     ...

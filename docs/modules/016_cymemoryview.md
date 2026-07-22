@@ -20,6 +20,7 @@ Thin wrappers for memoryview construction / check / contiguous views used in buf
 |--------|-------|------|--------|-------|
 | mvcheck | cypy | cpdef | public | `PyMemoryView_Check` |
 | mveq | cypy | cpdef | public | contig `memcmp` / richcompare fallback; preferred `memoryview_eq` |
+| mvne | cypy | cpdef | public | `not mveq` (soft); preferred `memoryview_ne` |
 | mvfrom_object | cypy | cpdef | public | `PyMemoryView_FromObject` |
 | mvget_contiguous | cypy | cpdef | public | `PyMemoryView_GetContiguous` |
 | mvfrom_memory | cypy | cdef | cimport | caller-owned `char*` |
@@ -32,6 +33,7 @@ Thin wrappers for memoryview construction / check / contiguous views used in buf
 |----------|--------|-----|
 | mvcheck | APPROVED | primary **0.49x** |
 | mveq / memoryview_eq | APPROVED | contig memcmp + richcompare fallback |
+| mvne / memoryview_ne | APPROVED | `not mveq` — API sibling of `bytes_ne` |
 | mvfrom_object | APPROVED | **0.74–0.76x** |
 | mvget_contiguous | APPROVED | **0.62–0.63x** |
 | mvfrom_memory / buffer / get_* | APPROVED (cimport) | pointers / lifetime |
