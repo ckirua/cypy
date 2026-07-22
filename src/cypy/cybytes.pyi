@@ -14,6 +14,10 @@ def bytes_contains(haystack: bytes, needle: bytes) -> bool:
     """Return True if ``needle`` is in ``haystack`` (``memchr``/``memmem`` under 256B, else ``in``)."""
     ...
 
+def bytes_bytearray_eq(a: object, b: object) -> bool:
+    """Return True if ``bytes``/``bytearray`` contents match (either order; ``memcmp`` after len)."""
+    ...
+
 def bytes_eq(a: bytes, b: bytes) -> bool:
     """Return True if ``a == b`` (identity/len check + ``memcmp`` on typed ``bytes``)."""
     ...

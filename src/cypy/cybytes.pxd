@@ -24,6 +24,9 @@ cdef extern from "Python.h":
     void PyBytes_Concat(PyObject **string, object newpart)
     void PyBytes_ConcatAndDel(PyObject **string, object newpart)
     int _PyBytes_Resize(PyObject **string, Py_ssize_t newsize) except -1
+    bint PyByteArray_Check(object o) noexcept
+    char* PyByteArray_AS_STRING(object bytearray) noexcept
+    Py_ssize_t PyByteArray_GET_SIZE(object bytearray) noexcept
 
 
 cdef inline bint bcheck(object p) noexcept:
@@ -82,6 +85,41 @@ cdef inline bint beq(bytes a, bytes b) noexcept:
 
 cdef inline bint bne(bytes a, bytes b) noexcept:
     return not beq(a, b)
+
+
+cdef inline bint bba_eq(object a, object b) noexcept:
+    # Content eq for ``bytes``/``bytearray`` either order (and same-type).
+    # Prefer typed ``bytes_eq`` / ``bytearray_eq`` for known same-type hot paths.
+    # Distinct from ``buf_eq`` (buffer-protocol / memoryview path).
+    if a is b:
+        return True
+    cdef char *pa
+    cdef char *pb
+    cdef Py_ssize_t la, lb
+
+    if PyBytes_Check(a):
+        pa = PyBytes_AS_STRING(a)
+        la = PyBytes_GET_SIZE(a)
+    elif PyByteArray_Check(a):
+        pa = PyByteArray_AS_STRING(a)
+        la = PyByteArray_GET_SIZE(a)
+    else:
+        return False
+
+    if PyBytes_Check(b):
+        pb = PyBytes_AS_STRING(b)
+        lb = PyBytes_GET_SIZE(b)
+    elif PyByteArray_Check(b):
+        pb = PyByteArray_AS_STRING(b)
+        lb = PyByteArray_GET_SIZE(b)
+    else:
+        return False
+
+    if la != lb:
+        return False
+    if la == 0:
+        return True
+    return memcmp(pa, pb, <size_t>la) == 0
 
 
 cdef inline bint bstartswith(bytes s, bytes prefix) noexcept:
@@ -166,6 +204,9 @@ cpdef inline bint bytes_contains(bytes haystack, bytes needle) noexcept:
 
 cpdef inline bint bytes_eq(bytes a, bytes b) noexcept:
     return beq(a, b)
+
+cpdef inline bint bytes_bytearray_eq(object a, object b) noexcept:
+    return bba_eq(a, b)
 
 cpdef inline bint bytes_ne(bytes a, bytes b) noexcept:
     return bne(a, b)

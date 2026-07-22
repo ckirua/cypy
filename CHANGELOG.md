@@ -3,6 +3,16 @@
 All notable changes to `cypy` are documented here. Version from
 [`src/cypy/__about__.py`](src/cypy/__about__.py).
 
+## [1.41.0] — 2026-07-22 — `bytes_bytearray_eq`
+
+### Added
+
+- **`bytes_bytearray_eq`** (`cybytes`): cross-type ``bytes`` ↔ ``bytearray``
+  content equality — identity / len + ``memcmp`` on ``AS_STRING`` (either
+  order; same-type also works). Soft ``bba_eq``. On ``cypy`` /
+  ``cypy.buffers`` (not ``hot``; prefer typed ``bytes_eq`` / ``bytearray_eq``
+  there). Cross-link: ``buf_eq`` is buffer-protocol / views, not this.
+
 ## [1.40.0] — 2026-07-22 — `range_eq`
 
 ### Added

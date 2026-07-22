@@ -25,6 +25,7 @@ Scanner hot paths plus full include try-all. Depth showed pure `memmem` **loses*
 | bcontains | cypy | cpdef | public | `memchr`/`memmem` if `hlen≤256` else `in` |
 | beq | cypy | cpdef | public | identity/len/`memcmp` (soft); preferred `bytes_eq` |
 | bne | cypy | cpdef | public | `not beq` (soft); preferred `bytes_ne` |
+| bba_eq / bytes_bytearray_eq | cypy | cpdef | public | bytes↔bytearray (either order) len+`memcmp`; soft `bba_eq`; not `hot` |
 | bstartswith | cypy | cpdef | public | prefix len + `memcmp` (soft); preferred `bytes_startswith` |
 | bendswith | cypy | cpdef | public | suffix len + tail `memcmp` (soft); preferred `bytes_endswith` |
 | bfrom_object | cypy | cpdef | public | `PyBytes_FromObject` |
@@ -53,6 +54,7 @@ Scanner hot paths plus full include try-all. Depth showed pure `memmem` **loses*
 | bcontains | APPROVED | primary small **0.20x**; hybrid fixes large regression |
 | beq | APPROVED | mirror `streq`; identity/len + `memcmp`; see Bench |
 | bne / bytes_ne | APPROVED | `not beq` — API sibling of `str_ne` |
+| bba_eq / bytes_bytearray_eq | APPROVED | cross-type content eq (issue #43); not `hot` |
 | bstartswith / bytes_startswith | APPROVED | prefix len + `memcmp` (mirror `str_startswith`) |
 | bendswith / bytes_endswith | APPROVED | suffix len + tail `memcmp` (mirror `str_endswith`) |
 | blen / bsize | APPROVED | **0.59x**; prefer `blen` typed |
@@ -70,8 +72,8 @@ Scanner hot paths plus full include try-all. Depth showed pure `memmem` **loses*
 | Field | Value |
 |-------|--------|
 | Freeze | **1.0 Core** — public + documented cimport; see COVERAGE § 1.0 freeze |
-| Iteration | 6 |
-| Last pass | 2026-07-22 — `bytes_eq` / `beq` (issue #2) |
+| Iteration | 7 |
+| Last pass | 2026-07-22 — `bytes_bytearray_eq` / `bba_eq` (issue #43) |
 | Next action | — |
 
 ## Decision log
@@ -80,6 +82,7 @@ Scanner hot paths plus full include try-all. Depth showed pure `memmem` **loses*
 |----------|------------|---------------|--------|----------|-----------|
 | bcontains | Beat `in` always | scale 6…8KiB | win &lt;256B; **lose** ≥1KiB on pure memmem | hybrid ≤256 → APPROVED | 4 |
 | beq | Beat `==` on typed bytes | short/1KiB eq+ne | wins short; ~tie/win 1KiB | APPROVED (public + hot) | 6 |
+| bba_eq / bytes_bytearray_eq | Cross-type vs `==` | smoke both directions | parity + memcmp | APPROVED (public, not hot) | 7 |
 | blen / bsize | Beat `len` | harness | **0.59x** | APPROVED | 4 |
 | bcheck* | Beat isinstance | harness | **0.40–0.56x** | APPROVED | 4 |
 | bfrom_object | Beat `bytes(buf)` | harness | **0.60x** | APPROVED | 4 |
@@ -143,6 +146,7 @@ Ratio = cypy `cdef` loop / typed Cython baseline loop (opaque + sink). **Informa
 | Fix | `hlen > 256` → fall back to `needle in haystack` |
 | `beq` / `bytes_eq` | Identity + len short-circuit + `memcmp` on `PyBytes_AS_STRING` (mirror `streq`). Tier A **0.59–0.68x** vs Python `==`; Tier B ~tie vs typed Cython `==` — export to `cypy.hot` |
 | `bne` / `bytes_ne` | `not beq` — API sibling of `str_ne`; public + hot |
+| `bba_eq` / `bytes_bytearray_eq` | Cross-type ``bytes``↔``bytearray`` content eq (either order + same-type) via `AS_STRING` + `memcmp`. Not `hot` (prefer typed same-type helpers). Distinct from `buf_eq` (buffer protocol / views). |
 | `bstartswith` / `bytes_startswith` | prefix len + `memcmp`; public + hot |
 | `bendswith` / `bytes_endswith` | suffix len + tail `memcmp`; public + hot |
 | `bnew` | `FromStringAndSize(NULL,n)` leaves **previous heap contents**; `bytes(n)` zeros — **cdef only** |
@@ -161,3 +165,4 @@ Ratio = cypy `cdef` loop / typed Cython baseline loop (opaque + sink). **Informa
 - [x] `bytes_ne` / `bne` (issue #8) — public + hot
 - [x] `bytes_startswith` / `bstartswith` (issue #12) — public + hot
 - [x] `bytes_endswith` / `bendswith` (issue #13) — public + hot
+- [x] `bytes_bytearray_eq` / `bba_eq` (issue #43) — public (not hot); cross-link `buf_eq`
