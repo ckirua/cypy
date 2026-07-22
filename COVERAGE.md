@@ -58,7 +58,7 @@ As of **`1.0.0`**:
 |--------|---------------------------|--------|
 | `cymapping` | `cydict` | `map_*` / `map_eq` — checks often win; prefer typed `dict_eq` |
 | `cysequence` | `cylist` / `cytuple` | `sq*` / `seq_eq` — prefer typed `list_eq`/`tuple_eq` |
-| `cynumber` | `cylong` / `cyfloat` / `cycomplex` / `cybool` | Binary ops often lose; prefer typed `long_eq` / `float_eq` / `complex_eq` / `bool_eq` when known |
+| `cynumber` | `cylong` / `cyfloat` / `cycomplex` / `cybool` | Binary ops often lose; prefer typed `long_eq` / `float_eq` / `complex_eq` / `bool_eq` when known; `num_eq` for protocol bridges |
 | `cyobject` | typed module above | Last resort attr/item/call bridges |
 
 ### Runtime (public and/or cimport)

@@ -2,7 +2,7 @@
 # Number protocol helpers. Public docs in ``cynumber.pyi``.
 # ``PyNumber_Divide`` / ``InPlaceDivide`` / ``Coerce``: ABI-missing on 3.14 — not wrapped.
 
-from cpython.object cimport PyObject
+from cpython.object cimport PyObject_RichCompare, Py_EQ
 
 
 cdef extern from "Python.h":
@@ -51,6 +51,23 @@ cpdef inline bint num_check(object o) noexcept:
 
 cpdef inline bint num_index_check(object o) noexcept:
     return PyIndex_Check(o)
+
+
+cdef inline bint neq_num(object a, object b):
+    # Abstract number equality via RichCompare (Python ``==`` parity).
+    # Do **not** use PyObject_RichCompareBool: it identity-shortcuts
+    # ``nan is nan`` → True. Prefer ``long_eq`` / ``float_eq`` / ``complex_eq``
+    # when the concrete type is known. Soft ``neq_num`` (not ``*_ne``).
+    cdef object r = PyObject_RichCompare(a, b, Py_EQ)
+    if r is True:
+        return True
+    if r is False:
+        return False
+    return bool(r)
+
+
+cpdef inline bint num_eq(object a, object b):
+    return neq_num(a, b)
 
 
 cpdef inline object num_add(object o1, object o2):

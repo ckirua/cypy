@@ -3,6 +3,16 @@
 All notable changes to `cypy` are documented here. Version from
 [`src/cypy/__about__.py`](src/cypy/__about__.py).
 
+## [1.27.0] — 2026-07-22 — `num_eq`
+
+### Added
+
+- **`num_eq`** (`cynumber`): abstract number equality via
+  ``PyObject_RichCompare`` (Python ``==`` parity, including NaN != NaN even for
+  the same object — not ``RichCompareBool``, which identity-shortcuts). Prefer
+  typed ``long_eq`` / ``float_eq`` / ``complex_eq`` / ``bool_eq`` when known.
+  Soft ``neq_num``. On ``cypy`` / ``cypy.protocols`` (not ``hot``).
+
 ## [1.26.0] — 2026-07-22 — `complex_eq`
 
 ### Added

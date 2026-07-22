@@ -8,6 +8,10 @@ def num_index_check(o: object) -> bool:
     """Return True if ``o`` is an index integer (``PyIndex_Check``)."""
     ...
 
+def num_eq(a: object, b: object) -> bool:
+    """Return True if ``a == b`` via richcompare (abstract number; NaN parity)."""
+    ...
+
 def num_add(o1: object, o2: object) -> object:
     """Return ``o1 + o2`` via ``PyNumber_Add``."""
     ...
