@@ -4,6 +4,7 @@
 # ``uutf8*`` borrowed pointers must not outlive ``s``.
 
 from cpython.object cimport PyObject
+from .cystr cimport str_eq
 from cpython.unicode cimport (
     PyUnicode_AsUTF8,
     PyUnicode_AsUTF8AndSize,
@@ -51,3 +52,12 @@ cpdef inline str uintern(str s):
     cdef PyObject *p = <PyObject *>s
     PyUnicode_InternInPlace(&p)
     return <str>p
+
+
+cpdef inline bint unicode_eq(str a, str b) noexcept:
+    # Discoverability alias of ``str_eq`` (no divergent UCS path).
+    return str_eq(a, b)
+
+
+cdef inline bint ueq(str a, str b) noexcept:
+    return str_eq(a, b)

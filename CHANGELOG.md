@@ -3,6 +3,13 @@
 All notable changes to `cypy` are documented here. Version from
 [`src/cypy/__about__.py`](src/cypy/__about__.py).
 
+## [1.12.0] — 2026-07-22 — `unicode_eq`
+
+### Added
+
+- **`unicode_eq`** (`cyunicode`): discoverability alias of ``str_eq`` (same
+  semantics; no divergent UCS path). Soft ``ueq``. On ``cypy``.
+
 ## [1.11.0] — 2026-07-22 — `bytes_endswith`
 
 ### Added

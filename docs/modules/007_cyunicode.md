@@ -24,6 +24,7 @@ Zero-copy UTF-8 borrow + intern for Cython; public owning `bytes` / `uintern` fo
 | uintern_in_place | cypy | cdef | cimport | mutates `PyObject**` slot |
 | uintern | cypy | cpdef | public | intern + return |
 | unicode_from_string | cypy | cdef | cimport | `PyUnicode_FromString` — no intern; mirror `bytes_from_string` |
+| unicode_eq | cypy | cpdef | public | thin alias of `str_eq`; soft `ueq` |
 | uintern_from_string | cypy | cdef | cimport | `PyUnicode_InternFromString` sibling |
 | codecs / From* / New / … | C-API | tried | — | out of slice → cystr deferred / REJECTED scope |
 
@@ -35,6 +36,7 @@ Zero-copy UTF-8 borrow + intern for Cython; public owning `bytes` / `uintern` fo
 | uutf8_bytes | APPROVED | **0.95–1.01x** vs `encode` — clarity / owning mirror |
 | uintern | APPROVED | **1.04–1.05x** vs `sys.intern` — clarity; used by cyansi |
 | unicode_from_string | APPROVED (cimport) | ordinary C→str; no intern; issue #1 |
+| unicode_eq | APPROVED | alias of `str_eq` (issue #14); no divergent semantics |
 | uintern_in_place / uintern_from_string | APPROVED (cimport) | slot / C-string siblings |
 | remainder unicode | REJECTED (scope) | not this slice |
 
