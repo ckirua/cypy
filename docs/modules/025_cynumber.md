@@ -19,6 +19,7 @@ Abstract number protocol for unknown concrete types. Prefer typed modules (`cylo
 | Symbol | Export | Notes |
 |--------|--------|-------|
 | num_check / num_index_check | public | |
+| num_eq | public | RichCompare; soft `neq_num`; prefer typed `*_eq` |
 | binary / unary / inplace / convert | public | full protocol minus ABI-missing |
 | PyNumber_Divide / InPlaceDivide / Coerce | — | REJECTED (ABI missing 3.14) |
 
@@ -28,6 +29,7 @@ Abstract number protocol for unknown concrete types. Prefer typed modules (`cylo
 |----------|--------|-----|
 | num_check / index_check | APPROVED | **0.30–0.45x** |
 | num_inplace_add | APPROVED | **0.78x** |
+| num_eq / neq_num | APPROVED | RichCompare (issue #29); not on `hot` |
 | binary / unary / convert | APPROVED (API) | **1.07–1.34x** — protocol completeness |
 | Divide / InPlaceDivide / Coerce | REJECTED | missing from libpython3.14 |
 
@@ -37,7 +39,7 @@ Abstract number protocol for unknown concrete types. Prefer typed modules (`cylo
 |-------|--------|
 | Freeze | **Provisional (Protocols)** after 1.0 — not Core; may evolve under minors |
 | Iteration | 1 |
-| Last pass | 2026-07-21 — Phase 4 Tier B |
+| Last pass | 2026-07-22 — `num_eq` (#29) |
 | Next action | — |
 
 ## Decision log
@@ -48,6 +50,7 @@ Abstract number protocol for unknown concrete types. Prefer typed modules (`cylo
 | ops | 1.07–1.34x | APPROVED (API) | 1 |
 | inplace_add | 0.78x | APPROVED | 1 |
 | Divide/Coerce | ctypes missing | REJECTED | 1 |
+| neq_num / num_eq | RichCompare; NaN parity; protocol bridge | APPROVED | 1 |
 
 ## Bench notes
 
@@ -89,6 +92,7 @@ Ratio = cypy `cdef` loop / typed Cython baseline loop (opaque + sink). **Informa
 | InPlace | Wins when avoiding Python `+=` bytecode for immutable ints (returns new) |
 | ABI | `PyNumber_Divide` / `InPlaceDivide` / `Coerce` removed — ctypes AttributeError |
 | Cheap aliases | All InPlace* siblings wrapped |
+| `num_eq` | Abstract `==` via `PyObject_RichCompare` (not `RichCompareBool` — identity-shortcuts same-object NaN → True). Prefer `long_eq`/`float_eq`/`complex_eq`/`bool_eq` when typed. Soft `neq_num`. Leave off `hot` (protocol bridge / clarity). Errors from `__eq__` propagate; `NotImplemented` on both sides → False for EQ (CPython `do_richcompare`) |
 
 ## Done when
 

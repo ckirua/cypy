@@ -56,6 +56,7 @@ from .cynumber import (
     num_and,
     num_as_ssize,
     num_check,
+    num_eq,
     num_divmod,
     num_float,
     num_floordiv,
