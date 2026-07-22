@@ -1,9 +1,9 @@
-"""Python usage of :func:`cypy.bytes_len`, :func:`cypy.bytes_contains`, :func:`cypy.bytes_eq`, :func:`cypy.bytes_ne`.
+"""Python usage of :func:`cypy.bytes_len`, :func:`cypy.bytes_contains`, :func:`cypy.bytes_eq`, :func:`cypy.bytes_ne`, :func:`cypy.bytes_startswith`.
 
 Run: python examples/pybytes.py
 """
 
-from cypy import bytes_contains, bytes_eq, bytes_len, bytes_ne
+from cypy import bytes_contains, bytes_eq, bytes_len, bytes_ne, bytes_startswith
 PAYLOAD: bytes = b"BTCUSDT"
 HAYSTACK: bytes = b"abcabc"
 
@@ -22,6 +22,14 @@ BEQ_CASES: tuple[tuple[bytes, bytes, bool], ...] = (
     (PAYLOAD, b"ETHUSDT", False),   # same len, different
     (PAYLOAD, b"BTC", False),       # different len
     (b"", b"", True),               # empty
+)
+
+BSTARTSWITH_CASES: tuple[tuple[bytes, bytes, bool], ...] = (
+    (PAYLOAD, b"BTC", True),
+    (PAYLOAD, b"ETH", False),
+    (PAYLOAD, b"", True),
+    (PAYLOAD, b"BTCUSDTX", False),
+    (b"", b"", True),
 )
 
 def main() -> None:
@@ -53,6 +61,18 @@ def main() -> None:
         assert result == expected
         assert result == py_result
         assert bytes_ne(a, b) == (not expected) == (a != b)
+
+    print()
+    for s, prefix, expected in BSTARTSWITH_CASES:
+        result = bytes_startswith(s, prefix)
+        py_result = s.startswith(prefix)
+        status = "ok" if result == expected == py_result else "FAIL"
+        print(
+            f"{status:4}  bytes_startswith({s!r}, {prefix!r})  "
+            f"-> {result!r}  (python {py_result!r})"
+        )
+        assert result == expected
+        assert result == py_result
 
     print()
     print("assertions passed")

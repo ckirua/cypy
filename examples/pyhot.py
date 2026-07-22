@@ -13,6 +13,7 @@ from cypy.hot import (
     bytes_eq,
     bytes_len,
     bytes_ne,
+    bytes_startswith,
     dict_get,
     dict_len,
     list_append,
@@ -37,6 +38,7 @@ def main() -> None:
     assert bytes_len(b"ok") == 2 and bytes_contains(b"ab", b"a")
     assert bytes_eq(b"ok", b"ok") and not bytes_eq(b"ok", b"no")
     assert bytes_ne(b"ok", b"no") and not bytes_ne(b"ok", b"ok")
+    assert bytes_startswith(b"ok", b"o") and not bytes_startswith(b"ok", b"x")
     assert bytearray_eq(bytearray(b"ok"), bytearray(b"ok"))
     assert bytearray_ne(bytearray(b"ok"), bytearray(b"no"))
     assert bytearray_contains(bytearray(b"ok"), b"o")

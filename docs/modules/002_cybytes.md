@@ -23,7 +23,9 @@ Scanner hot paths plus full include try-all. Depth showed pure `memmem` **loses*
 | blen | cypy | cpdef | public | `PyBytes_GET_SIZE` |
 | bsize | cypy | cpdef | public | `PyBytes_Size` |
 | bcontains | cypy | cpdef | public | `memchr`/`memmem` if `hlen≤256` else `in` |
-| beq | cypy | cpdef | public | identity/len + `memcmp` on `bas_string` (mirror `streq`) |
+| beq | cypy | cpdef | public | identity/len/`memcmp` (soft); preferred `bytes_eq` |
+| bne | cypy | cpdef | public | `not beq` (soft); preferred `bytes_ne` |
+| bstartswith | cypy | cpdef | public | prefix len + `memcmp` (soft); preferred `bytes_startswith` |
 | bfrom_object | cypy | cpdef | public | `PyBytes_FromObject` |
 | bas_string | cypy | cdef | cimport | `PyBytes_AS_STRING` |
 | bas_string_checked | cypy | cdef | cimport | `PyBytes_AsString` (rejects non-bytes) |
@@ -49,6 +51,8 @@ Scanner hot paths plus full include try-all. Depth showed pure `memmem` **loses*
 |----------|--------|-----|
 | bcontains | APPROVED | primary small **0.20x**; hybrid fixes large regression |
 | beq | APPROVED | mirror `streq`; identity/len + `memcmp`; see Bench |
+| bne / bytes_ne | APPROVED | `not beq` — API sibling of `str_ne` |
+| bstartswith / bytes_startswith | APPROVED | prefix len + `memcmp` (mirror `str_startswith`) |
 | blen / bsize | APPROVED | **0.59x**; prefer `blen` typed |
 | bcheck / exact | APPROVED | **0.56x** / **0.55x** |
 | bfrom_object | APPROVED | **0.60x** |
@@ -137,6 +141,7 @@ Ratio = cypy `cdef` loop / typed Cython baseline loop (opaque + sink). **Informa
 | Fix | `hlen > 256` → fall back to `needle in haystack` |
 | `beq` / `bytes_eq` | Identity + len short-circuit + `memcmp` on `PyBytes_AS_STRING` (mirror `streq`). Tier A **0.59–0.68x** vs Python `==`; Tier B ~tie vs typed Cython `==` — export to `cypy.hot` |
 | `bne` / `bytes_ne` | `not beq` — API sibling of `str_ne`; public + hot |
+| `bstartswith` / `bytes_startswith` | prefix len + `memcmp`; public + hot |
 | `bnew` | `FromStringAndSize(NULL,n)` leaves **previous heap contents**; `bytes(n)` zeros — **cdef only** |
 | `_PyBytes_Resize` | Unlike `_PyTuple_Resize`, non-unique path **allocates a copy** and DECREFs old `*pv` (expects owned ref). Mis-wrapping without owning the ref is UB |
 | `PyBytes_Concat` / `ConcatAndDel` | Unique+exact → resize in place; else new object via `SETREF`. Both aliased (`bconcat`, `bconcat_and_del`) |
@@ -151,3 +156,4 @@ Ratio = cypy `cdef` loop / typed Cython baseline loop (opaque + sink). **Informa
 - [x] Before merge: `.pyi` one-liners; lean `.pxd`; `bnew` not public
 - [x] `bytes_eq` / `beq` (issue #2) — public + hot
 - [x] `bytes_ne` / `bne` (issue #8) — public + hot
+- [x] `bytes_startswith` / `bstartswith` (issue #12) — public + hot
