@@ -26,6 +26,7 @@ Hot-path equality, contains, coerce/guards, concat, and ASCII classifiers for ty
 | strlen | cypy | cpdef | public | `GET_LENGTH` — clarity vs `len` |
 | is_empty / not_empty | cypy | cpdef | public | length predicates |
 | scmp / str_cmp | cypy | cpdef | public | three-way -1/0/1; soft `str_compare` |
+| slt/sle/sgt/sge | cypy | cpdef | public | ordering via `str_cmp`; preferred `str_lt`/`le`/`gt`/`ge` |
 | streq / strneq | cypy | cpdef | public | 1BYTE `memcmp` / Compare |
 | startswith / endswith | cypy | cpdef | public | 1BYTE `memcmp` / Tailmatch |
 | contains | cypy | cpdef | public | 1BYTE `memchr`/`memmem` / Find |
@@ -44,6 +45,7 @@ Hot-path equality, contains, coerce/guards, concat, and ASCII classifiers for ty
 | contains | APPROVED | primary short **0.75x**; mid **0.85x**; **4k loses 1.16x** (scale) |
 | streq / strneq | APPROVED | **0.66–0.69x** |
 | scmp / str_cmp | APPROVED | `PyUnicode_Compare` → -1/0/1 (issue #15) |
+| str_lt/le/gt/ge | APPROVED | thin wrappers on `str_cmp` (issue #16) |
 | guards / coerce / empty | APPROVED | **0.37–0.59x** |
 | char_* / concat* | APPROVED | **0.47–0.83x** |
 | classifiers (blank/digits/alpha/alnum) | APPROVED | **0.40–0.49x** |
