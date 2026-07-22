@@ -3,6 +3,14 @@
 All notable changes to `cypy` are documented here. Version from
 [`src/cypy/__about__.py`](src/cypy/__about__.py).
 
+## [1.13.0] — 2026-07-22 — `str_cmp`
+
+### Added
+
+- **`str_cmp`** (`cystr`): three-way typed ``str`` compare → ``-1`` / ``0`` / ``1``
+  via ``PyUnicode_Compare`` (identity short-circuit). Soft aliases ``str_compare`` /
+  ``scmp`` (COMPAT only). On ``cypy`` (not ``hot``).
+
 ## [1.12.0] — 2026-07-22 — `unicode_eq`
 
 ### Added

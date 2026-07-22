@@ -90,6 +90,11 @@ def str_eq(a: str, b: str) -> bool:
     """Return whether ``a == b`` (1BYTE ``memcmp`` / ``PyUnicode_Compare``)."""
     ...
 
+def str_cmp(a: str, b: str) -> int:
+    """Three-way compare of typed ``str`` values: ``-1`` / ``0`` / ``1`` (``PyUnicode_Compare``)."""
+    ...
+
+
 def str_len(s: str) -> int:
     """Return ``len(s)`` via ``PyUnicode_GET_LENGTH``."""
     ...
