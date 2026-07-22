@@ -31,3 +31,7 @@ Run `python scripts/check_exports.py` and the relevant examples.
 ## Safety
 
 Read [`docs/SAFETY.md`](docs/SAFETY.md) before wrapping unchecked / borrowed / marshal APIs.
+
+## Eq-issue loops
+
+To iterate open `[eq/…]` enhancements (`/loop` in chat or headless CLI in tmux), see [`docs/AGENT_LOOPS.md`](docs/AGENT_LOOPS.md).
