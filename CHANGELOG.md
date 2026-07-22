@@ -3,6 +3,14 @@
 All notable changes to `cypy` are documented here. Version from
 [`src/cypy/__about__.py`](src/cypy/__about__.py).
 
+## [1.11.0] — 2026-07-22 — `bytes_endswith`
+
+### Added
+
+- **`bytes_endswith`** (`cybytes`): typed suffix test — empty suffix True,
+  longer-than-`s` False, else tail `memcmp`. Soft `bendswith`. On `cypy` /
+  `cypy.hot` / `cypy.buffers` (mirrors `str_endswith`).
+
 ## [1.10.0] — 2026-07-22 — `bytes_startswith`
 
 ### Added
