@@ -36,7 +36,7 @@ Ship / remaster via [`PIPELINE.md`](PIPELINE.md) + [`TEMPLATE.md`](TEMPLATE.md).
 | [`RELEASE.md`](RELEASE.md) | Version / tag / GitHub Release / optional PyPI checklist |
 | [`../CHANGELOG.md`](../CHANGELOG.md) | Release notes; Core freeze at 1.0; Protocols/Runtime post-1.0 policy |
 | [`TEMPLATE.md`](TEMPLATE.md) | v2 tracker template |
-| [`modules/`](modules/) | **Trackers** — one `NNN_cy{name}.md` per module (Order `001`…`053`) |
+| [`modules/`](modules/) | **Trackers** — one `NNN_cy{name}.md` per module (Order `001`…`054`) |
 | [`AGENT_LOOPS.md`](AGENT_LOOPS.md) | Grind `[eq/…]` issues via chat `/loop` or CLI agent in tmux |
 | [`future/MONKEY.md`](future/MONKEY.md) | Archived monkey-patch experiment — **not** in prod |
 

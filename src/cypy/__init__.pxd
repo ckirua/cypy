@@ -469,6 +469,9 @@ from .cybytes cimport (
     bytes_new,
     bytes_resize,
 )
+from .cydeque cimport (
+    deque_eq,
+)
 from .cydict cimport (
     dict_check,
     dict_check_exact,
@@ -1288,6 +1291,7 @@ __all__: tuple[str, ...] = (
     "dict_contains",
     "dict_copy",
     "dict_del",
+    "deque_eq",
     "dict_get",
     "dict_get_ref",
     "dict_get_with_error",

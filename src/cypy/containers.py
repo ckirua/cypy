@@ -24,6 +24,7 @@ from .cydict import (
     dict_size,
     dict_update,
 )
+from .cydeque import deque_eq
 from .cylist import (
     list_append,
     list_check,
@@ -85,6 +86,7 @@ __all__: tuple[str, ...] = (
     "dict_new",
     "list_check",
     "list_check_exact",
+    "deque_eq",
     "list_eq",
     "list_len",
     "list_size",
