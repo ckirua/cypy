@@ -19,20 +19,22 @@ Context / ContextVar construction and checks for Cython.
 | Symbol | Export | Notes |
 |--------|--------|-------|
 | ctx_* / ctxvar_* / ctxtoken_check_exact | public | Get omitted (out-param API) |
+| context_eq / ctxeq | public | `Context` value eq (issue #44); soft `ctxeq`; not `hot` |
 
 ## Workflow status
 
 | Function | Status | Why |
 |----------|--------|-----|
 | checks / copy_current / new | APPROVED/API | see benches |
+| context_eq / ctxeq | APPROVED | `Context.__eq__` parity (issue #44); not `hot` |
 | Get out-param | REJECTED as public | needs ``PyObject**``; use ContextVar.get in Python |
 
 ## Lifecycle
 
 | Field | Value |
 |-------|--------|
-| Iteration | 1 |
-| Last pass | 2026-07-21 — Phase 4 Tier B |
+| Iteration | 2 |
+| Last pass | 2026-07-22 — `context_eq` (#44) |
 | Next action | — |
 
 ## Bench notes
@@ -73,7 +75,9 @@ Ratio = cypy `cdef` loop / typed Cython baseline loop (opaque + sink). **Informa
 | ABI / ownership | `Get` uses `PyObject**` out-param — REJECTED as public; use `ContextVar.get` |
 | GIL / safety | Context enter/exit mutate thread-local state under GIL — pair carefully in Cython |
 | Prefer | Checks + New for Cython tooling; skip public Get out-param wrappers |
+| `context_eq` | Identity + richcompare — same as ``Context.__eq__`` (vars→values mapping). Soft `ctxeq`. Prefer over `obj_eq` when both sides are known Contexts. Skip dedicated ContextVar/Token eqs (identity → `obj_eq`). See [`EQ_RUNTIME.md`](../EQ_RUNTIME.md). |
 
 ## Done when
 
 - [x] Try-all + depth + benches + `.pyi`
+- [x] `context_eq` / `ctxeq` (issue #44) — public (not hot)

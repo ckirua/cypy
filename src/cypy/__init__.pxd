@@ -298,6 +298,7 @@ from .cydatetime cimport (
     dt_timedelta_microseconds,
 )
 from .cycontextvars cimport (
+    context_eq,
     ctx_check_exact,
     ctxvar_check_exact,
     ctxtoken_check_exact,
@@ -1131,6 +1132,7 @@ __all__: tuple[str, ...] = (
     "dt_timedelta_days",
     "dt_timedelta_seconds",
     "dt_timedelta_microseconds",
+    "context_eq",
     "ctx_check_exact",
     "ctxvar_check_exact",
     "ctxtoken_check_exact",

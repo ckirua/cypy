@@ -1,4 +1,7 @@
 """Public :mod:`cypy.cycontextvars` stubs."""
+def context_eq(a: object, b: object) -> bool:
+    """Return True if ``Context`` values match (identity + richcompare; same as ``Context.__eq__``)."""
+    ...
 def ctx_check_exact(obj: object) -> bool:
     """Return True if ``type(obj) is contextvars.Context``."""
     ...

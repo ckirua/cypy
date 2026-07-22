@@ -4,9 +4,9 @@ How to grind through open `[eq/…]` enhancement issues on [ckirua/cypy](https:/
 
 ## Resume pointer (2026-07-22)
 
-Open `[eq/…]` from **#41** (`deque_eq`) upward. Skip **#44**. Already on `main`
-through **#40** (`func_eq` / `method_eq` / `mod_eq` / `gen_eq` / `iter_eq`;
-`code_eq` skipped — no `cycode`); version ≥ 1.38.0.
+**Eq loop complete** on `main` through **#44** (Runtime stretch checklist +
+`context_eq`; version ≥ 1.42.0). No open `[eq/…]` issues remain. See
+[`EQ_RUNTIME.md`](EQ_RUNTIME.md).
 
 ## Scope (always bake into the prompt)
 
@@ -14,11 +14,11 @@ through **#40** (`func_eq` / `method_eq` / `mod_eq` / `gen_eq` / `iter_eq`;
 |--------|--------|
 | Repo | `ckirua/cypy` (workspace `/home/dev/cypy` or clone) |
 | Titles | start with `[eq/` (tiers: buffer, string, container, scalar, misc, new-module, stretch) |
-| Skip | **#44** stretch umbrella unless explicitly requested |
+| Skip | stretch umbrellas only when already closed / documented |
 | Order | tier tag in title, then issue number ascending (`#4`–`#6`, then `#8`+) |
 | Cadence | **one issue per tick**; no parallel eq PRs in the same run |
 | Merge | only if CI green; on red CI → note on PR/issue and **stop** |
-| Stop | no matching open issues left (except skipped #44), or operator stop |
+| Stop | no matching open `[eq/…]` issues left, or operator stop |
 
 Shipped already (do not re-file): `str_eq` / `str_ne`, `bytes_eq`. Early buffer issues: `#4` bytearray, `#5` array, `#6` memoryview.
 

@@ -70,6 +70,7 @@ COMPAT_MAP: dict[str, str] = {
     "buffer_eq": "buf_eq",
     "ceq": "complex_eq",
     "capsuleeq": "capsule_eq",
+    "ctxeq": "context_eq",
     "celleq": "cell_eq",
     "char_at": "str_char_at",
     "concat": "str_concat",
