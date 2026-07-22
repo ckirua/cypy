@@ -22,6 +22,10 @@ def seq_del(o: object, i: int) -> int:
     """Delete ``o[i]`` via ``PySequence_DelItem`` (``0`` / ``-1``). Returns 0 on success; errors raise — do not use as bool."""
     ...
 
+def seq_eq(a: object, b: object) -> bool:
+    """Return True if sequences are equal (identity/size short-circuit + richcompare; prefer ``list_eq``/``tuple_eq`` when typed)."""
+    ...
+
 def seq_del_slice(o: object, i1: int, i2: int) -> int:
     """Delete ``o[i1:i2]`` via ``PySequence_DelSlice`` (``0`` / ``-1``). Returns 0 on success; errors raise — do not use as bool."""
     ...

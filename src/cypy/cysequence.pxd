@@ -2,7 +2,7 @@
 # Sequence protocol helpers. Public docs in ``cysequence.pyi``.
 # Fast/ITEM macros and Fast_ITEMS pointer: cdef.
 
-from cpython.object cimport PyObject
+from cpython.object cimport PyObject, PyObject_RichCompareBool, Py_EQ
 
 
 cdef extern from "Python.h":
@@ -33,6 +33,16 @@ cdef extern from "Python.h":
 
 cdef inline bint sqcheck(object o) noexcept:
     return PySequence_Check(o)
+
+
+cdef inline bint sqeq(object a, object b):
+    # Identity / size short-circuit + richcompare (same semantics as ``==``).
+    # Soft name ``sqeq``; prefer typed ``list_eq`` / ``tuple_eq`` when known.
+    if a is b:
+        return True
+    if PySequence_Size(a) != PySequence_Size(b):
+        return False
+    return <bint>PyObject_RichCompareBool(a, b, Py_EQ)
 
 
 cdef inline Py_ssize_t sqsize(object o) except -1:
@@ -139,6 +149,9 @@ cpdef inline bint seq_contains(object o, object value) except -1:
 
 cpdef inline int seq_count(object o, object value) except -1:
     return sqcount(o, value)
+
+cpdef inline bint seq_eq(object a, object b):
+    return sqeq(a, b)
 
 cpdef inline int seq_del(object o, Py_ssize_t i) except -1:
     return sqdel(o, i)

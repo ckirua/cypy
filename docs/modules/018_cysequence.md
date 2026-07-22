@@ -19,6 +19,7 @@ Abstract sequence protocol for unknown concrete types. Prefer typed modules (`cy
 | Symbol | Export | Notes |
 |--------|--------|-------|
 | sqcheck / sqsize / sqlen | public | Length is Size alias (cheap sibling) |
+| sqeq | public | identity/size + richcompare; preferred `seq_eq` |
 | sqconcat / sqrepeat / inplace_* | public | |
 | sqget / sqslice / sqset / sqdel / slice mutators | public | |
 | sqcount / sqcontains / sqindex | public | |
@@ -31,6 +32,7 @@ Abstract sequence protocol for unknown concrete types. Prefer typed modules (`cy
 |----------|--------|-----|
 | sqget (primary) | APPROVED | list **0.93x** / tuple **0.72x** |
 | sqcheck / contains / concat / repeat / slice / list / index | APPROVED | 0.37–0.91x |
+| sqeq / seq_eq | APPROVED | identity/size + richcompare (issue #23) |
 | sqsize / sqlen | APPROVED (API) | **1.09–1.10x** vs `len` — keep for abstract protocol |
 | sqcount / sqtuple | APPROVED (API) | **1.05–1.09x** — protocol completeness |
 | sqfast* / sqitem | APPROVED (cimport) | borrowed / unchecked |
@@ -41,7 +43,7 @@ Abstract sequence protocol for unknown concrete types. Prefer typed modules (`cy
 |-------|--------|
 | Freeze | **Provisional (Protocols)** after 1.0 — not Core; may evolve under minors |
 | Iteration | 1 |
-| Last pass | 2026-07-21 — Phase 4 Tier B |
+| Last pass | 2026-07-22 — `seq_eq` (#23) |
 | Next action | — |
 
 ## Decision log
@@ -51,6 +53,7 @@ Abstract sequence protocol for unknown concrete types. Prefer typed modules (`cy
 | sqget | Beat `o[i]` | 0.72–0.93x | APPROVED | 1 |
 | sqsize | Beat `len` | **1.09x** lose | APPROVED (API) | 1 |
 | sqfast* | Hot Cython | macros | APPROVED (cimport) | 1 |
+| sqeq | Abstract `==` | identity/size + richcompare | APPROVED | 1 |
 
 ## Bench notes
 
@@ -91,7 +94,8 @@ Ratio = cypy `cdef` loop / typed Cython baseline loop (opaque + sink). **Informa
 | Topic | Finding |
 |-------|---------|
 | Why `sqsize` loses | Abstract `PySequence_Size` → tp_as_sequence indirection; `len` specializes |
-| Prefer typed | Use `llen`/`tlen` when type known |
+| Prefer typed | Use `llen`/`tlen` when type known; prefer `list_eq`/`tuple_eq` over `seq_eq` |
+| `seq_eq` | Same semantics as `==` (list≠tuple; identity/size short-circuit then richcompare) |
 | `sqfast` | Returns list/tuple as-is; GET_ITEM borrowed — cdef |
 | InPlace* | May return new object if type refuses in-place — same as Python `+=` |
 | Cheap alias | `sqlen` ≡ `sqsize` (Length/Size) |
