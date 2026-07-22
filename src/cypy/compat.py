@@ -56,6 +56,7 @@ COMPAT_MAP: dict[str, str] = {
     "bcheck": "bytes_check",
     "bcheck_exact": "bytes_check_exact",
     "bcontains": "bytes_contains",
+    "bendswith": "bytes_endswith",
     "beq": "bytes_eq",
     "bne": "bytes_ne",
     "bfrom_object": "bytes_from_object",

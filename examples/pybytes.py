@@ -1,9 +1,9 @@
-"""Python usage of :func:`cypy.bytes_len`, :func:`cypy.bytes_contains`, :func:`cypy.bytes_eq`, :func:`cypy.bytes_ne`, :func:`cypy.bytes_startswith`.
+"""Python usage of :func:`cypy.bytes_len`, :func:`cypy.bytes_contains`, :func:`cypy.bytes_eq`, :func:`cypy.bytes_ne`, :func:`cypy.bytes_startswith`, :func:`cypy.bytes_endswith`.
 
 Run: python examples/pybytes.py
 """
 
-from cypy import bytes_contains, bytes_eq, bytes_len, bytes_ne, bytes_startswith
+from cypy import bytes_contains, bytes_eq, bytes_endswith, bytes_len, bytes_ne, bytes_startswith
 PAYLOAD: bytes = b"BTCUSDT"
 HAYSTACK: bytes = b"abcabc"
 
@@ -29,6 +29,14 @@ BSTARTSWITH_CASES: tuple[tuple[bytes, bytes, bool], ...] = (
     (PAYLOAD, b"ETH", False),
     (PAYLOAD, b"", True),
     (PAYLOAD, b"BTCUSDTX", False),
+    (b"", b"", True),
+)
+
+BENDSWITH_CASES: tuple[tuple[bytes, bytes, bool], ...] = (
+    (PAYLOAD, b"USDT", True),
+    (PAYLOAD, b"BTC", False),
+    (PAYLOAD, b"", True),
+    (PAYLOAD, b"XBTCUSDT", False),
     (b"", b"", True),
 )
 
@@ -69,6 +77,18 @@ def main() -> None:
         status = "ok" if result == expected == py_result else "FAIL"
         print(
             f"{status:4}  bytes_startswith({s!r}, {prefix!r})  "
+            f"-> {result!r}  (python {py_result!r})"
+        )
+        assert result == expected
+        assert result == py_result
+
+    print()
+    for s, suffix, expected in BENDSWITH_CASES:
+        result = bytes_endswith(s, suffix)
+        py_result = s.endswith(suffix)
+        status = "ok" if result == expected == py_result else "FAIL"
+        print(
+            f"{status:4}  bytes_endswith({s!r}, {suffix!r})  "
             f"-> {result!r}  (python {py_result!r})"
         )
         assert result == expected

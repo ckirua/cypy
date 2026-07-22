@@ -94,6 +94,16 @@ cdef inline bint bstartswith(bytes s, bytes prefix) noexcept:
     return memcmp(PyBytes_AS_STRING(s), PyBytes_AS_STRING(prefix), <size_t>pn) == 0
 
 
+cdef inline bint bendswith(bytes s, bytes suffix) noexcept:
+    cdef Py_ssize_t sn = PyBytes_GET_SIZE(s)
+    cdef Py_ssize_t pn = PyBytes_GET_SIZE(suffix)
+    if pn == 0:
+        return True
+    if pn > sn:
+        return False
+    return memcmp(PyBytes_AS_STRING(s) + (sn - pn), PyBytes_AS_STRING(suffix), <size_t>pn) == 0
+
+
 cdef inline bytes bfrom_object(object o):
     return PyBytes_FromObject(o)
 
@@ -162,6 +172,9 @@ cpdef inline bint bytes_ne(bytes a, bytes b) noexcept:
 
 cpdef inline bint bytes_startswith(bytes s, bytes prefix) noexcept:
     return bstartswith(s, prefix)
+
+cpdef inline bint bytes_endswith(bytes s, bytes suffix) noexcept:
+    return bendswith(s, suffix)
 
 cpdef inline bytes bytes_from_object(object o):
     return bfrom_object(o)

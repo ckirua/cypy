@@ -26,6 +26,10 @@ def bytes_startswith(s: bytes, prefix: bytes) -> bool:
     """Return True if typed ``s`` begins with ``prefix`` (len gate + ``memcmp``)."""
     ...
 
+def bytes_endswith(s: bytes, suffix: bytes) -> bool:
+    """Return True if typed ``s`` ends with ``suffix`` (len gate + tail ``memcmp``)."""
+    ...
+
 def bytes_from_object(o: object) -> bytes:
     """Return ``bytes`` from a buffer-protocol object (``PyBytes_FromObject``)."""
     ...
