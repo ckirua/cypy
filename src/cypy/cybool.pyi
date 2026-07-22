@@ -4,6 +4,10 @@ def bool_check(o: object) -> bool:
     """Return True if ``o`` is a :class:`bool` (``PyBool_Check``)."""
     ...
 
+def bool_eq(a: object, b: object) -> bool:
+    """Return True if values are equal (identity short-circuit + richcompare)."""
+    ...
+
 def bool_from_long(v: int) -> object:
     """Return ``True`` or ``False`` via ``PyBool_FromLong`` (nonzero → True)."""
     ...

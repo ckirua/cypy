@@ -3,6 +3,14 @@
 All notable changes to `cypy` are documented here. Version from
 [`src/cypy/__about__.py`](src/cypy/__about__.py).
 
+## [1.24.0] — 2026-07-22 — `bool_eq`
+
+### Added
+
+- **`bool_eq`** (`cybool`): boolean/value equality — identity short-circuit +
+  richcompare (same semantics as ``==``; True/False singletons hit identity).
+  Soft ``booleq``. On ``cypy`` (not ``hot`` — clarity / scalar completeness).
+
 ## [1.23.0] — 2026-07-22 — `long_eq` / `int_eq`
 
 ### Added

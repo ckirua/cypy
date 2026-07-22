@@ -63,6 +63,7 @@ COMPAT_MAP: dict[str, str] = {
     "bg8": "ansi_bg8",
     "blen": "bytes_len",
     "bold": "ansi_bold",
+    "booleq": "bool_eq",
     "bsize": "bytes_size",
     "bstartswith": "bytes_startswith",
     "buffer_eq": "buf_eq",
