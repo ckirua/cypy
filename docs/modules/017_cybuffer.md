@@ -19,7 +19,7 @@ Buffer-protocol check/copy for Python, plus cdef wrappers for `Py_buffer*` lifec
 | Symbol | Layer | Kind | Export | Notes |
 |--------|-------|------|--------|-------|
 | buf_check | cypy | cpdef | public | `PyObject_CheckBuffer` |
-| buf_eq | cypy | cpdef | public | buffer-protocol content eq; soft `buffer_eq` |
+| buf_eq | cypy | cpdef | public | buffer-protocol content eq; soft `buffer_eq`; not `bytes_bytearray_eq` (concrete bytes/ba) |
 | buf_copy_data | cypy | cpdef | public | `PyObject_CopyData` |
 | buf_get / buf_release | cypy | cdef | cimport | GetBuffer / Release |
 | buf_get_pointer / size_from_format | cypy | cdef | cimport | |

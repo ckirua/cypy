@@ -3,7 +3,15 @@
 Run: python examples/pybytes.py
 """
 
-from cypy import bytes_contains, bytes_eq, bytes_endswith, bytes_len, bytes_ne, bytes_startswith
+from cypy import (
+    bytes_bytearray_eq,
+    bytes_contains,
+    bytes_eq,
+    bytes_endswith,
+    bytes_len,
+    bytes_ne,
+    bytes_startswith,
+)
 PAYLOAD: bytes = b"BTCUSDT"
 HAYSTACK: bytes = b"abcabc"
 
@@ -93,6 +101,18 @@ def main() -> None:
         )
         assert result == expected
         assert result == py_result
+
+    print()
+    # Cross-type bytes ↔ bytearray (issue #43)
+    ba = bytearray(PAYLOAD)
+    assert bytes_bytearray_eq(PAYLOAD, ba)
+    assert bytes_bytearray_eq(ba, PAYLOAD)
+    assert bytes_bytearray_eq(PAYLOAD, PAYLOAD)
+    assert bytes_bytearray_eq(ba, bytearray(PAYLOAD))
+    assert not bytes_bytearray_eq(PAYLOAD, bytearray(b"ETHUSDT"))
+    assert bytes_bytearray_eq(b"", bytearray())
+    assert bytes_bytearray_eq(PAYLOAD, ba) == (PAYLOAD == ba)
+    print("ok    bytes_bytearray_eq both directions")
 
     print()
     print("assertions passed")

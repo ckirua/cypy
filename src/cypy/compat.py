@@ -50,6 +50,7 @@ COMPAT_MAP: dict[str, str] = {
     "balen": "bytearray_len",
     "bacontains": "bytearray_contains",
     "baeq": "bytearray_eq",
+    "bba_eq": "bytes_bytearray_eq",
     "bane": "bytearray_ne",
     "baresize": "bytearray_resize",
     "basize": "bytearray_size",
