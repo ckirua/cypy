@@ -36,6 +36,10 @@ def dt_time_eq(a: object, b: object) -> bool:
     """Return True if ``a == b`` for times (exact naive h/m/s/us; else richcompare)."""
     ...
 
+def dt_timedelta_eq(a: object, b: object) -> bool:
+    """Return True if ``a == b`` for timedeltas (exact days/s/us; else richcompare)."""
+    ...
+
 def dt_date_new(year: int, month: int, day: int) -> object:
     """Return a ``date`` via DateTime C-API (unchecked ranges)."""
     ...

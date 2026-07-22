@@ -3,6 +3,15 @@
 All notable changes to `cypy` are documented here. Version from
 [`src/cypy/__about__.py`](src/cypy/__about__.py).
 
+## [1.32.0] — 2026-07-22 — `dt_timedelta_eq`
+
+### Added
+
+- **`dt_timedelta_eq`** (`cydatetime`): timedelta equality — identity short-circuit;
+  exact ``timedelta`` pairs compare days/seconds/microseconds; else richcompare
+  (subtypes — Python ``==`` parity). Soft ``dteq_delta``. On ``cypy`` (not
+  ``hot`` — Runtime; validate win before promoting).
+
 ## [1.31.0] — 2026-07-22 — `dt_datetime_eq`
 
 ### Added

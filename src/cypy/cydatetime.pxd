@@ -126,6 +126,25 @@ cpdef inline bint dt_time_eq(object a, object b):
     return dteq_time(a, b)
 
 
+cdef inline bint dteq_delta(object a, object b):
+    # Identity short-circuit; exact ``timedelta`` pairs compare
+    # days/seconds/microseconds; else richcompare (subtypes — Python ``==``
+    # parity). Soft ``dteq_delta``.
+    if a is b:
+        return True
+    if PyDelta_CheckExact(a) and PyDelta_CheckExact(b):
+        return (
+            timedelta_days(a) == timedelta_days(b)
+            and timedelta_seconds(a) == timedelta_seconds(b)
+            and timedelta_microseconds(a) == timedelta_microseconds(b)
+        )
+    return <bint>PyObject_RichCompareBool(a, b, Py_EQ)
+
+
+cpdef inline bint dt_timedelta_eq(object a, object b):
+    return dteq_delta(a, b)
+
+
 cdef inline bint dt_delta_check(object o) noexcept:
     return PyDelta_Check(o)
 

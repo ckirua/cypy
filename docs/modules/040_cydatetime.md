@@ -22,6 +22,7 @@
 | dteq_date / dt_date_eq | public | identity + exact y/m/d / richcompare; soft `dteq_date` |
 | dteq_time / dt_time_eq | public | identity + exact naive h/m/s/us / richcompare; soft `dteq_time` |
 | dteq_dt / dt_datetime_eq | public | identity + exact naive y/m/d/h/m/s/us / richcompare; soft `dteq_dt` |
+| dteq_delta / dt_timedelta_eq | public | identity + exact days/s/us / richcompare; soft `dteq_delta` |
 | dt_timedelta_check* / days / seconds / microseconds | public | preferred spelling |
 | dt_delta_* (check/days/seconds/microseconds) | cimport impl | 0.3: soft names cdef-only; prefer `dt_timedelta_*` |
 
@@ -33,6 +34,7 @@
 | dteq_date / dt_date_eq | APPROVED | identity + exact field compare / richcompare (issue #31); not `hot` |
 | dteq_time / dt_time_eq | APPROVED | identity + exact naive field compare / richcompare (issue #32); not `hot` |
 | dteq_dt / dt_datetime_eq | APPROVED | identity + exact naive field compare / richcompare (issue #33); not `hot` |
+| dteq_delta / dt_timedelta_eq | APPROVED | identity + exact field compare / richcompare (issue #34); not `hot` |
 | remaining getters/ctors | APPROVED (API) | completeness |
 
 ## Lifecycle
@@ -41,7 +43,7 @@
 |-------|--------|
 | Freeze | **Provisional (Runtime)** after 1.0 — not Core; may evolve under minors |
 | Iteration | 1 |
-| Last pass | 2026-07-22 — `dt_datetime_eq` (#33) |
+| Last pass | 2026-07-22 — `dt_timedelta_eq` (#34) |
 | Next action | — |
 
 ## Decision log
@@ -52,6 +54,7 @@
 | dteq_date / dt_date_eq | identity + exact y/m/d; richcompare for subtypes / date↔datetime | APPROVED | 1 |
 | dteq_time / dt_time_eq | identity + exact naive h/m/s/us; richcompare for subtypes / aware | APPROVED | 1 |
 | dteq_dt / dt_datetime_eq | identity + exact naive y/m/d/h/m/s/us; richcompare for subtypes / aware | APPROVED | 1 |
+| dteq_delta / dt_timedelta_eq | identity + exact days/s/us; richcompare for subtypes | APPROVED | 1 |
 
 ## Bench notes
 
@@ -99,6 +102,7 @@ Ratio = cypy `cdef` loop / typed Cython baseline loop (opaque + sink). **Informa
 | `dt_date_eq` | Exact `date` pairs: C y/m/d compare; subtypes / date↔datetime via richcompare (Python `==`; date≠datetime); leave off `hot` until measured win |
 | `dt_time_eq` | Exact naive `time` pairs: C h/m/s/us (fold ignored); aware/subtypes via richcompare (Python `==` offset rules); leave off `hot` until measured win |
 | `dt_datetime_eq` | Exact naive `datetime` pairs: C y/m/d/h/m/s/us (fold ignored); aware/subtypes / date↔datetime via richcompare (Python `==`); leave off `hot` until measured win |
+| `dt_timedelta_eq` | Exact `timedelta` pairs: C days/seconds/microseconds; subtypes via richcompare (Python `==`); leave off `hot` until measured win |
 
 
 ## Done when

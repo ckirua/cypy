@@ -214,6 +214,7 @@ from .cydatetime import (
     dt_time_eq,
     dt_timedelta_check,
     dt_timedelta_check_exact,
+    dt_timedelta_eq,
     dt_date_new,
     dt_time_new,
     dt_datetime_new,

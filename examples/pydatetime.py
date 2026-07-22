@@ -15,6 +15,7 @@ from cypy import (
     dt_time_new,
     dt_timedelta_check,
     dt_timedelta_days,
+    dt_timedelta_eq,
     dt_timedelta_new,
 )
 
@@ -45,6 +46,8 @@ def main() -> None:
     td = dt_timedelta_new(1, 2, 3)
     assert dt_timedelta_check(td)
     assert dt_timedelta_days(td) == 1
+    assert dt_timedelta_eq(td, timedelta(1, 2, 3)) and not dt_timedelta_eq(td, timedelta(1, 2, 4))
+    assert dt_timedelta_eq(td, td)
     assert isinstance(td, timedelta)
     print("ok", d, t, dt, td)
 
