@@ -3,6 +3,8 @@
 # C pointers / uninit construction: cdef.
 
 from cpython.object cimport PyObject
+from libc.stddef cimport size_t
+from libc.string cimport memcmp
 
 
 cdef extern from "Python.h":
@@ -63,6 +65,18 @@ cdef inline bytearray banew(Py_ssize_t n):
 cdef inline int baresize(bytearray ba, Py_ssize_t n) except -1:
     return PyByteArray_Resize(ba, n)
 
+
+cdef inline bint baeq(bytearray a, bytearray b) noexcept:
+    # Identity / len short-circuit + memcmp on typed bytearray (mirror beq).
+    if a is b:
+        return True
+    cdef Py_ssize_t la = PyByteArray_GET_SIZE(a)
+    if la != PyByteArray_GET_SIZE(b):
+        return False
+    if la == 0:
+        return True
+    return memcmp(PyByteArray_AS_STRING(a), PyByteArray_AS_STRING(b), <size_t>la) == 0
+
 # Wave 4 N1/N5 preferred names (0.3: soft letter/bare are cdef-only)
 
 cdef inline char* bytearray_as_string(bytearray ba) noexcept:
@@ -88,6 +102,9 @@ cdef inline bytearray bytearray_from_string_and_size(const char *string, Py_ssiz
 
 cpdef inline Py_ssize_t bytearray_len(bytearray ba) noexcept:
     return balen(ba)
+
+cpdef inline bint bytearray_eq(bytearray a, bytearray b) noexcept:
+    return baeq(a, b)
 
 cdef inline bytearray bytearray_new(Py_ssize_t n):
     return banew(n)

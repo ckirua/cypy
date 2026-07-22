@@ -46,6 +46,7 @@ COMPAT_MAP: dict[str, str] = {
     "baconcat": "bytearray_concat",
     "bafrom_object": "bytearray_from_object",
     "balen": "bytearray_len",
+    "baeq": "bytearray_eq",
     "baresize": "bytearray_resize",
     "basize": "bytearray_size",
     "bcheck": "bytes_check",

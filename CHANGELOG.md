@@ -3,6 +3,15 @@
 All notable changes to `cypy` are documented here. Version from
 [`src/cypy/__about__.py`](src/cypy/__about__.py).
 
+## [1.3.0] — 2026-07-22 — `bytearray_eq`
+
+### Added
+
+- **`bytearray_eq`** (`cybytearray`): typed `bytearray` equality — identity/len
+  short-circuit + `memcmp` on `PyByteArray_AS_STRING` (mirrors `bytes_eq`). Soft
+  letter `baeq` stays cdef-only; preferred name on `cypy` / `cypy.hot` /
+  `cypy.buffers`.
+
 ## [1.2.0] — 2026-07-22 — `unicode_from_string`
 
 ### Added

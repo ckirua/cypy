@@ -4,6 +4,7 @@ Run: python examples/pyhot.py
 """
 
 from cypy.hot import (
+    bytearray_eq,
     bytes_contains,
     bytes_eq,
     bytes_len,
@@ -28,6 +29,7 @@ def main() -> None:
     assert tuple_pack2(1, 2) == (1, 2)
     assert bytes_len(b"ok") == 2 and bytes_contains(b"ab", b"a")
     assert bytes_eq(b"ok", b"ok") and not bytes_eq(b"ok", b"no")
+    assert bytearray_eq(bytearray(b"ok"), bytearray(b"ok"))
     assert str_len("hi") == 2
     print("ok", dict_len(d), list_len(xs), bytes_len(b"ok"))
 
