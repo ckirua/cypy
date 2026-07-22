@@ -246,6 +246,7 @@ from .cydatetime import (
     dt_timedelta_microseconds,
 )
 from .cycontextvars import (
+    context_eq,
     ctx_check_exact,
     ctxvar_check_exact,
     ctxtoken_check_exact,

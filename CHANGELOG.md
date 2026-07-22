@@ -3,6 +3,16 @@
 All notable changes to `cypy` are documented here. Version from
 [`src/cypy/__about__.py`](src/cypy/__about__.py).
 
+## [1.42.0] — 2026-07-22 — `context_eq` + Runtime eq stretch
+
+### Added
+
+- **`context_eq`** (`cycontextvars`): ``Context`` value equality — identity +
+  richcompare (same as ``Context.__eq__``). Soft ``ctxeq``. On ``cypy``
+  (not ``hot``). ``ContextVar`` / ``Token`` stay identity → use ``obj_eq``.
+- **`docs/EQ_RUNTIME.md``**: Runtime/embedding ``*_eq`` checklist (#44) —
+  skip/done; no mass identity wrappers.
+
 ## [1.41.0] — 2026-07-22 — `bytes_bytearray_eq`
 
 ### Added

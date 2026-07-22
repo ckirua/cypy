@@ -1,7 +1,7 @@
 # cycontextvars.pxd
 # contextvars helpers. Public docs in ``cycontextvars.pyi``.
 
-from cpython.object cimport PyObject
+from cpython.object cimport PyObject, PyObject_RichCompareBool, Py_EQ
 
 
 cdef extern from "Python.h":
@@ -28,6 +28,18 @@ cpdef inline bint ctxvar_check_exact(object obj) noexcept:
 
 cpdef inline bint ctxtoken_check_exact(object obj) noexcept:
     return PyContextToken_CheckExact(obj)
+
+
+cdef inline bint ctxeq(object a, object b):
+    # ``Context`` value equality (mapping of vars→values), not identity.
+    # ``ContextVar`` / ``Token`` stay identity — use ``obj_eq``; no dedicated helpers.
+    if a is b:
+        return True
+    return <bint>PyObject_RichCompareBool(a, b, Py_EQ)
+
+
+cpdef inline bint context_eq(object a, object b):
+    return ctxeq(a, b)
 
 
 cpdef inline object ctx_new():
