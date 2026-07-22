@@ -33,8 +33,8 @@ Initialize/Finalize and version string for embedding. Public REJECTED.
 
 | Field | Value |
 |-------|--------|
-| Iteration | 1 |
-| Last pass | 2026-07-21 — Phase 4 Tier B n/a |
+| Iteration | 2 |
+| Last pass | 2026-07-22 — drop unused wchar externs (barrel cimport) |
 | Next action | — |
 
 ## Bench notes
@@ -54,6 +54,13 @@ Initialize/Finalize and version string for embedding. Public REJECTED.
 | — | — | — | — | n/a (cimport) | No public `cpdef` hot path — cimport-only surface; Tier B harness not applicable |
 
 **Tier B takeaway:** n/a (cimport) — no public helper to compare against a typed Cython baseline.
+
+## Decision log
+
+| Function | Hypothesis | Bench | Result | Decision | Iteration |
+|----------|------------|-------|--------|----------|-----------|
+| life_* (Initialize/Finalize/GetVersion) | Need cdef mirrors | n/a | ABI present | APPROVED (cimport) | 1 |
+| wchar Get/SetProgramName | Incomplete wrappers | cythonize | undeclared `wchar_t` broke barrel cimport — drop externs | REJECTED | 2 |
 
 ## Experiment conclusions
 
