@@ -3,6 +3,7 @@
 # Pointer/overflow out-params and FromString: cdef (+ tuple wrappers where useful).
 
 from libc.stddef cimport size_t
+from cpython.object cimport PyObject_RichCompareBool, Py_EQ
 
 
 cdef extern from "Python.h":
@@ -39,6 +40,13 @@ cpdef inline bint long_check(object p) noexcept:
 
 cpdef inline bint long_check_exact(object p) noexcept:
     return PyLong_CheckExact(p)
+
+
+cdef inline bint loeq(object a, object b):
+    # Identity short-circuit + richcompare (same semantics as ``==``).
+    if a is b:
+        return True
+    return <bint>PyObject_RichCompareBool(a, b, Py_EQ)
 
 
 cpdef inline object long_from_long(long v):
@@ -121,3 +129,12 @@ cdef inline void *long_as_voidptr(object pylong) except? NULL:
 
 cdef inline PY_LONG_LONG long_as_longlong_overflow(object pylong, int *overflow) except? -1:
     return PyLong_AsLongLongAndOverflow(pylong, overflow)
+
+
+cpdef inline bint long_eq(object a, object b):
+    return loeq(a, b)
+
+
+cpdef inline bint int_eq(object a, object b):
+    # Discoverability alias of ``long_eq`` (same semantics).
+    return loeq(a, b)
