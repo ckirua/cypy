@@ -3,6 +3,17 @@
 All notable changes to `cypy` are documented here. Version from
 [`src/cypy/__about__.py`](src/cypy/__about__.py).
 
+## [1.26.0] — 2026-07-22 — `complex_eq`
+
+### Added
+
+- **`complex_eq`** (`cycomplex`): complex/value equality with Python parity
+  (NaN on either real or imag => unequal even for the same object;
+  ``+0.0 == -0.0`` on each part). Complex/complex uses C ``double ==`` on
+  real/imag; mixed types use ``PyObject_RichCompare`` (not ``RichCompareBool``,
+  which identity-shortcuts same-object NaN parts). Soft ``ceq``. On ``cypy``
+  (not ``hot`` — clarity / scalar completeness).
+
 ## [1.25.0] — 2026-07-22 — `float_eq`
 
 ### Added

@@ -8,6 +8,10 @@ def complex_check_exact(p: object) -> bool:
     """Return True if ``type(p) is complex`` (``PyComplex_CheckExact``)."""
     ...
 
+def complex_eq(a: object, b: object) -> bool:
+    """Return True if values are equal with Python complex parity (NaN on either part => unequal)."""
+    ...
+
 def complex_from_doubles(real: float, imag: float) -> object:
     """Return ``complex(real, imag)`` via ``PyComplex_FromDoubles``."""
     ...

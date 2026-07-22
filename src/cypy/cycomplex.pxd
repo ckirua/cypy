@@ -2,6 +2,8 @@
 # ``complex`` helpers. Public docs in ``cycomplex.pyi``.
 # FromCComplex / AsCComplex: cdef (``Py_complex``).
 
+from cpython.object cimport PyObject_RichCompare, Py_EQ
+
 cdef extern from "Python.h":
     ctypedef struct Py_complex:
         double real
@@ -22,6 +24,29 @@ cpdef inline bint complex_check(object p) noexcept:
 
 cpdef inline bint complex_check_exact(object p) noexcept:
     return PyComplex_CheckExact(p)
+
+
+cdef inline bint ceq(object a, object b):
+    # Complex/complex: C ``double ==`` on real and imag (IEEE NaN != NaN on
+    # either part, +0.0 == -0.0 — Python parity).
+    # Do **not** use PyObject_RichCompareBool: it identity-shortcuts ``z is z``
+    # even when ``z`` has a NaN part → True, unlike ``==``.
+    cdef Py_complex ca, cb
+    cdef object r
+    if PyComplex_Check(a) and PyComplex_Check(b):
+        ca = PyComplex_AsCComplex(a)
+        cb = PyComplex_AsCComplex(b)
+        return ca.real == cb.real and ca.imag == cb.imag
+    r = PyObject_RichCompare(a, b, Py_EQ)
+    if r is True:
+        return True
+    if r is False:
+        return False
+    return bool(r)
+
+
+cpdef inline bint complex_eq(object a, object b):
+    return ceq(a, b)
 
 
 cpdef inline object complex_from_doubles(double real, double imag):

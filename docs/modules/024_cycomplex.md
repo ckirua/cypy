@@ -19,6 +19,7 @@ Complex type checks and C `double` real/imag bridge. From Python, attribute acce
 | Symbol | Export | Notes |
 |--------|--------|-------|
 | complex_check / exact | public | |
+| complex_eq | public | complex/complex C `==` on real/imag; else RichCompare; soft `ceq` |
 | complex_from_doubles | public | |
 | complex_real_as_double / imag_as_double | public | |
 | complex_from_ccomplex / as_ccomplex | cimport | `Py_complex` |
@@ -29,6 +30,7 @@ Complex type checks and C `double` real/imag bridge. From Python, attribute acce
 | Function | Status | Why |
 |----------|--------|-----|
 | complex_check* | APPROVED | **0.43–0.56x** |
+| ceq / complex_eq | APPROVED | C `double ==` on parts / RichCompare (issue #28); not on `hot` |
 | complex_from_doubles | APPROVED | **0.75x** |
 | complex_real/imag_as_double | APPROVED | **0.60–0.61x** on complex; int path **1.55x** API keep |
 | FromCComplex / AsCComplex | APPROVED (cimport) | `Py_complex` only |
@@ -38,7 +40,7 @@ Complex type checks and C `double` real/imag bridge. From Python, attribute acce
 | Field | Value |
 |-------|--------|
 | Iteration | 1 |
-| Last pass | 2026-07-21 — Phase 4 Tier B |
+| Last pass | 2026-07-22 — `complex_eq` (#28) |
 | Next action | — |
 
 ## Decision log
@@ -49,6 +51,7 @@ Complex type checks and C `double` real/imag bridge. From Python, attribute acce
 | from_doubles | 0.75x | APPROVED | 1 |
 | real/imag | 0.60–0.61x | APPROVED | 1 |
 | CComplex | struct | APPROVED (cimport) | 1 |
+| ceq / complex_eq | complex/complex C `==` on parts; else RichCompare; NaN/−0 Python parity | APPROVED | 1 |
 
 ## Bench notes
 
@@ -90,6 +93,7 @@ Ratio = cypy `cdef` loop / typed Cython baseline loop (opaque + sink). **Informa
 | FromDoubles win | Avoids Python `complex` call overhead |
 | CComplex | Error sentinel `(-1+0i)` — must check `PyErr_Occurred`; cdef only |
 | Subtype | Check true / Exact false — matches `isinstance` vs `type is` |
+| `complex_eq` | Complex/complex: C `double ==` on real and imag (NaN on either part => unequal, `+0.0 == -0.0`). Mixed: `PyObject_RichCompare` — **not** `RichCompareBool` (identity-shortcuts same-object NaN parts → True). Leave off `hot` |
 
 ## Done when
 
