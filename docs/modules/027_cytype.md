@@ -19,6 +19,7 @@ Type-object checks for Cython. Mutation/alloc helpers stay cimport.
 | Symbol | Export | Notes |
 |--------|--------|-------|
 | type_check / exact / is_subtype | public | |
+| type_eq / typeeq | public | identity (`a is b`); soft `typeeq`; not `hot` |
 | modified / has_feature / is_gc / generic_* / ready | cimport | type mutation / flags |
 
 ## Workflow status
@@ -27,6 +28,7 @@ Type-object checks for Cython. Mutation/alloc helpers stay cimport.
 |----------|--------|-----|
 | type_check* | APPROVED | **0.38–0.52x** |
 | type_is_subtype | APPROVED (API) | **1.04–1.05x** ~tie vs issubclass |
+| type_eq / typeeq | APPROVED | identity (issue #36); not `hot` |
 | modified / ready / generic / flags | APPROVED (cimport) | type builder surface |
 
 ## Lifecycle
@@ -34,7 +36,7 @@ Type-object checks for Cython. Mutation/alloc helpers stay cimport.
 | Field | Value |
 |-------|--------|
 | Iteration | 1 |
-| Last pass | 2026-07-21 — Phase 4 Tier B |
+| Last pass | 2026-07-22 — `type_eq` (#36) |
 | Next action | — |
 
 ## Decision log
@@ -43,6 +45,7 @@ Type-object checks for Cython. Mutation/alloc helpers stay cimport.
 |----------|--------|----------|-----------|
 | type_check* | 0.38–0.52x | APPROVED | 1 |
 | is_subtype | 1.04–1.05x | APPROVED (API) | 1 |
+| type_eq / typeeq | identity (`a is b`); not metaclass `__eq__` | APPROVED | 1 |
 | cdef helpers | type mutation | APPROVED (cimport) | 1 |
 
 ## Bench notes
@@ -85,6 +88,7 @@ Ratio = cypy `cdef` loop / typed Cython baseline loop (opaque + sink). **Informa
 | Scale | IsSubtype bool<int ~tie with Python issubclass (1.03x) — clarity keep |
 | Safety | Ready/Modified are process-global type mutations — not for hot paths |
 | ABI | Heap-type helpers remain; classic class APIs gone (see cyinstance) |
+| `type_eq` | Identity (`a is b`) — CPython type default; not metaclass `__eq__`; soft `typeeq` (`teq` is `tuple_eq`); leave off `hot` until measured win |
 
 
 ## Done when

@@ -26,6 +26,17 @@ cpdef inline bint type_is_subtype(object a, object b) noexcept:
     return PyType_IsSubtype(a, b)
 
 
+cdef inline bint typeeq(object a, object b) noexcept:
+    # Type-object equality is identity (CPython ``type_richcompare`` default).
+    # Not Python ``==`` when a metaclass overrides ``__eq__``. Soft ``typeeq``.
+    # Callers should pass type objects. Not on ``hot`` — validate win first.
+    return a is b
+
+
+cpdef inline bint type_eq(object a, object b) noexcept:
+    return typeeq(a, b)
+
+
 cdef inline void type_modified(object typ) noexcept:
     # Invalidate type lookup cache after manual type mutation.
     PyType_Modified(typ)
