@@ -167,6 +167,7 @@ COMPAT_MAP: dict[str, str] = {
     "obj_getattr_string": "obj_getattr_cstr",
     "obj_hasattr_string": "obj_hasattr_cstr",
     "obj_setattr_string": "obj_setattr_cstr",
+    "rqeq": "range_eq",
     "reset": "ansi_reset",
     "sadd": "set_add",
     "sany_check": "set_any_check",

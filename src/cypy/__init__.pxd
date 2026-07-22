@@ -664,6 +664,9 @@ from .cysequence cimport (
     seq_fast_size,
     seq_item,
 )
+from .cyrange cimport (
+    range_eq,
+)
 from .cyset cimport (
     set_add,
     set_any_check,
@@ -1292,6 +1295,7 @@ __all__: tuple[str, ...] = (
     "dict_copy",
     "dict_del",
     "deque_eq",
+    "range_eq",
     "dict_get",
     "dict_get_ref",
     "dict_get_with_error",
