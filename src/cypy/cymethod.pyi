@@ -4,6 +4,10 @@ def method_check(o: object) -> bool:
     """Return True if ``o`` is a bound method (``PyMethod_Check``)."""
     ...
 
+def method_eq(a: object, b: object) -> bool:
+    """Return True if methods equal (same function + ``__self__``; not identity)."""
+    ...
+
 def method_new(func: object, self: object) -> object:
     """Return a bound method via ``PyMethod_New(func, self)``."""
     ...

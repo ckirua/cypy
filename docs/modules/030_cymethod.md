@@ -19,6 +19,7 @@ Bound-method checks and field access. `PyMethod_New` is 2-arg on 3.14 (Cython In
 | Symbol | Export | Notes |
 |--------|--------|-------|
 | method_check / new | public | |
+| method_eq / methodeq | public | richcompare eq (`method_richcompare`); soft `methodeq`; not `hot` |
 | method_get_function / method_get_self | public | preferred spelling; checked `PyMethod_Function` / `Self` |
 | method_function / method_self | cimport impl | 0.3: cdef-only; prefer `method_get_*` |
 | method_function_unchecked / method_self_unchecked | cimport | unchecked `GET_*` macros (not identity with checked getters) |
@@ -29,6 +30,7 @@ Bound-method checks and field access. `PyMethod_New` is 2-arg on 3.14 (Cython In
 | Function | Status | Why |
 |----------|--------|-----|
 | method_check / function / self / get_* | APPROVED | **0.41–0.52x** |
+| method_eq / methodeq | APPROVED | content equality (issue #40); not `hot` |
 | method_new | APPROVED (API) | **1.00x** ~tie |
 | *_unchecked (GET_*) | APPROVED (cimport) | unchecked |
 | Class | REJECTED | missing 3.14 |
@@ -38,7 +40,7 @@ Bound-method checks and field access. `PyMethod_New` is 2-arg on 3.14 (Cython In
 | Field | Value |
 |-------|--------|
 | Iteration | 1 |
-| Last pass | 2026-07-21 — Phase 4 Tier B |
+| Last pass | 2026-07-22 — `method_eq` (#40) |
 | Next action | — |
 
 ## Decision log
@@ -46,6 +48,7 @@ Bound-method checks and field access. `PyMethod_New` is 2-arg on 3.14 (Cython In
 | Function | Result | Decision | Iteration |
 |----------|--------|----------|-----------|
 | check/getters | 0.41–0.52x | APPROVED | 1 |
+| method_eq / methodeq | richcompare | APPROVED | 1 |
 | new | 1.00x | APPROVED (API) | 1 |
 | Class | missing | REJECTED | 1 |
 
@@ -89,6 +92,7 @@ Ratio = cypy `cdef` loop / typed Cython baseline loop (opaque + sink). **Informa
 | Scale | BindMethod ~tie with Python bind (1.04x) — API keep for Cython call sites |
 | Safety | GetFunction/GetSelf return borrowed refs — wrappers own for Python return |
 | Subtype | Check distinguishes builtin FunctionType vs bound method |
+| `method_eq` | Content equality (not identity): same function + `__self__` via `method_richcompare`. Soft `methodeq`. Leave off `hot` until measured win |
 
 
 ## Done when

@@ -133,6 +133,7 @@ from .cytype import (
 )
 from .cyfunction import (
     func_check,
+    func_eq,
     func_new,
     func_get_code,
     func_get_globals,
@@ -144,6 +145,7 @@ from .cyfunction import (
 )
 from .cymethod import (
     method_check,
+    method_eq,
     method_new,
     method_get_function,
     method_get_self,
@@ -151,6 +153,7 @@ from .cymethod import (
 from .cymodule import (
     mod_check,
     mod_check_exact,
+    mod_eq,
     mod_new,
     mod_new_object,
     mod_get_name,
@@ -165,6 +168,7 @@ from .cymodule import (
 )
 from .cyiterator import (
     iter_check,
+    iter_eq,
     iter_next,
 )
 from .cyiterobject import (
@@ -176,6 +180,7 @@ from .cyiterobject import (
 from .cygenobject import (
     gen_check,
     gen_check_exact,
+    gen_eq,
 )
 from .cycellobject import (
     cell_check,
