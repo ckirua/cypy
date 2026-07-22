@@ -3,6 +3,14 @@
 All notable changes to `cypy` are documented here. Version from
 [`src/cypy/__about__.py`](src/cypy/__about__.py).
 
+## [1.18.0] — 2026-07-22 — `dict_eq`
+
+### Added
+
+- **`dict_eq`** (`cydict`): typed ``dict`` equality — identity/size short-circuit +
+  richcompare (same semantics as ``==``). Soft ``deq``. On ``cypy`` /
+  ``cypy.containers``.
+
 ## [1.17.0] — 2026-07-22 — `tuple_eq`
 
 ### Added
