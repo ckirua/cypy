@@ -3,6 +3,17 @@
 All notable changes to `cypy` are documented here. Version from
 [`src/cypy/__about__.py`](src/cypy/__about__.py).
 
+## [1.42.3] — 2026-07-22 — full `*_eq` Tier B inventory
+
+### Docs / benches
+
+- Tier B depth for all **39** public ``*_eq`` helpers: cypy ``cdef`` loop vs
+  typed Cython ``==`` baseline (``bench/tier_b/cyeq_inventory.py`` +
+  ``cyeq_{containers,buffers,scalars,misc}_tb.pyx``).
+- Rollup: ``docs/EQ_INVENTORY_TIERB.md``; paste Tier B tables into module
+  trackers (Tier A kept). Themes: identity/memcmp wins; abstract
+  ``seq_eq``/``map_eq``/``buf_eq``/``num_eq`` lose in cdef loops.
+
 ## [1.42.2] — 2026-07-22 — full `*_eq` Tier A inventory
 
 ### Docs / benches

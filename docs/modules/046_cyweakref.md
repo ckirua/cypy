@@ -35,7 +35,7 @@ Weakref checks and NewRef/GetObject for Cython.
 | Field | Value |
 |-------|--------|
 | Iteration | 1 |
-| Last pass | 2026-07-22 — `weakref_eq` (#39) |
+| Last pass | 2026-07-22 — Tier B `*_eq` inventory|
 | Next action | — |
 
 ## Decision log
@@ -83,7 +83,23 @@ Harness: [`bench/cyeq_misc_bench.py`](../../bench/cyeq_misc_bench.py) · N=80_00
 | weakref_eq | identity | 0.98±0.03ms | 1.02ms | **0.53x** | 0.54x | APPROVED |
 | weakref_eq | ne referent | 1.22±0.05ms | 1.32ms | **0.66x** | 0.69x | APPROVED |
 
+### Tier B — `*_eq` (inventory)
+
+Harness: [`bench/tier_b/cyeq_inventory.py`](../../bench/tier_b/cyeq_inventory.py) · `cyeq_*_tb.pyx` · CPython 3.14 · Linux x86_64 · `CPY_TIERB_N=2_000_000` (heavy shapes `N/40`) × `runs=5`  
+Ratio = cypy `cdef` loop / typed Cython baseline `==` loop (opaque + sink). **Informational** — does not reopen Tier A.
+
+| operation | case | cypy mean±σ | p99 | cy-base mean±σ | ratio | p99× | note |
+|-----------|------|-------------|-----|----------------|-------|------|------|
+| weakref_eq | same referent | 2.52±0.01ms | 2.53ms | 9.30±0.11ms | **0.27x** | 0.27x | cypy faster |
+| weakref_eq | identity | 2.56±0.04ms | 2.62ms | 9.25±0.06ms | **0.28x** | 0.28x | cypy faster |
+| weakref_eq | ne referent | 8.42±0.03ms | 8.45ms | 8.86±0.01ms | **0.95x** | 0.95x | cypy faster |
+
+**Tier B `*_eq` notes:**
+- **`weakref_eq`:** **0.27–0.95x** win — identity/same-referent short-circuit.
+
 ## Experiment conclusions
+
+**Tier B `*_eq` inventory:** see section **Tier B — `*_eq` (inventory)** table. **0.27–0.95x** win — identity/same-referent short-circuit.
 
 **Tier B:** `weakref_check` **0.44x** vs isinstance(ref).
 

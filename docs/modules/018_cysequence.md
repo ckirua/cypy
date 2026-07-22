@@ -97,7 +97,23 @@ Harness: [`bench/cyeq_inventory_bench.py`](../../bench/cyeq_inventory_bench.py) 
 | seq_eq | list eq | 1.43±0.12ms | 1.76ms | **0.76x** | 0.80x | APPROVED |
 | seq_eq | tuple↔list eq | 1.39±0.12ms | 1.69ms | **0.76x** | 0.81x | APPROVED |
 | seq_eq | list ne | 1.57±0.06ms | 1.72ms | **0.73x** | 0.75x | APPROVED |
+### Tier B — `*_eq` (inventory)
+
+Harness: [`bench/tier_b/cyeq_inventory.py`](../../bench/tier_b/cyeq_inventory.py) · `cyeq_*_tb.pyx` · CPython 3.14 · Linux x86_64 · `CPY_TIERB_N=2_000_000` (heavy shapes `N/40`) × `runs=5`  
+Ratio = cypy `cdef` loop / typed Cython baseline `==` loop (opaque + sink). **Informational** — does not reopen Tier A.
+
+| operation | case | cypy mean±σ | p99 | cy-base mean±σ | ratio | p99× | note |
+|-----------|------|-------------|-----|----------------|-------|------|------|
+| seq_eq | list eq | 15.72±0.08ms | 15.81ms | 10.73±0.04ms | **1.46x** | 1.47x | baseline faster |
+| seq_eq | tuple↔list eq | 14.70±0.05ms | 14.77ms | 7.89±0.07ms | **1.86x** | 1.85x | baseline faster |
+| seq_eq | list ne | 17.43±0.09ms | 17.55ms | 12.00±0.02ms | **1.45x** | 1.46x | baseline faster |
+
+**Tier B `*_eq` notes:**
+- **`seq_eq`:** **Lose 1.45–1.86x** vs typed Cython `==` — abstract sequence path adds type checks. Prefer `list_eq`/`tuple_eq` in cdef loops; Tier A still wins vs Python.
+
 ## Experiment conclusions
+
+**Tier B `*_eq` inventory:** see section **Tier B — `*_eq` (inventory)** table. **Lose 1.45–1.86x** vs typed Cython `==` — abstract sequence path adds type checks. Prefer `list_eq`/`tuple_eq` in cdef loops; Tier A still wins vs Python.
 
 **Tier B:** primary `sqget` **1.10x** vs typed index; `sqlen` **0.90x**.
 

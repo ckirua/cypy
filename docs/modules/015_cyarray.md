@@ -105,7 +105,23 @@ Harness: [`bench/cyeq_inventory_bench.py`](../../bench/cyeq_inventory_bench.py) 
 | array_eq | eq small | 1.11±0.05ms | 1.22ms | **0.59x** | 0.63x | APPROVED |
 | array_eq | ne small | 1.10±0.02ms | 1.14ms | **0.60x** | 0.58x | APPROVED |
 | array_eq | eq n=64 | 1.23±0.04ms | 1.30ms | **0.40x** | 0.42x | APPROVED |
+### Tier B — `*_eq` (inventory)
+
+Harness: [`bench/tier_b/cyeq_inventory.py`](../../bench/tier_b/cyeq_inventory.py) · `cyeq_*_tb.pyx` · CPython 3.14 · Linux x86_64 · `CPY_TIERB_N=2_000_000` (heavy shapes `N/40`) × `runs=5`  
+Ratio = cypy `cdef` loop / typed Cython baseline `==` loop (opaque + sink). **Informational** — does not reopen Tier A.
+
+| operation | case | cypy mean±σ | p99 | cy-base mean±σ | ratio | p99× | note |
+|-----------|------|-------------|-----|----------------|-------|------|------|
+| array_eq | eq small | 3.24±0.11ms | 3.40ms | 10.80±0.23ms | **0.30x** | 0.30x | cypy faster |
+| array_eq | ne small | 3.05±0.02ms | 3.06ms | 12.05±0.05ms | **0.25x** | 0.25x | cypy faster |
+| array_eq | eq n=64 | 0.13±0.01ms | 0.14ms | 0.98±0.01ms | **0.13x** | 0.14x | cypy faster |
+
+**Tier B `*_eq` notes:**
+- **`array_eq`:** **0.13–0.30x** win — raw buffer compare vs Cython elementwise/`==`.
+
 ## Experiment conclusions
+
+**Tier B `*_eq` inventory:** see section **Tier B — `*_eq` (inventory)** table. **0.13–0.30x** win — raw buffer compare vs Cython elementwise/`==`.
 
 **Tier B:** primary `aylen` **1.04x** vs typed `len` — ~parity.
 

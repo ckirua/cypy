@@ -83,7 +83,22 @@ Harness: [`bench/cyeq_inventory_bench.py`](../../bench/cyeq_inventory_bench.py) 
 |-----------|------|-------------|-----|-------|------|---------|
 | type_eq | identity | 0.90±0.03ms | 0.95ms | **0.57x** | 0.58x | APPROVED |
 | type_eq | ne | 0.90±0.03ms | 0.93ms | **0.54x** | 0.53x | APPROVED |
+### Tier B — `*_eq` (inventory)
+
+Harness: [`bench/tier_b/cyeq_inventory.py`](../../bench/tier_b/cyeq_inventory.py) · `cyeq_*_tb.pyx` · CPython 3.14 · Linux x86_64 · `CPY_TIERB_N=2_000_000` (heavy shapes `N/40`) × `runs=5`  
+Ratio = cypy `cdef` loop / typed Cython baseline `==` loop (opaque + sink). **Informational** — does not reopen Tier A.
+
+| operation | case | cypy mean±σ | p99 | cy-base mean±σ | ratio | p99× | note |
+|-----------|------|-------------|-----|----------------|-------|------|------|
+| type_eq | identity | 2.45±0.01ms | 2.46ms | 5.77±0.03ms | **0.42x** | 0.42x | cypy faster |
+| type_eq | ne | 2.44±0.01ms | 2.46ms | 6.15±0.02ms | **0.40x** | 0.40x | cypy faster |
+
+**Tier B `*_eq` notes:**
+- **`type_eq`:** **0.40–0.42x** win — pointer/identity compare vs Cython `==`.
+
 ## Experiment conclusions
+
+**Tier B `*_eq` inventory:** see section **Tier B — `*_eq` (inventory)** table. **0.40–0.42x** win — pointer/identity compare vs Cython `==`.
 
 **Tier B:** `type_check` **0.99x** — ~parity.
 

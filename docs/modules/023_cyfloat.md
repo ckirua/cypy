@@ -86,7 +86,22 @@ Harness: [`bench/cyeq_inventory_bench.py`](../../bench/cyeq_inventory_bench.py) 
 |-----------|------|-------------|-----|-------|------|---------|
 | float_eq | eq | 1.01±0.03ms | 1.06ms | **0.67x** | 0.67x | APPROVED |
 | float_eq | ne | 1.03±0.06ms | 1.12ms | **0.68x** | 0.70x | APPROVED |
+### Tier B — `*_eq` (inventory)
+
+Harness: [`bench/tier_b/cyeq_inventory.py`](../../bench/tier_b/cyeq_inventory.py) · `cyeq_*_tb.pyx` · CPython 3.14 · Linux x86_64 · `CPY_TIERB_N=2_000_000` (heavy shapes `N/40`) × `runs=5`  
+Ratio = cypy `cdef` loop / typed Cython baseline `==` loop (opaque + sink). **Informational** — does not reopen Tier A.
+
+| operation | case | cypy mean±σ | p99 | cy-base mean±σ | ratio | p99× | note |
+|-----------|------|-------------|-----|----------------|-------|------|------|
+| float_eq | eq | 2.58±0.04ms | 2.62ms | 5.05±0.04ms | **0.51x** | 0.51x | cypy faster |
+| float_eq | ne | 2.56±0.02ms | 2.59ms | 5.02±0.02ms | **0.51x** | 0.51x | cypy faster |
+
+**Tier B `*_eq` notes:**
+- **`float_eq`:** **0.51x** win vs Cython `float == float`.
+
 ## Experiment conclusions
+
+**Tier B `*_eq` inventory:** see section **Tier B — `*_eq` (inventory)** table. **0.51x** win vs Cython `float == float`.
 
 **Tier B:** `float_check` **0.99x** vs isinstance — ~parity.
 

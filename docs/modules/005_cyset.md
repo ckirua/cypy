@@ -140,7 +140,25 @@ Harness: [`bench/cyeq_inventory_bench.py`](../../bench/cyeq_inventory_bench.py) 
 | set_eq | ne small | 1.90±0.06ms | 2.05ms | **0.79x** | 0.76x | APPROVED |
 | frozenset_eq | eq | 2.04±0.07ms | 2.11ms | **0.79x** | 0.76x | APPROVED |
 | frozenset_eq | ne | 1.87±0.03ms | 1.91ms | **0.78x** | 0.77x | APPROVED |
+### Tier B — `*_eq` (inventory)
+
+Harness: [`bench/tier_b/cyeq_inventory.py`](../../bench/tier_b/cyeq_inventory.py) · `cyeq_*_tb.pyx` · CPython 3.14 · Linux x86_64 · `CPY_TIERB_N=2_000_000` (heavy shapes `N/40`) × `runs=5`  
+Ratio = cypy `cdef` loop / typed Cython baseline `==` loop (opaque + sink). **Informational** — does not reopen Tier A.
+
+| operation | case | cypy mean±σ | p99 | cy-base mean±σ | ratio | p99× | note |
+|-----------|------|-------------|-----|----------------|-------|------|------|
+| set_eq | eq small | 28.26±0.02ms | 28.29ms | 28.16±0.04ms | **1.00x** | 1.00x | ~tie |
+| set_eq | ne small | 24.04±0.09ms | 24.12ms | 23.80±0.13ms | **1.01x** | 1.01x | ~tie |
+| frozenset_eq | eq | 28.80±0.33ms | 29.15ms | 28.80±0.33ms | **1.00x** | 1.00x | ~tie |
+| frozenset_eq | ne | 24.10±0.18ms | 24.31ms | 24.06±0.20ms | **1.00x** | 1.00x | ~tie |
+
+**Tier B `*_eq` notes:**
+- **`set_eq`:** ~tie (**1.00–1.01x**) vs typed Cython `set == set` — helper is thin richcompare wrapper.
+- **`frozenset_eq`:** ~tie (**1.00x**) vs typed Cython `frozenset == frozenset`.
+
 ## Experiment conclusions
+
+**Tier B `*_eq` inventory:** see section **Tier B — `*_eq` (inventory)** table. ~tie (**1.00–1.01x**) vs typed Cython `set == set` — helper is thin richcompare wrapper.
 
 **Tier B:** primary `scontains` **0.91x** vs typed `in` — small edge vs Cython emit.
 

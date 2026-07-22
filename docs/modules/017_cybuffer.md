@@ -95,7 +95,23 @@ Harness: [`bench/cyeq_inventory_bench.py`](../../bench/cyeq_inventory_bench.py) 
 | buf_eq | bytes↔ba | 1.79±0.02ms | 1.85ms | **0.81x** | 0.79x | APPROVED |
 | buf_eq | mv↔mv | 3.10±0.03ms | 3.16ms | **1.14x** | 1.10x | LOSE (prefer typed helper) |
 | buf_eq | ne | 1.70±0.02ms | 1.75ms | **0.92x** | 0.88x | APPROVED |
+### Tier B — `*_eq` (inventory)
+
+Harness: [`bench/tier_b/cyeq_inventory.py`](../../bench/tier_b/cyeq_inventory.py) · `cyeq_*_tb.pyx` · CPython 3.14 · Linux x86_64 · `CPY_TIERB_N=2_000_000` (heavy shapes `N/40`) × `runs=5`  
+Ratio = cypy `cdef` loop / typed Cython baseline `==` loop (opaque + sink). **Informational** — does not reopen Tier A.
+
+| operation | case | cypy mean±σ | p99 | cy-base mean±σ | ratio | p99× | note |
+|-----------|------|-------------|-----|----------------|-------|------|------|
+| buf_eq | bytes↔ba | 29.59±0.11ms | 29.73ms | 18.23±0.08ms | **1.62x** | 1.62x | baseline faster |
+| buf_eq | mv↔mv | 46.53±0.58ms | 47.46ms | 8.86±0.03ms | **5.25x** | 5.33x | baseline faster |
+| buf_eq | ne | 26.81±0.04ms | 26.85ms | 5.78±0.03ms | **4.64x** | 4.62x | baseline faster |
+
+**Tier B `*_eq` notes:**
+- **`buf_eq`:** **Lose 1.62–5.25x** (worst mv↔mv) — buffer-protocol acquisition dominates; prefer typed `memoryview_eq` / `bytes_eq` in cdef loops.
+
 ## Experiment conclusions
+
+**Tier B `*_eq` inventory:** see section **Tier B — `*_eq` (inventory)** table. **Lose 1.62–5.25x** (worst mv↔mv) — buffer-protocol acquisition dominates; prefer typed `memoryview_eq` / `bytes_eq` in cdef loops.
 
 **`buf_eq` depth:** bytes↔bytearray **0.81x** (win); memoryview↔memoryview **1.14x** (lose vs `==` — prefer `memoryview_eq` for typed views).
 

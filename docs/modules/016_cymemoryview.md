@@ -94,7 +94,22 @@ Harness: [`bench/cyeq_inventory_bench.py`](../../bench/cyeq_inventory_bench.py) 
 |-----------|------|-------------|-----|-------|------|---------|
 | memoryview_eq | eq | 1.32±0.03ms | 1.37ms | **0.47x** | 0.45x | APPROVED |
 | memoryview_eq | ne | 1.34±0.03ms | 1.39ms | **0.50x** | 0.50x | APPROVED |
+### Tier B — `*_eq` (inventory)
+
+Harness: [`bench/tier_b/cyeq_inventory.py`](../../bench/tier_b/cyeq_inventory.py) · `cyeq_*_tb.pyx` · CPython 3.14 · Linux x86_64 · `CPY_TIERB_N=2_000_000` (heavy shapes `N/40`) × `runs=5`  
+Ratio = cypy `cdef` loop / typed Cython baseline `==` loop (opaque + sink). **Informational** — does not reopen Tier A.
+
+| operation | case | cypy mean±σ | p99 | cy-base mean±σ | ratio | p99× | note |
+|-----------|------|-------------|-----|----------------|-------|------|------|
+| memoryview_eq | eq | 11.44±0.01ms | 11.46ms | 29.21±0.04ms | **0.39x** | 0.39x | cypy faster |
+| memoryview_eq | ne | 11.81±0.01ms | 11.83ms | 28.55±0.03ms | **0.41x** | 0.41x | cypy faster |
+
+**Tier B `*_eq` notes:**
+- **`memoryview_eq`:** **0.39–0.41x** win vs typed Cython `memoryview == memoryview`.
+
 ## Experiment conclusions
+
+**Tier B `*_eq` inventory:** see section **Tier B — `*_eq` (inventory)** table. **0.39–0.41x** win vs typed Cython `memoryview == memoryview`.
 
 **Tier B:** `mvcheck` **0.97x** vs isinstance — ~parity.
 

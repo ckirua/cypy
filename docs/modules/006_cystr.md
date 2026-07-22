@@ -62,7 +62,7 @@ Hot-path equality, contains, coerce/guards, concat, and ASCII classifiers for ty
 |-------|--------|
 | Freeze | **1.0 Core** — public + documented cimport; see COVERAGE § 1.0 freeze |
 | Iteration | 1 |
-| Last pass | 2026-07-21 — Phase 4 Tier B (Cython baseline) |
+| Last pass | 2026-07-22 — Tier B `*_eq` inventory|
 | Next action | — |
 
 ## Decision log
@@ -135,7 +135,22 @@ Ratio = cypy `cdef` loop / typed Cython baseline loop (opaque + sink). **Informa
 
 **Tier B takeaway:** primary `contains` **0.87x** vs typed `in` — still ahead of Cython emit on short hit.
 
+### Tier B — `*_eq` (inventory)
+
+Harness: [`bench/tier_b/cyeq_inventory.py`](../../bench/tier_b/cyeq_inventory.py) · `cyeq_*_tb.pyx` · CPython 3.14 · Linux x86_64 · `CPY_TIERB_N=2_000_000` (heavy shapes `N/40`) × `runs=5`  
+Ratio = cypy `cdef` loop / typed Cython baseline `==` loop (opaque + sink). **Informational** — does not reopen Tier A.
+
+| operation | case | cypy mean±σ | p99 | cy-base mean±σ | ratio | p99× | note |
+|-----------|------|-------------|-----|----------------|-------|------|------|
+| str_eq | eq ascii | 2.52±0.01ms | 2.54ms | 2.53±0.01ms | **1.00x** | 1.00x | ~tie |
+| str_eq | ne ascii | 4.19±0.05ms | 4.26ms | 2.59±0.02ms | **1.61x** | 1.63x | baseline faster |
+
+**Tier B `*_eq` notes:**
+- **`str_eq`:** Equal ~tie; ne ascii **1.61x** lose vs Cython `str == str` (unicode compare path). Tier A win is Python overhead.
+
 ## Experiment conclusions
+
+**Tier B `*_eq` inventory:** see section **Tier B — `*_eq` (inventory)** table. Equal ~tie; ne ascii **1.61x** lose vs Cython `str == str` (unicode compare path). Tier A win is Python overhead.
 
 **Tier B:** primary `contains` **0.87x** vs typed `in` — still ahead of Cython emit on short hit.
 

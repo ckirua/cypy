@@ -93,7 +93,25 @@ Harness: [`bench/cyeq_inventory_bench.py`](../../bench/cyeq_inventory_bench.py) 
 | long_eq | ne | 1.15±0.03ms | 1.19ms | **0.78x** | 0.77x | APPROVED |
 | long_eq | eq big | 1.24±0.05ms | 1.32ms | **0.72x** | 0.74x | APPROVED |
 | int_eq | eq | 0.94±0.06ms | 1.08ms | **0.63x** | 0.69x | APPROVED |
+### Tier B — `*_eq` (inventory)
+
+Harness: [`bench/tier_b/cyeq_inventory.py`](../../bench/tier_b/cyeq_inventory.py) · `cyeq_*_tb.pyx` · CPython 3.14 · Linux x86_64 · `CPY_TIERB_N=2_000_000` (heavy shapes `N/40`) × `runs=5`  
+Ratio = cypy `cdef` loop / typed Cython baseline `==` loop (opaque + sink). **Informational** — does not reopen Tier A.
+
+| operation | case | cypy mean±σ | p99 | cy-base mean±σ | ratio | p99× | note |
+|-----------|------|-------------|-----|----------------|-------|------|------|
+| long_eq | eq small | 2.51±0.02ms | 2.53ms | 5.79±0.09ms | **0.43x** | 0.43x | cypy faster |
+| long_eq | ne | 5.18±0.04ms | 5.24ms | 5.74±0.02ms | **0.90x** | 0.91x | cypy faster |
+| long_eq | eq big | 6.75±0.03ms | 6.78ms | 6.57±0.05ms | **1.03x** | 1.02x | baseline faster |
+| int_eq | eq | 2.83±0.71ms | 4.04ms | 5.80±0.05ms | **0.49x** | 0.69x | cypy faster |
+
+**Tier B `*_eq` notes:**
+- **`long_eq`:** Small eq **0.43x**; ne **0.90x**; big int ~tie (**1.03x**) — digit compare dominates.
+- **`int_eq`:** **0.49x** win (alias of long path).
+
 ## Experiment conclusions
+
+**Tier B `*_eq` inventory:** see section **Tier B — `*_eq` (inventory)** table. Small eq **0.43x**; ne **0.90x**; big int ~tie (**1.03x**) — digit compare dominates.
 
 **Tier B:** `long_check` **1.00x** vs isinstance — ~parity.
 

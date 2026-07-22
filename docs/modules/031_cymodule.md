@@ -38,7 +38,7 @@ Module checks, construction, import helpers. Prefer `AddObjectRef` over stealing
 | Field | Value |
 |-------|--------|
 | Iteration | 1 |
-| Last pass | 2026-07-22 — `mod_eq` (#40) |
+| Last pass | 2026-07-22 — Tier B `*_eq` inventory|
 | Next action | — |
 
 ## Decision log
@@ -88,7 +88,21 @@ Harness: [`bench/cyeq_misc_bench.py`](../../bench/cyeq_misc_bench.py) · N=80_00
 |-----------|------|-------------|-----|-------|------|---------|
 | mod_eq | identity | 0.97±0.03ms | 1.03ms | **0.55x** | 0.56x | APPROVED |
 
+### Tier B — `*_eq` (inventory)
+
+Harness: [`bench/tier_b/cyeq_inventory.py`](../../bench/tier_b/cyeq_inventory.py) · `cyeq_*_tb.pyx` · CPython 3.14 · Linux x86_64 · `CPY_TIERB_N=2_000_000` (heavy shapes `N/40`) × `runs=5`  
+Ratio = cypy `cdef` loop / typed Cython baseline `==` loop (opaque + sink). **Informational** — does not reopen Tier A.
+
+| operation | case | cypy mean±σ | p99 | cy-base mean±σ | ratio | p99× | note |
+|-----------|------|-------------|-----|----------------|-------|------|------|
+| mod_eq | identity | 2.50±0.01ms | 2.51ms | 4.98±0.02ms | **0.50x** | 0.50x | cypy faster |
+
+**Tier B `*_eq` notes:**
+- **`mod_eq`:** **0.50x** win — identity.
+
 ## Experiment conclusions
+
+**Tier B `*_eq` inventory:** see section **Tier B — `*_eq` (inventory)** table. **0.50x** win — identity.
 
 **Tier B:** `mod_check` **0.43x** vs ModuleType isinstance.
 

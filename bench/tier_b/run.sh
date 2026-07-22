@@ -53,7 +53,7 @@ if [[ "${1:-}" == "--all" ]]; then
   for py in "$HERE"/*.py; do
     base="$(basename "$py" .py)"
     case "$base" in
-      __init__|build|_tb_util) continue ;;
+      __init__|build|_tb_util|_gen_*) continue ;;
     esac
     echo ">>> tier_b $base"
     if ! "$PYTHON" -m "bench.tier_b.$base"; then
@@ -69,5 +69,9 @@ if [[ $# -lt 1 ]]; then
 fi
 
 mod="$1"
+if [[ "$mod" == "cyeq_inventory" ]]; then
+  "$PYTHON" -m bench.tier_b.build cyeq_containers cyeq_buffers cyeq_scalars cyeq_misc
+  exec "$PYTHON" -m bench.tier_b.cyeq_inventory
+fi
 "$PYTHON" -m bench.tier_b.build "$mod"
 exec "$PYTHON" -m "bench.tier_b.$mod"

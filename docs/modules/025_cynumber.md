@@ -89,7 +89,22 @@ Harness: [`bench/cyeq_inventory_bench.py`](../../bench/cyeq_inventory_bench.py) 
 |-----------|------|-------------|-----|-------|------|---------|
 | num_eq | int↔float | 1.35±0.02ms | 1.39ms | **0.71x** | 0.69x | APPROVED |
 | num_eq | ne | 1.11±0.04ms | 1.18ms | **0.73x** | 0.70x | APPROVED |
+### Tier B — `*_eq` (inventory)
+
+Harness: [`bench/tier_b/cyeq_inventory.py`](../../bench/tier_b/cyeq_inventory.py) · `cyeq_*_tb.pyx` · CPython 3.14 · Linux x86_64 · `CPY_TIERB_N=2_000_000` (heavy shapes `N/40`) × `runs=5`  
+Ratio = cypy `cdef` loop / typed Cython baseline `==` loop (opaque + sink). **Informational** — does not reopen Tier A.
+
+| operation | case | cypy mean±σ | p99 | cy-base mean±σ | ratio | p99× | note |
+|-----------|------|-------------|-----|----------------|-------|------|------|
+| num_eq | int↔float | 12.26±0.04ms | 12.29ms | 11.95±0.05ms | **1.03x** | 1.02x | baseline faster |
+| num_eq | ne | 6.17±0.04ms | 6.22ms | 5.76±0.02ms | **1.07x** | 1.08x | baseline faster |
+
+**Tier B `*_eq` notes:**
+- **`num_eq`:** Slight lose (**1.03–1.07x**) — numeric coerce path; prefer typed `long_eq`/`float_eq` when known.
+
 ## Experiment conclusions
+
+**Tier B `*_eq` inventory:** see section **Tier B — `*_eq` (inventory)** table. Slight lose (**1.03–1.07x**) — numeric coerce path; prefer typed `long_eq`/`float_eq` when known.
 
 **Tier B:** `num_check` **1.29x** vs isinstance tuple — Cython emit tighter for multi-type check.
 

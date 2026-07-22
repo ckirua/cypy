@@ -40,7 +40,7 @@ Bound-method checks and field access. `PyMethod_New` is 2-arg on 3.14 (Cython In
 | Field | Value |
 |-------|--------|
 | Iteration | 1 |
-| Last pass | 2026-07-22 — `method_eq` (#40) |
+| Last pass | 2026-07-22 — Tier B `*_eq` inventory|
 | Next action | — |
 
 ## Decision log
@@ -88,7 +88,22 @@ Harness: [`bench/cyeq_misc_bench.py`](../../bench/cyeq_misc_bench.py) · N=80_00
 | method_eq | same bound | 1.23±0.04ms | 1.31ms | **0.67x** | 0.68x | APPROVED |
 | method_eq | diff self | 1.27±0.07ms | 1.40ms | **0.68x** | 0.72x | APPROVED |
 
+### Tier B — `*_eq` (inventory)
+
+Harness: [`bench/tier_b/cyeq_inventory.py`](../../bench/tier_b/cyeq_inventory.py) · `cyeq_*_tb.pyx` · CPython 3.14 · Linux x86_64 · `CPY_TIERB_N=2_000_000` (heavy shapes `N/40`) × `runs=5`  
+Ratio = cypy `cdef` loop / typed Cython baseline `==` loop (opaque + sink). **Informational** — does not reopen Tier A.
+
+| operation | case | cypy mean±σ | p99 | cy-base mean±σ | ratio | p99× | note |
+|-----------|------|-------------|-----|----------------|-------|------|------|
+| method_eq | same bound | 6.55±0.01ms | 6.56ms | 6.58±0.05ms | **1.00x** | 0.98x | ~tie |
+| method_eq | diff self | 6.57±0.02ms | 6.60ms | 6.55±0.01ms | **1.00x** | 1.01x | ~tie |
+
+**Tier B `*_eq` notes:**
+- **`method_eq`:** ~tie (**1.00x**) — richcompare already tight in Cython.
+
 ## Experiment conclusions
+
+**Tier B `*_eq` inventory:** see section **Tier B — `*_eq` (inventory)** table. ~tie (**1.00x**) — richcompare already tight in Cython.
 
 **Tier B:** `method_check` **0.43x** vs MethodType isinstance.
 

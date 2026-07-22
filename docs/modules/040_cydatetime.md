@@ -97,7 +97,28 @@ Harness: [`bench/cyeq_inventory_bench.py`](../../bench/cyeq_inventory_bench.py) 
 | dt_time_eq | eq | 1.08±0.04ms | 1.13ms | **0.62x** | 0.62x | APPROVED |
 | dt_datetime_eq | eq | 1.14±0.04ms | 1.22ms | **0.65x** | 0.67x | APPROVED |
 | dt_timedelta_eq | eq | 1.02±0.03ms | 1.09ms | **0.61x** | 0.62x | APPROVED |
+### Tier B — `*_eq` (inventory)
+
+Harness: [`bench/tier_b/cyeq_inventory.py`](../../bench/tier_b/cyeq_inventory.py) · `cyeq_*_tb.pyx` · CPython 3.14 · Linux x86_64 · `CPY_TIERB_N=2_000_000` (heavy shapes `N/40`) × `runs=5`  
+Ratio = cypy `cdef` loop / typed Cython baseline `==` loop (opaque + sink). **Informational** — does not reopen Tier A.
+
+| operation | case | cypy mean±σ | p99 | cy-base mean±σ | ratio | p99× | note |
+|-----------|------|-------------|-----|----------------|-------|------|------|
+| dt_date_eq | eq | 2.40±0.01ms | 2.42ms | 8.76±0.01ms | **0.27x** | 0.28x | cypy faster |
+| dt_date_eq | ne | 2.37±0.04ms | 2.42ms | 9.18±0.03ms | **0.26x** | 0.26x | cypy faster |
+| dt_time_eq | eq | 3.52±0.01ms | 3.53ms | 7.34±0.06ms | **0.48x** | 0.48x | cypy faster |
+| dt_datetime_eq | eq | 3.95±0.03ms | 3.99ms | 7.30±0.01ms | **0.54x** | 0.55x | cypy faster |
+| dt_timedelta_eq | eq | 2.47±0.11ms | 2.65ms | 5.86±0.17ms | **0.42x** | 0.43x | cypy faster |
+
+**Tier B `*_eq` notes:**
+- **`dt_date_eq`:** **0.26–0.27x** win — C-level date compare vs Cython `==`.
+- **`dt_time_eq`:** **0.48x** win.
+- **`dt_datetime_eq`:** **0.54x** win.
+- **`dt_timedelta_eq`:** **0.42x** win.
+
 ## Experiment conclusions
+
+**Tier B `*_eq` inventory:** see section **Tier B — `*_eq` (inventory)** table. **0.26–0.27x** win — C-level date compare vs Cython `==`.
 
 **Tier B:** `dt_date_check` **1.01x** vs isinstance(date) — ~parity.
 

@@ -121,7 +121,23 @@ Harness: [`bench/cyeq_inventory_bench.py`](../../bench/cyeq_inventory_bench.py) 
 | bytearray_eq | eq short | 1.05±0.06ms | 1.17ms | **0.49x** | 0.52x | APPROVED |
 | bytearray_eq | ne short | 1.09±0.06ms | 1.22ms | **0.50x** | 0.52x | APPROVED |
 | bytearray_eq | eq 1KiB | 1.63±0.05ms | 1.72ms | **0.62x** | 0.61x | APPROVED |
+### Tier B — `*_eq` (inventory)
+
+Harness: [`bench/tier_b/cyeq_inventory.py`](../../bench/tier_b/cyeq_inventory.py) · `cyeq_*_tb.pyx` · CPython 3.14 · Linux x86_64 · `CPY_TIERB_N=2_000_000` (heavy shapes `N/40`) × `runs=5`  
+Ratio = cypy `cdef` loop / typed Cython baseline `==` loop (opaque + sink). **Informational** — does not reopen Tier A.
+
+| operation | case | cypy mean±σ | p99 | cy-base mean±σ | ratio | p99× | note |
+|-----------|------|-------------|-----|----------------|-------|------|------|
+| bytearray_eq | eq short | 2.85±0.00ms | 2.85ms | 16.07±0.13ms | **0.18x** | 0.18x | cypy faster |
+| bytearray_eq | ne short | 2.86±0.00ms | 2.86ms | 16.31±0.09ms | **0.18x** | 0.17x | cypy faster |
+| bytearray_eq | eq 1KiB | 0.36±0.00ms | 0.36ms | 0.65±0.04ms | **0.55x** | 0.52x | cypy faster |
+
+**Tier B `*_eq` notes:**
+- **`bytearray_eq`:** **0.18–0.55x** win — AS_STRING + memcmp beats Cython `bytearray == bytearray`.
+
 ## Experiment conclusions
+
+**Tier B `*_eq` inventory:** see section **Tier B — `*_eq` (inventory)** table. **0.18–0.55x** win — AS_STRING + memcmp beats Cython `bytearray == bytearray`.
 
 **Tier B:** primary `balen` **1.03x** vs typed `len` — ~parity.
 

@@ -34,7 +34,7 @@ Context / ContextVar construction and checks for Cython.
 | Field | Value |
 |-------|--------|
 | Iteration | 3 |
-| Last pass | 2026-07-22 — Tier A depth for `context_eq` |
+| Last pass | 2026-07-22 — Tier B `*_eq` inventory|
 | Next action | — |
 
 ## Bench notes
@@ -77,7 +77,23 @@ Harness: [`bench/cycontextvars_bench.py`](../../bench/cycontextvars_bench.py) ·
 | context_eq | ne filled | 2.59±0.06ms | 2.70ms | **0.63x** | 0.42x | APPROVED |
 | context_eq | ne filled/empty | 1.30±0.21ms | 1.83ms | **0.76x** | 1.01x | APPROVED |
 
+### Tier B — `*_eq` (inventory)
+
+Harness: [`bench/tier_b/cyeq_inventory.py`](../../bench/tier_b/cyeq_inventory.py) · `cyeq_*_tb.pyx` · CPython 3.14 · Linux x86_64 · `CPY_TIERB_N=2_000_000` (heavy shapes `N/40`) × `runs=5`  
+Ratio = cypy `cdef` loop / typed Cython baseline `==` loop (opaque + sink). **Informational** — does not reopen Tier A.
+
+| operation | case | cypy mean±σ | p99 | cy-base mean±σ | ratio | p99× | note |
+|-----------|------|-------------|-----|----------------|-------|------|------|
+| context_eq | eq values | 41.04±0.53ms | 41.80ms | 40.01±0.36ms | **1.03x** | 1.03x | baseline faster |
+| context_eq | ne values | 41.17±0.50ms | 41.89ms | 40.45±0.60ms | **1.02x** | 1.02x | ~tie |
+| context_eq | identity | 2.54±0.02ms | 2.57ms | 6.09±0.05ms | **0.42x** | 0.42x | cypy faster |
+
+**Tier B `*_eq` notes:**
+- **`context_eq`:** Identity **0.42x**; value eq/ne ~tie (**1.02–1.03x**).
+
 ## Experiment conclusions
+
+**Tier B `*_eq` inventory:** see section **Tier B — `*_eq` (inventory)** table. Identity **0.42x**; value eq/ne ~tie (**1.02–1.03x**).
 
 **Tier B:** `ctx_check_exact` **0.52x** vs `type is Context`.
 

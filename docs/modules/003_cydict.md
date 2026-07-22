@@ -181,7 +181,23 @@ Harness: [`bench/cyeq_inventory_bench.py`](../../bench/cyeq_inventory_bench.py) 
 | dict_eq | eq small | 1.95±0.11ms | 2.25ms | **0.78x** | 0.79x | APPROVED |
 | dict_eq | ne small | 2.05±0.08ms | 2.26ms | **0.77x** | 0.77x | APPROVED |
 | dict_eq | identity | 1.01±0.07ms | 1.14ms | **0.39x** | 0.41x | APPROVED |
+### Tier B — `*_eq` (inventory)
+
+Harness: [`bench/tier_b/cyeq_inventory.py`](../../bench/tier_b/cyeq_inventory.py) · `cyeq_*_tb.pyx` · CPython 3.14 · Linux x86_64 · `CPY_TIERB_N=2_000_000` (heavy shapes `N/40`) × `runs=5`  
+Ratio = cypy `cdef` loop / typed Cython baseline `==` loop (opaque + sink). **Informational** — does not reopen Tier A.
+
+| operation | case | cypy mean±σ | p99 | cy-base mean±σ | ratio | p99× | note |
+|-----------|------|-------------|-----|----------------|-------|------|------|
+| dict_eq | eq small | 23.76±0.85ms | 25.17ms | 23.10±0.19ms | **1.03x** | 1.08x | baseline faster |
+| dict_eq | ne small | 26.73±0.03ms | 26.76ms | 26.31±0.06ms | **1.02x** | 1.01x | ~tie |
+| dict_eq | identity | 2.51±0.00ms | 2.52ms | 22.96±0.09ms | **0.11x** | 0.11x | cypy faster |
+
+**Tier B `*_eq` notes:**
+- **`dict_eq`:** Identity **0.11x**; content eq/ne ~tie–slight lose vs Cython `dict == dict`. Keep for identity / API clarity.
+
 ## Experiment conclusions
+
+**Tier B `*_eq` inventory:** see section **Tier B — `*_eq` (inventory)** table. Identity **0.11x**; content eq/ne ~tie–slight lose vs Cython `dict == dict`. Keep for identity / API clarity.
 
 **Tier B:** primary `dget` **1.15x** vs `dict.get` — Cython emit slightly tighter; keep public (Tier A still wins vs Python).
 

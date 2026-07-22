@@ -35,7 +35,7 @@ Capsule type checks public; pointer get/set cimport (void*).
 | Field | Value |
 |-------|--------|
 | Iteration | 1 |
-| Last pass | 2026-07-22 — `capsule_eq` (#38) |
+| Last pass | 2026-07-22 — Tier B `*_eq` inventory|
 | Next action | — |
 
 ## Decision log
@@ -81,7 +81,22 @@ Harness: [`bench/cyeq_misc_bench.py`](../../bench/cyeq_misc_bench.py) · N=80_00
 | capsule_eq | identity | 0.98±0.05ms | 1.09ms | **0.55x** | 0.59x | APPROVED |
 | capsule_eq | ne | 1.00±0.03ms | 1.07ms | **0.55x** | 0.57x | APPROVED |
 
+### Tier B — `*_eq` (inventory)
+
+Harness: [`bench/tier_b/cyeq_inventory.py`](../../bench/tier_b/cyeq_inventory.py) · `cyeq_*_tb.pyx` · CPython 3.14 · Linux x86_64 · `CPY_TIERB_N=2_000_000` (heavy shapes `N/40`) × `runs=5`  
+Ratio = cypy `cdef` loop / typed Cython baseline `==` loop (opaque + sink). **Informational** — does not reopen Tier A.
+
+| operation | case | cypy mean±σ | p99 | cy-base mean±σ | ratio | p99× | note |
+|-----------|------|-------------|-----|----------------|-------|------|------|
+| capsule_eq | identity | 2.49±0.01ms | 2.50ms | 4.99±0.02ms | **0.50x** | 0.50x | cypy faster |
+| capsule_eq | ne | 2.50±0.00ms | 2.50ms | 6.18±0.03ms | **0.41x** | 0.40x | cypy faster |
+
+**Tier B `*_eq` notes:**
+- **`capsule_eq`:** **0.41–0.50x** win — identity.
+
 ## Experiment conclusions
+
+**Tier B `*_eq` inventory:** see section **Tier B — `*_eq` (inventory)** table. **0.41–0.50x** win — identity.
 
 **Tier B:** `capsule_check_exact` **0.10x** vs type-name baseline.
 
