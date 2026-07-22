@@ -2,6 +2,9 @@
 # ``slice`` helpers. Public docs in ``cyslice.pyi``.
 # Unpack/Adjust/GetIndices out-params: also exposed as tuple-returning cpdef where useful.
 
+from cpython.object cimport PyObject_RichCompareBool, Py_EQ
+
+
 cdef extern from "Python.h":
     bint PySlice_Check(object ob) noexcept
     slice PySlice_New(object start, object stop, object step)
@@ -77,6 +80,17 @@ cdef inline Py_ssize_t slice_adjust_indices(Py_ssize_t length, Py_ssize_t *start
 
 cpdef inline bint slice_check(object p) noexcept:
     return slcheck(p)
+
+
+cdef inline bint sleq(slice a, slice b):
+    # Identity short-circuit + richcompare (same semantics as ``slice.__eq__``).
+    if a is b:
+        return True
+    return <bint>PyObject_RichCompareBool(a, b, Py_EQ)
+
+
+cpdef inline bint slice_eq(slice a, slice b):
+    return sleq(a, b)
 
 cdef inline int slice_get_indices(object sl, Py_ssize_t length, Py_ssize_t *start, Py_ssize_t *stop, Py_ssize_t *step) except? -1:
     return slget_indices(sl, length, start, stop, step)

@@ -3,6 +3,15 @@
 All notable changes to `cypy` are documented here. Version from
 [`src/cypy/__about__.py`](src/cypy/__about__.py).
 
+## [1.28.0] — 2026-07-22 — `slice_eq`
+
+### Added
+
+- **`slice_eq`** (`cyslice`): slice equality — identity short-circuit +
+  richcompare (same semantics as ``slice.__eq__``; compares start/stop/step
+  objects, so ``None`` bounds are not normalized to ``0``/``1``). Soft ``sleq``.
+  On ``cypy`` / ``cypy.buffers`` (not ``hot`` — completeness / buffer-adjacent).
+
 ## [1.27.0] — 2026-07-22 — `num_eq`
 
 ### Added

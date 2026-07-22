@@ -32,7 +32,7 @@ Authoritative symbol lists: `src/cypy/__init__.py` / `__init__.pxd` `__all__`, p
 | `cyunicode` | UTF-8 / intern | public subset + cimport | `uintern`, `uutf8_bytes`; `unicode_from_string` / `uutf8` cimport |
 | `cyansi` | terminal SGR | public | Not CPython; builds on unicode intern |
 | `cygc` | GC | public | `gc_collect`, `gc_is_enabled`, … |
-| `cyarray` / `cymemoryview` / `cybuffer` / `cyslice` | buffers / slice | public | `array_eq` / `array_ne`; `memoryview_eq` / `memoryview_ne`; `buf_eq`; sequences/buffers adjacent to Core |
+| `cyarray` / `cymemoryview` / `cybuffer` / `cyslice` | buffers / slice | public | `array_eq` / `array_ne`; `memoryview_eq` / `memoryview_ne`; `buf_eq`; `slice_eq`; sequences/buffers adjacent to Core |
 
 **Curated starter export:** [`cypy.hot`](src/cypy/hot.py) — see [`examples/STARTER.md`](examples/STARTER.md).
 

@@ -29,7 +29,7 @@ from .cybytes import (
     bytes_size,
 )
 from .cymemoryview import memoryview_check, memoryview_eq, memoryview_from_object, memoryview_ne
-from .cyslice import slice_check, slice_new
+from .cyslice import slice_check, slice_eq, slice_new
 
 __all__: tuple[str, ...] = (
     "bytes_check",
@@ -62,5 +62,6 @@ __all__: tuple[str, ...] = (
     "buf_check",
     "buf_eq",
     "slice_check",
+    "slice_eq",
     "slice_new",
 )

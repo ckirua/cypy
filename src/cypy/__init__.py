@@ -455,6 +455,7 @@ from .cyset import (
 )
 from .cyslice import (
     slice_check,
+    slice_eq,
     slice_new,
     slice_indices_ex,
     slice_unpack,
@@ -624,6 +625,7 @@ __all__: tuple[str, ...] = (
     "buf_check",
     "buf_eq",
     "slice_check",
+    "slice_eq",
     "slice_new",
     "bool_check",
     "bool_eq",

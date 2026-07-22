@@ -662,6 +662,7 @@ from .cyset cimport (
 )
 from .cyslice cimport (
     slice_check,
+    slice_eq,
     slice_new,
     slice_indices_ex,
     slice_unpack,
@@ -673,6 +674,7 @@ from .cyslice cimport (
     slice_get_indices,
     slice_get_indices_ex,
     slice_unpack_c,
+    sleq,
 )
 from .cystr cimport (
     str_all_alnum_ascii,
@@ -1337,6 +1339,7 @@ __all__: tuple[str, ...] = (
     "set_size",
     "set_update",
     "slice_check",
+    "slice_eq",
     "slice_new",
     "slice_indices_ex",
     "slice_unpack",

@@ -19,6 +19,7 @@ Slice construction and index resolution without Python `slice.indices` attribute
 | Symbol | Export | Notes |
 |--------|--------|-------|
 | slcheck / slnew | public | |
+| sleq / slice_eq | public | identity + richcompare; soft `sleq` |
 | slindices_ex / slunpack | public | tuple-returning wrappers |
 | slget_indices / slget_indices_ex / slunpack_c / sladjust_indices | cimport | out-params |
 
@@ -28,6 +29,7 @@ Slice construction and index resolution without Python `slice.indices` attribute
 |----------|--------|-----|
 | slindices_ex (primary) | APPROVED | **0.29x** |
 | slcheck / slnew / slunpack | APPROVED | **0.27–0.51x** |
+| sleq / slice_eq | APPROVED | identity + richcompare (issue #30); on `buffers`, not `hot` |
 | out-param cdef aliases | APPROVED (cimport) | for Cython callers |
 | GetIndices (old) | APPROVED (cimport) | prefer Ex; keep alias |
 
@@ -37,7 +39,7 @@ Slice construction and index resolution without Python `slice.indices` attribute
 |-------|--------|
 | Freeze | **1.0 Core** — public + documented cimport; see COVERAGE § 1.0 freeze |
 | Iteration | 1 |
-| Last pass | 2026-07-21 — Phase 4 Tier B |
+| Last pass | 2026-07-22 — `slice_eq` (#30) |
 | Next action | — |
 
 ## Decision log
@@ -46,6 +48,7 @@ Slice construction and index resolution without Python `slice.indices` attribute
 |----------|--------|----------|-----------|
 | slindices_ex | **0.29x** vs `indices`+math | APPROVED | 1 |
 | slnew | **0.48–0.51x** | APPROVED | 1 |
+| sleq / slice_eq | identity + richcompare; Python `slice.__eq__` parity | APPROVED | 1 |
 
 ## Bench notes
 
@@ -88,6 +91,7 @@ Ratio = cypy `cdef` loop / typed Cython baseline loop (opaque + sink). **Informa
 | Scale | Empty `::` and stepped `1:10:2` both ~0.28–0.29x vs pure Python indices |
 | Safety | Length argument must match sequence length used later — wrong len → IndexError paths |
 | Subtype | Check allows slice subtypes; Exact rejects them |
+| `slice_eq` | Same semantics as `==` (identity then richcompare on start/stop/step); `None` bounds not normalized; on `cypy.buffers`, leave off `hot` |
 
 
 ## Done when
