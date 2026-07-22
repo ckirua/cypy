@@ -25,6 +25,7 @@ Implemented **every** inventory candidate, tier-A benched. Public winners stay `
 | tsize | cypy | cpdef | public | `PyTuple_Size` |
 | tget | cypy | cpdef | public | `PyTuple_GET_ITEM` |
 | tget_checked | cypy | cpdef | public | `PyTuple_GetItem` |
+| teq | cypy | cpdef | public | identity/len + richcompare; preferred `tuple_eq` |
 | tlen | cypy | cpdef | public | `PyTuple_GET_SIZE` |
 | tslice | cypy | cpdef | public | `PyTuple_GetSlice` |
 | tset | cypy | cdef | cimport | `SET_ITEM`+INCREF — not public |
@@ -49,6 +50,7 @@ Implemented **every** inventory candidate, tier-A benched. Public winners stay `
 |----------|--------|-----|
 | tget | APPROVED | primary ~0.70x |
 | tget_checked | APPROVED | ~0.71x; safe index |
+| teq / tuple_eq | APPROVED | identity/len + richcompare (issue #19) |
 | tlen | APPROVED | ~0.58x |
 | tsize | APPROVED | ~0.69x; prefer `tlen` hot |
 | tcheck | APPROVED | ~0.55x / 0.41x |

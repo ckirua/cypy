@@ -2,7 +2,7 @@
 # Typed ``tuple`` helpers. Public docs live in ``cytuple.pyi``.
 # ``tnew`` / ``tset`` / ``tresize`` are cdef (cimport only) — see docs/modules/001_cytuple.md.
 
-from cpython.object cimport PyObject
+from cpython.object cimport PyObject, PyObject_RichCompareBool, Py_EQ
 from cpython.ref cimport Py_INCREF
 from cpython.tuple cimport (
     PyTuple_Check,
@@ -64,6 +64,14 @@ cdef inline Py_ssize_t tlen(tuple t) noexcept:
     return PyTuple_GET_SIZE(t)
 
 
+cdef inline bint teq(tuple a, tuple b):
+    if a is b:
+        return True
+    if PyTuple_GET_SIZE(a) != PyTuple_GET_SIZE(b):
+        return False
+    return <bint>PyObject_RichCompareBool(a, b, Py_EQ)
+
+
 cdef inline tuple tslice(tuple t, Py_ssize_t low, Py_ssize_t high):
     return PyTuple_GetSlice(t, low, high)
 
@@ -99,6 +107,9 @@ cpdef inline object tuple_get_checked(tuple t, Py_ssize_t i):
 
 cpdef inline Py_ssize_t tuple_len(tuple t) noexcept:
     return tlen(t)
+
+cpdef inline bint tuple_eq(tuple a, tuple b):
+    return teq(a, b)
 
 cdef inline tuple tuple_new(Py_ssize_t n):
     return tnew(n)

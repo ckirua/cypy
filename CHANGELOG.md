@@ -3,6 +3,13 @@
 All notable changes to `cypy` are documented here. Version from
 [`src/cypy/__about__.py`](src/cypy/__about__.py).
 
+## [1.17.0] — 2026-07-22 — `tuple_eq`
+
+### Added
+
+- **`tuple_eq`** (`cytuple`): typed ``tuple`` equality — identity/len + richcompare.
+  Soft ``teq``. On ``cypy`` / ``cypy.containers``.
+
 ## [1.16.0] — 2026-07-22 — `list_eq`
 
 ### Added

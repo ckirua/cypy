@@ -5,6 +5,7 @@ Run: python examples/pytuple.py
 
 from cypy import (
     tuple_check,
+    tuple_eq,
     tuple_get,
     tuple_get_checked,
     tuple_len,
@@ -15,6 +16,7 @@ from cypy import (
 ROW: tuple[str, str, str] = ("BTCUSDT", "TRADING", "SPOT")
 
 def main() -> None:
+    assert tuple_eq((1, 2), (1, 2)) and not tuple_eq((1,), (2,)) and tuple_eq((), ())
     print(f"tuple_len(row) -> {tuple_len(ROW)!r}")
     for i in range(tuple_len(ROW)):
         print(f"tuple_get(row, {i}) -> {tuple_get(ROW, i)!r}")
