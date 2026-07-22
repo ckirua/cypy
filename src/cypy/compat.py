@@ -82,6 +82,7 @@ COMPAT_MAP: dict[str, str] = {
     "dget_ref": "dict_get_ref",
     "dget_with_error": "dict_get_with_error",
     "dlen": "dict_len",
+    "deq": "dict_eq",
     "dmerge": "dict_merge",
     "dmerge_from_seq2": "dict_merge_from_seq2",
     "dnew": "dict_new",

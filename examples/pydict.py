@@ -8,6 +8,7 @@ from cypy import (
     dict_contains,
     dict_copy,
     dict_del,
+    dict_eq,
     dict_get,
     dict_len,
     dict_pop,
@@ -25,6 +26,8 @@ PAYLOAD: dict[str, object] = {
 }
 
 def main() -> None:
+    assert dict_eq({"a": 1}, {"a": 1}) and not dict_eq({"a": 1}, {"a": 2}) and dict_eq({}, {})
+    assert dict_eq({"a": {"b": 1}}, {"a": {"b": 1}}) and not dict_eq({"a": 1}, {"b": 1})
     print(f"dict_len(payload) -> {dict_len(PAYLOAD)!r}")
     for key in ("symbol", "status", "contractType", "onboardDate"):
         print(f"dict_get(payload, {key!r}) -> {dict_get(PAYLOAD, key)!r}")

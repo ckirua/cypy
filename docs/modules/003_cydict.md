@@ -27,6 +27,7 @@ Hot-path get/set/pop/merge/len for typed exact `dict` + `str` keys, plus full in
 | dget_ref | cypy | cpdef | public | strong `PyDict_GetItemRef` |
 | dcontains | cypy | cpdef | public | `PyDict_Contains` |
 | dlen | cypy | cpdef | public | `PyDict_GET_SIZE` — **exact `dict` only** |
+| deq | cypy | cpdef | public | identity/size + richcompare; preferred `dict_eq` |
 | dsize | cypy | cpdef | public | `PyDict_Size` — accepts subtypes |
 | dset | cypy | cpdef | public | `PyDict_SetItem` |
 | ddel | cypy | cpdef | public | `PyDict_DelItem` |
@@ -66,6 +67,7 @@ Hot-path get/set/pop/merge/len for typed exact `dict` + `str` keys, plus full in
 | dget_with_error | APPROVED | **0.61x**; propagates hash/eq errors |
 | dcontains | APPROVED | hit **0.69x** |
 | dlen | APPROVED | **0.60x**; Cython typed `dict` rejects subtypes |
+| deq / dict_eq | APPROVED | identity/size + richcompare (issue #20) |
 | dsize | APPROVED | **0.58x**; use for subtypes / untyped |
 | dcheck / dcheck_exact | APPROVED | **0.51x** / **0.54x** |
 | dnew | APPROVED | **0.84x** vs `{}` |

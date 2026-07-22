@@ -42,6 +42,10 @@ def dict_len(d: dict) -> int:
     """Return ``len(d)`` via ``PyDict_GET_SIZE``."""
     ...
 
+def dict_eq(a: dict, b: dict) -> bool:
+    """Return True if typed dicts are equal (identity/size short-circuit + richcompare)."""
+    ...
+
 def dict_merge(d: dict, other: object, override: bool = True) -> int:
     """Merge ``other`` into ``d`` via ``PyDict_Merge`` (``override`` controls overwrite). Returns 0 on success; errors raise — do not use as bool."""
     ...

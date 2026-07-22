@@ -2,7 +2,7 @@
 # Typed ``dict`` helpers. Public docs live in ``cydict.pyi``.
 # C-string key APIs and borrowed Next pointers: cdef.
 
-from cpython.object cimport PyObject
+from cpython.object cimport PyObject, PyObject_RichCompareBool, Py_EQ
 
 
 cdef extern from "Python.h":
@@ -91,6 +91,15 @@ cdef inline bint dcontains(dict d, str key) except -1:
 
 cdef inline Py_ssize_t dlen(dict d) noexcept:
     return PyDict_GET_SIZE(d)
+
+
+cdef inline bint deq(dict a, dict b):
+    # Identity / size short-circuit + richcompare (same semantics as ``==``).
+    if a is b:
+        return True
+    if PyDict_GET_SIZE(a) != PyDict_GET_SIZE(b):
+        return False
+    return <bint>PyObject_RichCompareBool(a, b, Py_EQ)
 
 
 cdef inline Py_ssize_t dsize(object d) except -1:
@@ -265,6 +274,9 @@ cdef inline list dict_keys(dict d):
 
 cpdef inline Py_ssize_t dict_len(dict d) noexcept:
     return dlen(d)
+
+cpdef inline bint dict_eq(dict a, dict b):
+    return deq(a, b)
 
 cpdef inline int dict_merge(dict d, object other, bint override=True) except -1:
     return dmerge(d, other, override)
