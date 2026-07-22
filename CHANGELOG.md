@@ -3,6 +3,15 @@
 All notable changes to `cypy` are documented here. Version from
 [`src/cypy/__about__.py`](src/cypy/__about__.py).
 
+## [1.34.0] — 2026-07-22 — `type_eq`
+
+### Added
+
+- **`type_eq`** (`cytype`): type-object equality via identity (``a is b``) —
+  CPython ``type_richcompare`` default; not Python ``==`` when a metaclass
+  overrides ``__eq__``. Soft ``typeeq`` (``teq`` remains ``tuple_eq``). On
+  ``cypy`` (not ``hot`` — Runtime; validate win before promoting).
+
 ## [1.33.0] — 2026-07-22 — `obj_eq`
 
 ### Added

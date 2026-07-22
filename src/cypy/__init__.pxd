@@ -141,6 +141,8 @@ from .cyobject cimport (
 from .cytype cimport (
     type_check,
     type_check_exact,
+    type_eq,
+    typeeq,
     type_generic_alloc,
     type_generic_new,
     type_has_feature,
@@ -981,6 +983,7 @@ __all__: tuple[str, ...] = (
     "obj_realloc",
     "type_check",
     "type_check_exact",
+    "type_eq",
     "type_generic_alloc",
     "type_generic_new",
     "type_has_feature",

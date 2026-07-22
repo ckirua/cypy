@@ -128,6 +128,7 @@ from .cyobject import (
 from .cytype import (
     type_check,
     type_check_exact,
+    type_eq,
     type_is_subtype,
 )
 from .cyfunction import (

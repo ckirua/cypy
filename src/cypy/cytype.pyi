@@ -11,3 +11,7 @@ def type_check_exact(o: object) -> bool:
 def type_is_subtype(a: object, b: object) -> bool:
     """Return True if type ``a`` is a subtype of type ``b`` (``PyType_IsSubtype``)."""
     ...
+
+def type_eq(a: object, b: object) -> bool:
+    """Return True if ``a is b`` (type-object identity; not metaclass ``__eq__``)."""
+    ...

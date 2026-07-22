@@ -4,7 +4,7 @@ How to grind through open `[eq/…]` enhancement issues on [ckirua/cypy](https:/
 
 ## Resume pointer (2026-07-22)
 
-Open `[eq/…]` from **#36** (`type_eq`) upward. Skip **#44**. Already on `main` through **#35** (`obj_eq`); version ≥ 1.33.0.
+Open `[eq/…]` from **#37** (`cell_eq`) upward. Skip **#44**. Already on `main` through **#36** (`type_eq`); version ≥ 1.34.0.
 
 ## Scope (always bake into the prompt)
 
