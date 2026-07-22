@@ -19,6 +19,7 @@
 | Symbol | Export | Notes |
 |--------|--------|-------|
 | dt_*_check* / *_new / field getters | public | wraps cpython.datetime helpers |
+| dteq_date / dt_date_eq | public | identity + exact y/m/d / richcompare; soft `dteq_date` |
 | dt_timedelta_check* / days / seconds / microseconds | public | preferred spelling |
 | dt_delta_* (check/days/seconds/microseconds) | cimport impl | 0.3: soft names cdef-only; prefer `dt_timedelta_*` |
 
@@ -27,6 +28,7 @@
 | Function | Status | Why |
 |----------|--------|-----|
 | checks / year / date_new / timedelta_new | APPROVED | **0.20–0.65x** |
+| dteq_date / dt_date_eq | APPROVED | identity + exact field compare / richcompare (issue #31); not `hot` |
 | remaining getters/ctors | APPROVED (API) | completeness |
 
 ## Lifecycle
@@ -35,7 +37,7 @@
 |-------|--------|
 | Freeze | **Provisional (Runtime)** after 1.0 — not Core; may evolve under minors |
 | Iteration | 1 |
-| Last pass | 2026-07-21 — Phase 4 Tier B |
+| Last pass | 2026-07-22 — `dt_date_eq` (#31) |
 | Next action | — |
 
 ## Decision log
@@ -43,6 +45,7 @@
 | Function | Result | Decision | Iteration |
 |----------|--------|----------|-----------|
 | checks/getters/ctors | 0.20–0.65x | APPROVED | 1 |
+| dteq_date / dt_date_eq | identity + exact y/m/d; richcompare for subtypes / date↔datetime | APPROVED | 1 |
 
 ## Bench notes
 
@@ -87,6 +90,7 @@ Ratio = cypy `cdef` loop / typed Cython baseline loop (opaque + sink). **Informa
 | Scale | DateFromDate / Delta constructors win; timezone edges left to datetime module |
 | Safety | Must call `PyDateTime_IMPORT` once before macros — wrappers ensure import |
 | ABI | datetime C-API via capsule; missing import → segfault risk if bypassed |
+| `dt_date_eq` | Exact `date` pairs: C y/m/d compare; subtypes / date↔datetime via richcompare (Python `==`; date≠datetime); leave off `hot` until measured win |
 
 
 ## Done when

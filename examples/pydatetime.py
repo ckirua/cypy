@@ -2,10 +2,11 @@
 
 Run: python examples/pydatetime.py
 """
-from datetime import timedelta
+from datetime import date, datetime, timedelta
 
 from cypy import (
     dt_date_check,
+    dt_date_eq,
     dt_date_new,
     dt_date_year,
     dt_timedelta_check,
@@ -17,6 +18,9 @@ def main() -> None:
     d = dt_date_new(2026, 7, 21)
     assert dt_date_check(d)
     assert dt_date_year(d) == 2026
+    assert dt_date_eq(d, date(2026, 7, 21)) and not dt_date_eq(d, date(2026, 7, 22))
+    assert dt_date_eq(d, d)
+    assert not dt_date_eq(d, datetime(2026, 7, 21))  # date vs datetime
 
     td = dt_timedelta_new(1, 2, 3)
     assert dt_timedelta_check(td)

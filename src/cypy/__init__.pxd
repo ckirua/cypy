@@ -249,6 +249,7 @@ from .cycodecs cimport (
 from .cydatetime cimport (
     dt_date_check,
     dt_date_check_exact,
+    dt_date_eq,
     dt_datetime_check,
     dt_datetime_check_exact,
     dt_time_check,
@@ -1061,6 +1062,7 @@ __all__: tuple[str, ...] = (
     "codec_namereplace_errors",
     "dt_date_check",
     "dt_date_check_exact",
+    "dt_date_eq",
     "dt_datetime_check",
     "dt_datetime_check_exact",
     "dt_time_check",
