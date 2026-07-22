@@ -73,7 +73,7 @@ Scanner hot paths plus full include try-all. Depth showed pure `memmem` **loses*
 |-------|--------|
 | Freeze | **1.0 Core** — public + documented cimport; see COVERAGE § 1.0 freeze |
 | Iteration | 8 |
-| Last pass | 2026-07-22 — Tier A depth for `bytes_bytearray_eq` |
+| Last pass | 2026-07-22 — Tier B `*_eq` inventory|
 | Next action | — |
 
 ## Decision log
@@ -150,7 +150,27 @@ Harness: [`bench/cybytes_bench.py`](../../bench/cybytes_bench.py) · N=80_000 ×
 | bytes_bytearray_eq | ba↔ba | 1.05±0.02ms | 1.08ms | **0.49x** | 0.49x | APPROVED |
 | bytes_bytearray_eq | empty cross | 0.99±0.04ms | 1.07ms | **0.47x** | 0.48x | APPROVED |
 
+### Tier B — `*_eq` (inventory)
+
+Harness: [`bench/tier_b/cyeq_inventory.py`](../../bench/tier_b/cyeq_inventory.py) · `cyeq_*_tb.pyx` · CPython 3.14 · Linux x86_64 · `CPY_TIERB_N=2_000_000` (heavy shapes `N/40`) × `runs=5`  
+Ratio = cypy `cdef` loop / typed Cython baseline `==` loop (opaque + sink). **Informational** — does not reopen Tier A.
+
+| operation | case | cypy mean±σ | p99 | cy-base mean±σ | ratio | p99× | note |
+|-----------|------|-------------|-----|----------------|-------|------|------|
+| bytes_eq | eq short | 2.53±0.02ms | 2.56ms | 2.53±0.01ms | **1.00x** | 1.00x | ~tie |
+| bytes_eq | ne short | 2.90±0.02ms | 2.93ms | 2.57±0.02ms | **1.13x** | 1.12x | baseline faster |
+| bytes_eq | eq 1KiB | 0.06±0.00ms | 0.06ms | 0.07±0.00ms | **0.95x** | 0.87x | cypy faster |
+| bytes_bytearray_eq | bytes→ba eq | 3.41±0.02ms | 3.43ms | 18.01±0.09ms | **0.19x** | 0.19x | cypy faster |
+| bytes_bytearray_eq | ba→bytes eq | 3.49±0.09ms | 3.62ms | 15.68±0.26ms | **0.22x** | 0.22x | cypy faster |
+| bytes_bytearray_eq | bytes→ba ne | 3.80±0.04ms | 3.83ms | 18.60±0.07ms | **0.20x** | 0.20x | cypy faster |
+
+**Tier B `*_eq` notes:**
+- **`bytes_eq`:** Equal ~tie; ne **1.13x** lose (extra len/memcmp vs Cython `==`). 1KiB eq **0.95x**. Matches prior `cybytes` Tier B.
+- **`bytes_bytearray_eq`:** **0.19–0.22x** win — typed memcmp path beats Cython cross-type `==` (buffer protocol / coerce).
+
 ## Experiment conclusions
+
+**Tier B `*_eq` inventory:** see section **Tier B — `*_eq` (inventory)** table. Equal ~tie; ne **1.13x** lose (extra len/memcmp vs Cython `==`). 1KiB eq **0.95x**. Matches prior `cybytes` Tier B.
 
 **Tier B:** primary `bcontains` **0.04x** vs typed `in` (memmem path wins in cdef loop).
 

@@ -44,7 +44,7 @@ Abstract object protocol for Cython call sites. From Python, builtins usually wi
 |-------|--------|
 | Freeze | **Provisional (Protocols)** after 1.0 — not Core; may evolve under minors |
 | Iteration | 1 |
-| Last pass | 2026-07-22 — `obj_eq` (#35) |
+| Last pass | 2026-07-22 — Tier B `*_eq` inventory|
 | Next action | — |
 
 ## Decision log
@@ -94,7 +94,22 @@ Harness: [`bench/cyeq_misc_bench.py`](../../bench/cyeq_misc_bench.py) · N=80_00
 | obj_eq | int eq | 1.03±0.08ms | 1.20ms | **0.67x** | 0.78x | APPROVED |
 | obj_eq | nan is nan | 1.19±0.03ms | 1.25ms | **0.76x** | 0.75x | APPROVED |
 
+### Tier B — `*_eq` (inventory)
+
+Harness: [`bench/tier_b/cyeq_inventory.py`](../../bench/tier_b/cyeq_inventory.py) · `cyeq_*_tb.pyx` · CPython 3.14 · Linux x86_64 · `CPY_TIERB_N=2_000_000` (heavy shapes `N/40`) × `runs=5`  
+Ratio = cypy `cdef` loop / typed Cython baseline `==` loop (opaque + sink). **Informational** — does not reopen Tier A.
+
+| operation | case | cypy mean±σ | p99 | cy-base mean±σ | ratio | p99× | note |
+|-----------|------|-------------|-----|----------------|-------|------|------|
+| obj_eq | int eq | 3.05±0.02ms | 3.09ms | 5.79±0.05ms | **0.53x** | 0.53x | cypy faster |
+| obj_eq | nan is nan | 4.89±0.01ms | 4.91ms | 5.02±0.04ms | **0.97x** | 0.96x | cypy faster |
+
+**Tier B `*_eq` notes:**
+- **`obj_eq`:** Int eq **0.53x**; nan **0.97x** (~tie) — generic richcompare EQ.
+
 ## Experiment conclusions
+
+**Tier B `*_eq` inventory:** see section **Tier B — `*_eq` (inventory)** table. Int eq **0.53x**; nan **0.97x** (~tie) — generic richcompare EQ.
 
 **Tier B:** `obj_type`/`obj_len` ~**1.03–1.05x** — thin wrapper parity.
 

@@ -31,3 +31,7 @@ Earlier dedicated passes: `bytes_eq`, `bytes_bytearray_eq`, `deque_eq`, `range_e
 
 - **`buf_eq` memoryview↔memoryview (1.14x):** keep helper for abstract buffer pairs;
   prefer **`memoryview_eq`** when both sides are typed views.
+
+## Tier B
+
+See [`EQ_INVENTORY_TIERB.md`](EQ_INVENTORY_TIERB.md) for cdef-vs-Cython ratios.

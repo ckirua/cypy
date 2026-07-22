@@ -31,7 +31,7 @@ Value equality for `range` (same sequence, not identity) in config/index call si
 | Field | Value |
 |-------|--------|
 | Iteration | 2 |
-| Last pass | 2026-07-22 — Tier A depth (issue #42 follow-up) |
+| Last pass | 2026-07-22 — Tier B `*_eq` inventory|
 | Next action | — |
 
 ## Decision log
@@ -61,7 +61,23 @@ Harness: [`bench/cyrange_bench.py`](../../bench/cyrange_bench.py) · tier A · C
 
 Summary: 8/8 faster · 8/8 ≥5% gate · mean **0.73x** · median **0.74x**.
 
+### Tier B — `*_eq` (inventory)
+
+Harness: [`bench/tier_b/cyeq_inventory.py`](../../bench/tier_b/cyeq_inventory.py) · `cyeq_*_tb.pyx` · CPython 3.14 · Linux x86_64 · `CPY_TIERB_N=2_000_000` (heavy shapes `N/40`) × `runs=5`  
+Ratio = cypy `cdef` loop / typed Cython baseline `==` loop (opaque + sink). **Informational** — does not reopen Tier A.
+
+| operation | case | cypy mean±σ | p99 | cy-base mean±σ | ratio | p99× | note |
+|-----------|------|-------------|-----|----------------|-------|------|------|
+| range_eq | eq | 15.98±0.06ms | 16.06ms | 15.33±0.11ms | **1.04x** | 1.04x | baseline faster |
+| range_eq | ne | 9.49±0.05ms | 9.56ms | 9.35±0.05ms | **1.01x** | 1.01x | ~tie |
+| range_eq | equiv span | 15.95±0.05ms | 16.03ms | 15.29±0.04ms | **1.04x** | 1.04x | baseline faster |
+
+**Tier B `*_eq` notes:**
+- **`range_eq`:** ~tie / slight lose (**1.01–1.04x**) vs Cython `range == range`; Tier A still wins vs Python.
+
 ## Experiment conclusions
+
+**Tier B `*_eq` inventory:** see section **Tier B — `*_eq` (inventory)** table. ~tie / slight lose (**1.01–1.04x**) vs Cython `range == range`; Tier A still wins vs Python.
 
 | Topic | Finding |
 |-------|---------|

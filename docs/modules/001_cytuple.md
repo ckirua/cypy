@@ -149,7 +149,24 @@ Harness: [`bench/cyeq_inventory_bench.py`](../../bench/cyeq_inventory_bench.py) 
 | tuple_eq | ne small | 1.41±0.11ms | 1.71ms | **0.73x** | 0.82x | APPROVED |
 | tuple_eq | identity | 0.98±0.12ms | 1.30ms | **0.55x** | 0.60x | APPROVED |
 | tuple_eq | eq n=64 | 2.64±0.14ms | 2.92ms | **0.85x** | 0.82x | APPROVED |
+### Tier B — `*_eq` (inventory)
+
+Harness: [`bench/tier_b/cyeq_inventory.py`](../../bench/tier_b/cyeq_inventory.py) · `cyeq_*_tb.pyx` · CPython 3.14 · Linux x86_64 · `CPY_TIERB_N=2_000_000` (heavy shapes `N/40`) × `runs=5`  
+Ratio = cypy `cdef` loop / typed Cython baseline `==` loop (opaque + sink). **Informational** — does not reopen Tier A.
+
+| operation | case | cypy mean±σ | p99 | cy-base mean±σ | ratio | p99× | note |
+|-----------|------|-------------|-----|----------------|-------|------|------|
+| tuple_eq | eq small | 2.52±0.02ms | 2.55ms | 9.57±0.07ms | **0.26x** | 0.26x | cypy faster |
+| tuple_eq | ne small | 11.93±0.05ms | 11.99ms | 11.17±0.05ms | **1.07x** | 1.06x | baseline faster |
+| tuple_eq | identity | 2.55±0.04ms | 2.61ms | 9.61±0.06ms | **0.26x** | 0.27x | cypy faster |
+| tuple_eq | eq n=64 | 1.14±0.01ms | 1.16ms | 1.14±0.01ms | **1.00x** | 1.00x | ~tie |
+
+**Tier B `*_eq` notes:**
+- **`tuple_eq`:** Equal/identity short-circuit **0.26x** vs typed `==` (Cython still pays richcompare on immortal tuple path); ne/n=64 ~tie–lose. Keep for identity-heavy call sites.
+
 ## Experiment conclusions
+
+**Tier B `*_eq` inventory:** see section **Tier B — `*_eq` (inventory)** table. Equal/identity short-circuit **0.26x** vs typed `==` (Cython still pays richcompare on immortal tuple path); ne/n=64 ~tie–lose. Keep for identity-heavy call sites.
 
 | symbol | kind | export | conclusion |
 |--------|------|--------|------------|

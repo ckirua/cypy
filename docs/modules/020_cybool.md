@@ -85,7 +85,22 @@ Harness: [`bench/cyeq_inventory_bench.py`](../../bench/cyeq_inventory_bench.py) 
 |-----------|------|-------------|-----|-------|------|---------|
 | bool_eq | True | 0.93±0.05ms | 1.04ms | **0.60x** | 0.65x | APPROVED |
 | bool_eq | ne | 1.13±0.03ms | 1.19ms | **0.68x** | 0.67x | APPROVED |
+### Tier B — `*_eq` (inventory)
+
+Harness: [`bench/tier_b/cyeq_inventory.py`](../../bench/tier_b/cyeq_inventory.py) · `cyeq_*_tb.pyx` · CPython 3.14 · Linux x86_64 · `CPY_TIERB_N=2_000_000` (heavy shapes `N/40`) × `runs=5`  
+Ratio = cypy `cdef` loop / typed Cython baseline `==` loop (opaque + sink). **Informational** — does not reopen Tier A.
+
+| operation | case | cypy mean±σ | p99 | cy-base mean±σ | ratio | p99× | note |
+|-----------|------|-------------|-----|----------------|-------|------|------|
+| bool_eq | True | 2.51±0.01ms | 2.52ms | 5.73±0.04ms | **0.44x** | 0.43x | cypy faster |
+| bool_eq | ne | 5.19±0.06ms | 5.29ms | 5.75±0.04ms | **0.90x** | 0.91x | cypy faster |
+
+**Tier B `*_eq` notes:**
+- **`bool_eq`:** **0.44–0.90x** win — identity/True fast path vs Cython `==`.
+
 ## Experiment conclusions
+
+**Tier B `*_eq` inventory:** see section **Tier B — `*_eq` (inventory)** table. **0.44–0.90x** win — identity/True fast path vs Cython `==`.
 
 **Tier B:** `bool_check` **0.88x** vs isinstance.
 

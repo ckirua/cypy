@@ -82,7 +82,22 @@ Harness: [`bench/cyeq_inventory_bench.py`](../../bench/cyeq_inventory_bench.py) 
 |-----------|------|-------------|-----|-------|------|---------|
 | map_eq | dict eq | 2.02±0.03ms | 2.06ms | **0.79x** | 0.76x | APPROVED |
 | map_eq | dict ne | 2.19±0.06ms | 2.31ms | **0.82x** | 0.81x | APPROVED |
+### Tier B — `*_eq` (inventory)
+
+Harness: [`bench/tier_b/cyeq_inventory.py`](../../bench/tier_b/cyeq_inventory.py) · `cyeq_*_tb.pyx` · CPython 3.14 · Linux x86_64 · `CPY_TIERB_N=2_000_000` (heavy shapes `N/40`) × `runs=5`  
+Ratio = cypy `cdef` loop / typed Cython baseline `==` loop (opaque + sink). **Informational** — does not reopen Tier A.
+
+| operation | case | cypy mean±σ | p99 | cy-base mean±σ | ratio | p99× | note |
+|-----------|------|-------------|-----|----------------|-------|------|------|
+| map_eq | dict eq | 24.95±0.27ms | 25.16ms | 22.99±0.07ms | **1.09x** | 1.09x | baseline faster |
+| map_eq | dict ne | 28.69±0.10ms | 28.83ms | 27.11±0.57ms | **1.06x** | 1.03x | baseline faster |
+
+**Tier B `*_eq` notes:**
+- **`map_eq`:** **Lose 1.06–1.09x** — abstract mapping path; prefer `dict_eq` when typed.
+
 ## Experiment conclusions
+
+**Tier B `*_eq` inventory:** see section **Tier B — `*_eq` (inventory)** table. **Lose 1.06–1.09x** — abstract mapping path; prefer `dict_eq` when typed.
 
 **Tier B:** `map_check` **1.16x** vs isinstance(dict) — Mapping check is broader.
 

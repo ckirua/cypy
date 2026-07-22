@@ -31,7 +31,7 @@ Typed equality for `collections.deque` queue/window call sites without a full de
 | Field | Value |
 |-------|--------|
 | Iteration | 2 |
-| Last pass | 2026-07-22 — Tier A depth (issue #41 follow-up) |
+| Last pass | 2026-07-22 — Tier B `*_eq` inventory|
 | Next action | — |
 
 ## Decision log
@@ -60,7 +60,24 @@ Harness: [`bench/cydeque_bench.py`](../../bench/cydeque_bench.py) · tier A · C
 
 Summary: 7/7 faster · 5/7 ≥5% gate · mean **0.87x** · median **0.90x**.
 
+### Tier B — `*_eq` (inventory)
+
+Harness: [`bench/tier_b/cyeq_inventory.py`](../../bench/tier_b/cyeq_inventory.py) · `cyeq_*_tb.pyx` · CPython 3.14 · Linux x86_64 · `CPY_TIERB_N=2_000_000` (heavy shapes `N/40`) × `runs=5`  
+Ratio = cypy `cdef` loop / typed Cython baseline `==` loop (opaque + sink). **Informational** — does not reopen Tier A.
+
+| operation | case | cypy mean±σ | p99 | cy-base mean±σ | ratio | p99× | note |
+|-----------|------|-------------|-----|----------------|-------|------|------|
+| deque_eq | eq small | 100.49±0.48ms | 101.13ms | 100.85±0.28ms | **1.00x** | 1.00x | ~tie |
+| deque_eq | ne small | 92.79±0.30ms | 93.13ms | 90.40±0.63ms | **1.03x** | 1.02x | baseline faster |
+| deque_eq | identity | 2.61±0.00ms | 2.61ms | 6.31±0.11ms | **0.41x** | 0.41x | cypy faster |
+| deque_eq | eq n=64 | 17.56±0.07ms | 17.64ms | 17.57±0.08ms | **1.00x** | 1.00x | ~tie |
+
+**Tier B `*_eq` notes:**
+- **`deque_eq`:** Identity **0.41x**; elementwise ~tie. No dedicated module Tier B before this inventory.
+
 ## Experiment conclusions
+
+**Tier B `*_eq` inventory:** see section **Tier B — `*_eq` (inventory)** table. Identity **0.41x**; elementwise ~tie. No dedicated module Tier B before this inventory.
 
 | Topic | Finding |
 |-------|---------|

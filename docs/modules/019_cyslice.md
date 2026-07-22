@@ -86,7 +86,22 @@ Harness: [`bench/cyeq_inventory_bench.py`](../../bench/cyeq_inventory_bench.py) 
 |-----------|------|-------------|-----|-------|------|---------|
 | slice_eq | eq | 2.38±0.05ms | 2.47ms | **0.82x** | 0.83x | APPROVED |
 | slice_eq | ne | 2.51±0.06ms | 2.64ms | **0.84x** | 0.85x | APPROVED |
+### Tier B — `*_eq` (inventory)
+
+Harness: [`bench/tier_b/cyeq_inventory.py`](../../bench/tier_b/cyeq_inventory.py) · `cyeq_*_tb.pyx` · CPython 3.14 · Linux x86_64 · `CPY_TIERB_N=2_000_000` (heavy shapes `N/40`) × `runs=5`  
+Ratio = cypy `cdef` loop / typed Cython baseline `==` loop (opaque + sink). **Informational** — does not reopen Tier A.
+
+| operation | case | cypy mean±σ | p99 | cy-base mean±σ | ratio | p99× | note |
+|-----------|------|-------------|-----|----------------|-------|------|------|
+| slice_eq | eq | 34.14±0.80ms | 34.99ms | 35.37±0.12ms | **0.97x** | 0.98x | cypy faster |
+| slice_eq | ne | 37.90±0.41ms | 38.24ms | 37.46±0.25ms | **1.01x** | 1.01x | ~tie |
+
+**Tier B `*_eq` notes:**
+- **`slice_eq`:** ~tie (**0.97–1.01x**) vs Cython `slice == slice`.
+
 ## Experiment conclusions
+
+**Tier B `*_eq` inventory:** see section **Tier B — `*_eq` (inventory)** table. ~tie (**0.97–1.01x**) vs Cython `slice == slice`.
 
 **Tier B:** `slcheck` **1.03x** vs isinstance — ~parity.
 

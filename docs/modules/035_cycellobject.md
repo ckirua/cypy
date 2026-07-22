@@ -84,7 +84,23 @@ Harness: [`bench/cyeq_inventory_bench.py`](../../bench/cyeq_inventory_bench.py) 
 | cell_eq | identity | 0.95±0.04ms | 1.00ms | **0.51x** | 0.50x | APPROVED |
 | cell_eq | same value | 1.36±0.06ms | 1.46ms | **0.72x** | 0.72x | APPROVED |
 | cell_eq | ne | 1.34±0.02ms | 1.37ms | **0.71x** | 0.68x | APPROVED |
+### Tier B — `*_eq` (inventory)
+
+Harness: [`bench/tier_b/cyeq_inventory.py`](../../bench/tier_b/cyeq_inventory.py) · `cyeq_*_tb.pyx` · CPython 3.14 · Linux x86_64 · `CPY_TIERB_N=2_000_000` (heavy shapes `N/40`) × `runs=5`  
+Ratio = cypy `cdef` loop / typed Cython baseline `==` loop (opaque + sink). **Informational** — does not reopen Tier A.
+
+| operation | case | cypy mean±σ | p99 | cy-base mean±σ | ratio | p99× | note |
+|-----------|------|-------------|-----|----------------|-------|------|------|
+| cell_eq | identity | 2.52±0.01ms | 2.53ms | 11.53±0.04ms | **0.22x** | 0.22x | cypy faster |
+| cell_eq | same value | 10.20±0.18ms | 10.34ms | 11.15±0.02ms | **0.91x** | 0.92x | cypy faster |
+| cell_eq | ne | 10.05±0.06ms | 10.14ms | 11.51±0.02ms | **0.87x** | 0.88x | cypy faster |
+
+**Tier B `*_eq` notes:**
+- **`cell_eq`:** Identity **0.22x**; same-value/ne **0.87–0.91x** — identity short-circuit + richcompare.
+
 ## Experiment conclusions
+
+**Tier B `*_eq` inventory:** see section **Tier B — `*_eq` (inventory)** table. Identity **0.22x**; same-value/ne **0.87–0.91x** — identity short-circuit + richcompare.
 
 **Tier B:** `cell_check` **0.10x** vs type-name baseline.
 

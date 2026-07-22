@@ -37,7 +37,7 @@ Ship / remaster via [`PIPELINE.md`](PIPELINE.md) + [`TEMPLATE.md`](TEMPLATE.md).
 | [`../CHANGELOG.md`](../CHANGELOG.md) | Release notes; Core freeze at 1.0; Protocols/Runtime post-1.0 policy |
 | [`TEMPLATE.md`](TEMPLATE.md) | v2 tracker template |
 | [`modules/`](modules/) | **Trackers** — one `NNN_cy{name}.md` per module (Order `001`…`055`) |
-| [`EQ_INVENTORY.md`](EQ_INVENTORY.md) · [`EQ_RUNTIME.md`](EQ_RUNTIME.md) · [`AGENT_LOOPS.md`](AGENT_LOOPS.md) | Grind `[eq/…]` issues via chat `/loop` or CLI agent in tmux |
+| [`EQ_INVENTORY.md`](EQ_INVENTORY.md) · [`EQ_INVENTORY_TIERB.md`](EQ_INVENTORY_TIERB.md) · [`EQ_RUNTIME.md`](EQ_RUNTIME.md) · [`AGENT_LOOPS.md`](AGENT_LOOPS.md) | Grind `[eq/…]` issues via chat `/loop` or CLI agent in tmux |
 | [`future/MONKEY.md`](future/MONKEY.md) | Archived monkey-patch experiment — **not** in prod |
 
 Bench harnesses: [`bench/BENCH.md`](../bench/BENCH.md). Coverage map: [`COVERAGE.md`](../COVERAGE.md). Grader: `python scripts/grade_trackers.py` (optional `--write-audit` regenerates a local depth audit).

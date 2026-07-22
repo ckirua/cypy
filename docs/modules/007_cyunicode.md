@@ -100,7 +100,22 @@ Harness: [`bench/cyeq_inventory_bench.py`](../../bench/cyeq_inventory_bench.py) 
 | unicode_eq | ascii eq | 0.96±0.03ms | 1.01ms | **0.64x** | 0.63x | APPROVED |
 | unicode_eq | ascii ne | 1.11±0.05ms | 1.22ms | **0.67x** | 0.70x | APPROVED |
 | unicode_eq | non-ascii eq | 0.96±0.03ms | 1.03ms | **0.64x** | 0.65x | APPROVED |
+### Tier B — `*_eq` (inventory)
+
+Harness: [`bench/tier_b/cyeq_inventory.py`](../../bench/tier_b/cyeq_inventory.py) · `cyeq_*_tb.pyx` · CPython 3.14 · Linux x86_64 · `CPY_TIERB_N=2_000_000` (heavy shapes `N/40`) × `runs=5`  
+Ratio = cypy `cdef` loop / typed Cython baseline `==` loop (opaque + sink). **Informational** — does not reopen Tier A.
+
+| operation | case | cypy mean±σ | p99 | cy-base mean±σ | ratio | p99× | note |
+|-----------|------|-------------|-----|----------------|-------|------|------|
+| unicode_eq | ascii eq | 2.54±0.02ms | 2.58ms | 2.53±0.01ms | **1.00x** | 1.01x | ~tie |
+| unicode_eq | non-ascii eq | 2.54±0.03ms | 2.58ms | 2.53±0.01ms | **1.00x** | 1.01x | ~tie |
+
+**Tier B `*_eq` notes:**
+- **`unicode_eq`:** ~tie (**1.00x**) vs typed Cython `str == str` (same family as `str_eq`).
+
 ## Experiment conclusions
+
+**Tier B `*_eq` inventory:** see section **Tier B — `*_eq` (inventory)** table. ~tie (**1.00x**) vs typed Cython `str == str` (same family as `str_eq`).
 
 **Tier B:** `uutf8_bytes` **1.00x** vs `AsUTF8String` — thin wrapper parity.
 

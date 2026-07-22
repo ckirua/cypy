@@ -143,7 +143,24 @@ Harness: [`bench/cyeq_inventory_bench.py`](../../bench/cyeq_inventory_bench.py) 
 | list_eq | ne small | 1.54±0.10ms | 1.79ms | **0.73x** | 0.78x | APPROVED |
 | list_eq | identity | 1.02±0.11ms | 1.30ms | **0.54x** | 0.59x | APPROVED |
 | list_eq | eq n=64 | 3.37±0.13ms | 3.70ms | **0.86x** | 0.88x | APPROVED |
+### Tier B — `*_eq` (inventory)
+
+Harness: [`bench/tier_b/cyeq_inventory.py`](../../bench/tier_b/cyeq_inventory.py) · `cyeq_*_tb.pyx` · CPython 3.14 · Linux x86_64 · `CPY_TIERB_N=2_000_000` (heavy shapes `N/40`) × `runs=5`  
+Ratio = cypy `cdef` loop / typed Cython baseline `==` loop (opaque + sink). **Informational** — does not reopen Tier A.
+
+| operation | case | cypy mean±σ | p99 | cy-base mean±σ | ratio | p99× | note |
+|-----------|------|-------------|-----|----------------|-------|------|------|
+| list_eq | eq small | 12.02±0.87ms | 12.95ms | 11.29±0.46ms | **1.07x** | 1.10x | baseline faster |
+| list_eq | ne small | 12.04±0.06ms | 12.14ms | 11.96±0.12ms | **1.01x** | 1.00x | ~tie |
+| list_eq | identity | 2.52±0.01ms | 2.53ms | 10.74±0.05ms | **0.23x** | 0.23x | cypy faster |
+| list_eq | eq n=64 | 1.46±0.02ms | 1.50ms | 1.48±0.04ms | **0.99x** | 0.97x | ~tie |
+
+**Tier B `*_eq` notes:**
+- **`list_eq`:** Identity short-circuit wins hard (**0.23x**); equal/ne elementwise ~tie–lose vs typed Cython `==` (richcompare dominates). Tier A win remains Python call overhead.
+
 ## Experiment conclusions
+
+**Tier B `*_eq` inventory:** see section **Tier B — `*_eq` (inventory)** table. Identity short-circuit wins hard (**0.23x**); equal/ne elementwise ~tie–lose vs typed Cython `==` (richcompare dominates). Tier A win remains Python call overhead.
 
 **Tier B:** primary `lget` **0.98x** vs typed `l[i]` — ~parity with Cython emit.
 

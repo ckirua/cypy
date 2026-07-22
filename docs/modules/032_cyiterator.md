@@ -34,7 +34,7 @@ Iterator protocol check and C-style next (None at end).
 | Field | Value |
 |-------|--------|
 | Iteration | 1 |
-| Last pass | 2026-07-22 — `iter_eq` (#40) |
+| Last pass | 2026-07-22 — Tier B `*_eq` inventory|
 | Next action | — |
 
 ## Decision log
@@ -80,7 +80,22 @@ Harness: [`bench/cyeq_misc_bench.py`](../../bench/cyeq_misc_bench.py) · N=80_00
 | iter_eq | identity | 0.99±0.04ms | 1.06ms | **0.55x** | 0.58x | APPROVED |
 | iter_eq | ne | 1.01±0.06ms | 1.11ms | **0.56x** | 0.60x | APPROVED |
 
+### Tier B — `*_eq` (inventory)
+
+Harness: [`bench/tier_b/cyeq_inventory.py`](../../bench/tier_b/cyeq_inventory.py) · `cyeq_*_tb.pyx` · CPython 3.14 · Linux x86_64 · `CPY_TIERB_N=2_000_000` (heavy shapes `N/40`) × `runs=5`  
+Ratio = cypy `cdef` loop / typed Cython baseline `==` loop (opaque + sink). **Informational** — does not reopen Tier A.
+
+| operation | case | cypy mean±σ | p99 | cy-base mean±σ | ratio | p99× | note |
+|-----------|------|-------------|-----|----------------|-------|------|------|
+| iter_eq | identity | 2.50±0.01ms | 2.50ms | 5.03±0.13ms | **0.50x** | 0.48x | cypy faster |
+| iter_eq | ne | 2.51±0.02ms | 2.54ms | 6.17±0.03ms | **0.41x** | 0.41x | cypy faster |
+
+**Tier B `*_eq` notes:**
+- **`iter_eq`:** **0.41–0.50x** win — identity.
+
 ## Experiment conclusions
+
+**Tier B `*_eq` inventory:** see section **Tier B — `*_eq` (inventory)** table. **0.41–0.50x** win — identity.
 
 **Tier B:** `iter_check` **0.11x** vs hasattr `__next__`.
 
