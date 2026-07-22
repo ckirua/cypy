@@ -48,6 +48,7 @@ from .cyset import (
     set_contains,
     set_discard,
     set_len,
+    set_eq,
     set_size,
     set_update,
 )
@@ -103,6 +104,7 @@ __all__: tuple[str, ...] = (
     "set_clear",
     "set_update",
     "set_len",
+    "set_eq",
     "set_size",
     "tuple_check",
     "tuple_check_exact",
