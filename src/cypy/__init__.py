@@ -364,6 +364,8 @@ from .cymemoryview import (
 from .cylong import (
     long_check,
     long_check_exact,
+    long_eq,
+    int_eq,
     long_from_long,
     long_from_ulong,
     long_from_ssize,

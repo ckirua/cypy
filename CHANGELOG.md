@@ -3,6 +3,15 @@
 All notable changes to `cypy` are documented here. Version from
 [`src/cypy/__about__.py`](src/cypy/__about__.py).
 
+## [1.23.0] — 2026-07-22 — `long_eq` / `int_eq`
+
+### Added
+
+- **`long_eq`** / **`int_eq`** (`cylong`): integer equality — identity short-circuit +
+  richcompare (same semantics as ``==``). Preferred ``long_eq``; ``int_eq`` is a
+  discoverability alias. Soft ``loeq`` / ``ieq``. On ``cypy`` (not ``hot`` —
+  small-int ``==`` already specializes).
+
 ## [1.22.0] — 2026-07-22 — `map_eq`
 
 ### Added

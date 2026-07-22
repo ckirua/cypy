@@ -19,6 +19,7 @@ C↔`int` bridge and exactness checks (`bool` is a long subtype). From Python, `
 | Symbol | Export | Notes |
 |--------|--------|-------|
 | long_check / exact | public | Exact rejects `bool` |
+| long_eq / int_eq | public | identity + richcompare; preferred `long_eq`; `int_eq` alias |
 | long_from_* (long/ulong/ssize/size/ll/ull/double) | public | C constructors |
 | long_as_* / masks / double | public | |
 | long_as_long_overflow | public | `(value, overflow)` tuple |
@@ -30,6 +31,7 @@ C↔`int` bridge and exactness checks (`bool` is a long subtype). From Python, `
 | Function | Status | Why |
 |----------|--------|-----|
 | long_check* | APPROVED | **0.44–0.52x** |
+| loeq / long_eq / int_eq | APPROVED | identity + richcompare (issue #25); not on `hot` |
 | long_as_long_overflow | APPROVED | **0.73x** |
 | long_from_* / long_as_* | APPROVED (API) | **1.14–1.40x** vs `int`/`float` — Cython C bridge |
 | string/voidptr/ll_overflow cdef | APPROVED (cimport) | |
@@ -40,7 +42,7 @@ C↔`int` bridge and exactness checks (`bool` is a long subtype). From Python, `
 | Field | Value |
 |-------|--------|
 | Iteration | 1 |
-| Last pass | 2026-07-21 — Phase 4 Tier B |
+| Last pass | 2026-07-22 — `long_eq` / `int_eq` (#25) |
 | Next action | — |
 
 ## Decision log
@@ -50,6 +52,7 @@ C↔`int` bridge and exactness checks (`bool` is a long subtype). From Python, `
 | long_check_exact vs bool | 0.52x; False for True | APPROVED | 1 |
 | from/as vs int() | 1.14–1.40x lose | APPROVED (API) | 1 |
 | overflow tuple | 0.73x | APPROVED | 1 |
+| loeq / long_eq / int_eq | identity + richcompare; API symmetry | APPROVED | 1 |
 
 ## Bench notes
 
@@ -93,6 +96,7 @@ Ratio = cypy `cdef` loop / typed Cython baseline loop (opaque + sink). **Informa
 | Scale | FromLong/AsLong lose ~1.2x to Python int boxing specializing small ints |
 | Safety | `AsLongAndOverflow` sets overflow flag — must read flag, not only return value |
 | Subtype | bool is int subclass: Check true, Exact false — matches CPython |
+| `long_eq` | Same semantics as `==` (identity then richcompare); `int_eq` thin alias; leave off `hot` until benches beat specialized `==` |
 
 
 ## Done when

@@ -8,6 +8,14 @@ def long_check_exact(p: object) -> bool:
     """Return True if ``type(p) is int`` (``PyLong_CheckExact``); False for :class:`bool`."""
     ...
 
+def long_eq(a: object, b: object) -> bool:
+    """Return True if integers are equal (identity short-circuit + richcompare)."""
+    ...
+
+def int_eq(a: object, b: object) -> bool:
+    """Return True if ``a == b`` — thin alias of ``long_eq`` (same semantics)."""
+    ...
+
 def long_from_long(v: int) -> object:
     """Return ``int(v)`` via ``PyLong_FromLong``."""
     ...
