@@ -5,3 +5,6 @@ def capsule_check_exact(o: object) -> bool:
 def capsule_is_valid(capsule: object, name: bytes) -> bool:
     """Return True if ``capsule`` is a valid capsule named ``name``."""
     ...
+def capsule_eq(a: object, b: object) -> bool:
+    """Return True if ``a is b`` (capsule identity; not pointer/name content)."""
+    ...

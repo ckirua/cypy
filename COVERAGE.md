@@ -65,7 +65,7 @@ As of **`1.0.0`**:
 
 | Module | Surface | Notes |
 |--------|---------|--------|
-| `cydatetime`, `cycodecs`, `cymarshal`, `cyfileobject`, `cyweakref`, `cypycapsule`, `cycontextvars` | public (+ some cimport) | Higher-level C-API bridges; `dt_date_eq` / `dt_time_eq` / `dt_datetime_eq` / `dt_timedelta_eq` on `cypy` (not `hot`) |
+| `cydatetime`, `cycodecs`, `cymarshal`, `cyfileobject`, `cyweakref`, `cypycapsule`, `cycontextvars` | public (+ some cimport) | Higher-level C-API bridges; `dt_date_eq` / `dt_time_eq` / `dt_datetime_eq` / `dt_timedelta_eq` / `capsule_eq` on `cypy` (not `hot`) |
 | `cytime` | public | Thin `time_wall` / `time_time` / `time_monotonic` / `time_perf_counter` — **Runtime**, not Core (`cypy.hot` excludes them). Prefer stdlib `time` unless you need these wrappers; prefer `time_wall` over stutter `time_time`. |
 | `cyfunction`, `cymethod`, `cymodule`, `cyiterator`, `cyiterobject`, `cygenobject`, `cycellobject`, `cydescr`, `cytype`, `cylong`, `cyfloat`, … | public | Object-model / scalar helpers; `type_eq` identity / `cell_eq` content (not `hot`) |
 | `cyerr`, `cymem`, `cythread`, `cyatomic`, `cyref`, `cygetargs`, `cyceval`, `cypystate`, `cypylifecycle`, `cypyport`, `cyversion`, `cylongintrepr` | **cimport only** | Embedding / process footguns — not pure-Python |

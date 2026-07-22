@@ -19,6 +19,7 @@ Capsule type checks public; pointer get/set cimport (void*).
 | Symbol | Export | Notes |
 |--------|--------|-------|
 | capsule_check_exact / is_valid | public | |
+| capsule_eq / capsuleeq | public | identity eq (`object.__eq__`); soft `capsuleeq`; not `hot` |
 | new / get_pointer / set_* / import | cimport | void* |
 
 ## Workflow status
@@ -26,6 +27,7 @@ Capsule type checks public; pointer get/set cimport (void*).
 | Function | Status | Why |
 |----------|--------|-----|
 | check_exact / is_valid | APPROVED | see benches |
+| capsule_eq / capsuleeq | APPROVED | identity equality (issue #38); not `hot` |
 | pointer APIs | APPROVED (cimport) | void* |
 
 ## Lifecycle
@@ -33,8 +35,16 @@ Capsule type checks public; pointer get/set cimport (void*).
 | Field | Value |
 |-------|--------|
 | Iteration | 1 |
-| Last pass | 2026-07-21 — Phase 4 Tier B |
+| Last pass | 2026-07-22 — `capsule_eq` (#38) |
 | Next action | — |
+
+## Decision log
+
+| Function | Decision | Iteration |
+|----------|----------|-----------|
+| public | APPROVED | 1 |
+| capsule_eq / capsuleeq | APPROVED | 1 |
+| pointer APIs | APPROVED (cimport) | 1 |
 
 ## Bench notes
 
@@ -72,6 +82,7 @@ Ratio = cypy `cdef` loop / typed Cython baseline loop (opaque + sink). **Informa
 | ABI | Pointer get/set/import stay cimport; wrong name → NULL / exception |
 | Scale | Check is O(1); no payload size — capsule holds an opaque pointer |
 | Prefer | Public checks for gates; all pointer mutation in cdef under GIL |
+| `capsule_eq` | Identity only (`a is b`); same pointer/name ≠ equal; soft `capsuleeq`; leave off `hot` until measured win |
 
 ## Done when
 

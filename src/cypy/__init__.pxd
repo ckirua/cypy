@@ -322,6 +322,8 @@ from .cyfileobject cimport (
 )
 from .cypycapsule cimport (
     capsule_check_exact,
+    capsule_eq,
+    capsuleeq,
     capsule_is_valid,
     capsule_new,
     capsule_get_pointer,
@@ -1128,6 +1130,7 @@ __all__: tuple[str, ...] = (
     "file_getline",
     "file_write_object",
     "capsule_check_exact",
+    "capsule_eq",
     "capsule_is_valid",
     "capsule_new",
     "capsule_get_pointer",
