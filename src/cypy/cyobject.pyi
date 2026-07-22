@@ -24,6 +24,10 @@ def obj_richcompare_bool(o1: object, o2: object, opid: int) -> bool:
     """Return rich comparison as bool for ``opid`` (``PyObject_RichCompareBool``)."""
     ...
 
+def obj_eq(a: object, b: object) -> bool:
+    """Return True if ``a == b`` via ``PyObject_RichCompareBool`` (identity short-circuit; prefer typed ``*_eq``)."""
+    ...
+
 def obj_repr(o: object) -> object:
     """Return ``repr(o)`` via ``PyObject_Repr``."""
     ...

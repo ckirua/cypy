@@ -3,6 +3,16 @@
 All notable changes to `cypy` are documented here. Version from
 [`src/cypy/__about__.py`](src/cypy/__about__.py).
 
+## [1.33.0] — 2026-07-22 — `obj_eq`
+
+### Added
+
+- **`obj_eq`** (`cyobject`): generic object equality via ``PyObject_RichCompareBool``
+  (``Py_EQ``) — identity short-circuit (incl. ``nan is nan`` → True; same as the
+  C-API, not always Python ``==`` for floats). Prefer typed ``*_eq`` when known.
+  Soft ``oeq``. On ``cypy`` / ``cypy.protocols`` (not ``hot`` — validate win
+  before promoting).
+
 ## [1.32.0] — 2026-07-22 — `dt_timedelta_eq`
 
 ### Added

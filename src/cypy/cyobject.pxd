@@ -95,6 +95,18 @@ cpdef inline bint obj_richcompare_bool(object o1, object o2, int opid) except -1
     return PyObject_RichCompareBool(o1, o2, opid)
 
 
+cdef inline bint oeq(object a, object b) except -1:
+    # Generic object equality via ``PyObject_RichCompareBool`` (``Py_EQ``).
+    # Identity short-circuit (incl. ``nan is nan`` → True) — same as the C-API,
+    # not always Python ``==`` for floats. Prefer typed ``*_eq`` when known.
+    # Soft ``oeq``. Not on ``hot`` — validate win before promoting.
+    return PyObject_RichCompareBool(a, b, Py_EQ)
+
+
+cpdef inline bint obj_eq(object a, object b) except -1:
+    return oeq(a, b)
+
+
 cpdef inline object obj_repr(object o):
     return PyObject_Repr(o)
 
