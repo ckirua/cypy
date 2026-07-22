@@ -79,6 +79,15 @@ Ratio = cypy `cdef` loop / typed Cython baseline loop (opaque + sink). **Informa
 **Tier B takeaway:** primary `mod_check` **0.46x** vs typed Cython baseline (sys).
 
 
+
+### `mod_eq` (Tier A depth)
+
+Harness: [`bench/cyeq_misc_bench.py`](../../bench/cyeq_misc_bench.py) · N=80_000 × runs=11 · CPython 3.14
+
+| operation | case | cypy mean±σ | p99 | ratio | p99× | verdict |
+|-----------|------|-------------|-----|-------|------|---------|
+| mod_eq | identity | 0.97±0.03ms | 1.03ms | **0.55x** | 0.56x | APPROVED |
+
 ## Experiment conclusions
 
 **Tier B:** `mod_check` **0.43x** vs ModuleType isinstance.

@@ -24,40 +24,55 @@ Value equality for `range` (same sequence, not identity) in config/index call si
 
 | Function | Status | Why |
 |----------|--------|-----|
-| rqeq / range_eq | APPROVED | parity with `range.__eq__` (issue #42); not `hot` |
+| rqeq / range_eq | APPROVED | Tier A **0.59–0.84x** across shapes (issue #42); not `hot` |
 
 ## Lifecycle
 
 | Field | Value |
 |-------|--------|
-| Iteration | 1 |
-| Last pass | 2026-07-22 — `range_eq` (#42) |
+| Iteration | 2 |
+| Last pass | 2026-07-22 — Tier A depth (issue #42 follow-up) |
 | Next action | — |
 
 ## Decision log
 
 | Function | Hypothesis | Bench | Result | Decision | Iteration |
 |----------|------------|-------|--------|----------|-----------|
-| range_eq | Beat/`==` ergonomics | smoke | parity (empty / equiv / step) | APPROVED | 1 |
+| range_eq | Beat Python `==` call overhead | Tier A shapes | **0.59–0.84x**, 8/8 gate | APPROVED (not hot) | 2 |
 
 ## Bench notes
 
-- Smoke via `examples/pyrange.py` (no dedicated harness yet)
+- Harness: [`bench/cyrange_bench.py`](../../bench/cyrange_bench.py)
 
 ## Bench results
 
+Harness: [`bench/cyrange_bench.py`](../../bench/cyrange_bench.py) · tier A · CPython 3.14 · N=80_000 × runs=11
+
 | operation | case | cypy mean±σ | p99 | ratio | p99× | verdict |
 |-----------|------|-------------|-----|-------|------|---------|
-| range_eq | equal span | — | — | **1.00x** | — | smoke OK (parity vs `==`) |
-| range_eq | empty | — | — | **1.00x** | — | smoke OK |
-| range_eq | identity | — | — | **0.95x** | — | smoke OK (short-circuit) |
+| range_eq | eq span | 1.55±0.09ms | 1.78ms | **0.74x** | 0.79x | APPROVED |
+| range_eq | ne span | 1.37±0.12ms | 1.65ms | **0.75x** | 0.85x | APPROVED |
+| range_eq | identity | 0.98±0.11ms | 1.26ms | **0.59x** | 0.69x | APPROVED |
+| range_eq | eq empty | 1.28±0.10ms | 1.54ms | **0.72x** | 0.84x | APPROVED |
+| range_eq | eq equiv step | 1.61±0.18ms | 2.05ms | **0.69x** | 0.78x | APPROVED |
+| range_eq | ne step | 1.36±0.12ms | 1.66ms | **0.75x** | 0.88x | APPROVED |
+| range_eq | eq large | 1.80±0.06ms | 1.95ms | **0.84x** | 0.85x | APPROVED |
+| range_eq | eq reversed | 1.60±0.08ms | 1.73ms | **0.77x** | 0.76x | APPROVED |
+
+Summary: 8/8 faster · 8/8 ≥5% gate · mean **0.73x** · median **0.74x**.
 
 ## Experiment conclusions
 
-Thin public wrap: identity short-circuit then `PyObject_RichCompareBool` so semantics match `range.__eq__` (length + start/step for non-empty; empty ranges equal). No borrowed pointers / uninit slots — safe ownership. Scale same as Python `==` on large ranges (CPython already O(1) for range eq). Soft `rqeq` stays COMPAT-only.
+| Topic | Finding |
+|-------|---------|
+| Why win | CPython `range_eq` is already O(1) (len + start/step); Tier A win is mostly avoiding Python `==` call / method overhead |
+| Scale | Large ranges still **0.84x** — cost stays O(1); no element walk |
+| Semantics | Same as `range.__eq__` (empty equal; equiv spans with different stop; step signs). Soft `rqeq` COMPAT-only |
+| Ownership | No borrowed pointers — safe |
 
 ## Done when
 
 - [x] Declared surface inventory
 - [x] Workflow + decision log
+- [x] Tier A harness + tracker tables (no smoke placeholders)
 - [x] Smoke example + exports + CHANGELOG

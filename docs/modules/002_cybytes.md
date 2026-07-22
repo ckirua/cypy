@@ -54,7 +54,7 @@ Scanner hot paths plus full include try-all. Depth showed pure `memmem` **loses*
 | bcontains | APPROVED | primary small **0.20x**; hybrid fixes large regression |
 | beq | APPROVED | mirror `streq`; identity/len + `memcmp`; see Bench |
 | bne / bytes_ne | APPROVED | `not beq` — API sibling of `str_ne` |
-| bba_eq / bytes_bytearray_eq | APPROVED | cross-type content eq (issue #43); not `hot` |
+| bba_eq / bytes_bytearray_eq | APPROVED | Tier A **0.47–0.61x** vs `==` (issue #43); not `hot` |
 | bstartswith / bytes_startswith | APPROVED | prefix len + `memcmp` (mirror `str_startswith`) |
 | bendswith / bytes_endswith | APPROVED | suffix len + tail `memcmp` (mirror `str_endswith`) |
 | blen / bsize | APPROVED | **0.59x**; prefer `blen` typed |
@@ -72,8 +72,8 @@ Scanner hot paths plus full include try-all. Depth showed pure `memmem` **loses*
 | Field | Value |
 |-------|--------|
 | Freeze | **1.0 Core** — public + documented cimport; see COVERAGE § 1.0 freeze |
-| Iteration | 7 |
-| Last pass | 2026-07-22 — `bytes_bytearray_eq` / `bba_eq` (issue #43) |
+| Iteration | 8 |
+| Last pass | 2026-07-22 — Tier A depth for `bytes_bytearray_eq` |
 | Next action | — |
 
 ## Decision log
@@ -82,7 +82,7 @@ Scanner hot paths plus full include try-all. Depth showed pure `memmem` **loses*
 |----------|------------|---------------|--------|----------|-----------|
 | bcontains | Beat `in` always | scale 6…8KiB | win &lt;256B; **lose** ≥1KiB on pure memmem | hybrid ≤256 → APPROVED | 4 |
 | beq | Beat `==` on typed bytes | short/1KiB eq+ne | wins short; ~tie/win 1KiB | APPROVED (public + hot) | 6 |
-| bba_eq / bytes_bytearray_eq | Cross-type vs `==` | smoke both directions | parity + memcmp | APPROVED (public, not hot) | 7 |
+| bba_eq / bytes_bytearray_eq | Cross-type vs `==` | Tier A both dirs + 1KiB | **0.47–0.61x** | APPROVED (public, not hot) | 8 |
 | blen / bsize | Beat `len` | harness | **0.59x** | APPROVED | 4 |
 | bcheck* | Beat isinstance | harness | **0.40–0.56x** | APPROVED | 4 |
 | bfrom_object | Beat `bytes(buf)` | harness | **0.60x** | APPROVED | 4 |
@@ -135,6 +135,21 @@ Ratio = cypy `cdef` loop / typed Cython baseline loop (opaque + sink). **Informa
 
 **Tier B takeaway:** primary `bcontains` **0.04x** vs typed `in` (memmem path wins in cdef loop). `beq` **~tie** vs typed `==` (win is Tier A Python call overhead).
 
+### `bytes_bytearray_eq` (Tier A depth)
+
+Harness: [`bench/cybytes_bench.py`](../../bench/cybytes_bench.py) · N=80_000 × runs=11 · CPython 3.14
+
+| operation | case | cypy mean±σ | p99 | ratio | p99× | verdict |
+|-----------|------|-------------|-----|-------|------|---------|
+| bytes_bytearray_eq | bytes→ba eq | 1.08±0.06ms | 1.19ms | **0.50x** | 0.52x | APPROVED |
+| bytes_bytearray_eq | ba→bytes eq | 1.05±0.03ms | 1.09ms | **0.49x** | 0.48x | APPROVED |
+| bytes_bytearray_eq | bytes→ba ne | 1.04±0.02ms | 1.09ms | **0.47x** | 0.46x | APPROVED |
+| bytes_bytearray_eq | eq 1KiB cross | 1.57±0.03ms | 1.64ms | **0.59x** | 0.59x | APPROVED |
+| bytes_bytearray_eq | ne 1KiB cross | 1.59±0.03ms | 1.65ms | **0.61x** | 0.60x | APPROVED |
+| bytes_bytearray_eq | bytes↔bytes | 0.96±0.06ms | 1.07ms | **0.59x** | 0.64x | APPROVED |
+| bytes_bytearray_eq | ba↔ba | 1.05±0.02ms | 1.08ms | **0.49x** | 0.49x | APPROVED |
+| bytes_bytearray_eq | empty cross | 0.99±0.04ms | 1.07ms | **0.47x** | 0.48x | APPROVED |
+
 ## Experiment conclusions
 
 **Tier B:** primary `bcontains` **0.04x** vs typed `in` (memmem path wins in cdef loop).
@@ -146,7 +161,7 @@ Ratio = cypy `cdef` loop / typed Cython baseline loop (opaque + sink). **Informa
 | Fix | `hlen > 256` → fall back to `needle in haystack` |
 | `beq` / `bytes_eq` | Identity + len short-circuit + `memcmp` on `PyBytes_AS_STRING` (mirror `streq`). Tier A **0.59–0.68x** vs Python `==`; Tier B ~tie vs typed Cython `==` — export to `cypy.hot` |
 | `bne` / `bytes_ne` | `not beq` — API sibling of `str_ne`; public + hot |
-| `bba_eq` / `bytes_bytearray_eq` | Cross-type ``bytes``↔``bytearray`` content eq (either order + same-type) via `AS_STRING` + `memcmp`. Not `hot` (prefer typed same-type helpers). Distinct from `buf_eq` (buffer protocol / views). |
+| `bba_eq` / `bytes_bytearray_eq` | Cross-type ``bytes``↔``bytearray`` via type check + `AS_STRING` + `memcmp`. Tier A **0.47–0.61x** vs Python `==` (both directions + 1KiB). Not `hot` (prefer typed `bytes_eq` / `bytearray_eq` when types known). Distinct from `buf_eq` (buffer protocol / views). |
 | `bstartswith` / `bytes_startswith` | prefix len + `memcmp`; public + hot |
 | `bendswith` / `bytes_endswith` | suffix len + tail `memcmp`; public + hot |
 | `bnew` | `FromStringAndSize(NULL,n)` leaves **previous heap contents**; `bytes(n)` zeros — **cdef only** |

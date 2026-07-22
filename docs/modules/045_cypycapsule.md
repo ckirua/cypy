@@ -71,6 +71,16 @@ Ratio = cypy `cdef` loop / typed Cython baseline loop (opaque + sink). **Informa
 **Tier B takeaway:** primary `capsule_check_exact` **0.10x** vs typed Cython baseline (capsule).
 
 
+
+### `capsule_eq` (Tier A depth)
+
+Harness: [`bench/cyeq_misc_bench.py`](../../bench/cyeq_misc_bench.py) · N=80_000 × runs=11 · CPython 3.14
+
+| operation | case | cypy mean±σ | p99 | ratio | p99× | verdict |
+|-----------|------|-------------|-----|-------|------|---------|
+| capsule_eq | identity | 0.98±0.05ms | 1.09ms | **0.55x** | 0.59x | APPROVED |
+| capsule_eq | ne | 1.00±0.03ms | 1.07ms | **0.55x** | 0.57x | APPROVED |
+
 ## Experiment conclusions
 
 **Tier B:** `capsule_check_exact` **0.10x** vs type-name baseline.

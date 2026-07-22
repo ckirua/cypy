@@ -72,6 +72,17 @@ Ratio = cypy `cdef` loop / typed Cython baseline loop (opaque + sink). **Informa
 **Tier B takeaway:** primary `weakref_check` **0.39x** vs typed Cython baseline (ref).
 
 
+
+### `weakref_eq` (Tier A depth)
+
+Harness: [`bench/cyeq_misc_bench.py`](../../bench/cyeq_misc_bench.py) · N=80_000 × runs=11 · CPython 3.14
+
+| operation | case | cypy mean±σ | p99 | ratio | p99× | verdict |
+|-----------|------|-------------|-----|-------|------|---------|
+| weakref_eq | same referent | 0.98±0.05ms | 1.06ms | **0.53x** | 0.56x | APPROVED |
+| weakref_eq | identity | 0.98±0.03ms | 1.02ms | **0.53x** | 0.54x | APPROVED |
+| weakref_eq | ne referent | 1.22±0.05ms | 1.32ms | **0.66x** | 0.69x | APPROVED |
+
 ## Experiment conclusions
 
 **Tier B:** `weakref_check` **0.44x** vs isinstance(ref).
@@ -83,7 +94,7 @@ Ratio = cypy `cdef` loop / typed Cython baseline loop (opaque + sink). **Informa
 | Dead ref | Cleared refs yield None — treat carefully vs historical `Py_None` quirks |
 | ABI / safety | Unchecked `GET_OBJECT` macro is cimport-only; wrong type → crash |
 | Scale | Ref ops are O(1); callback registration dominates real workloads, not check/get |
-| `weakref_eq` | Referent equality (not identity): alive refs compare referents via `==`; dead → identity only (CPython `weakref_richcompare`). Soft `weakrefeq`. Unlike `capsule_eq` (identity). Leave off `hot` until measured win |
+| `weakref_eq` | Referent / identity; Tier A **0.53–0.66x** vs `==`. |
 
 ## Done when
 

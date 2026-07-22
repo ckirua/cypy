@@ -70,6 +70,16 @@ Ratio = cypy `cdef` loop / typed Cython baseline loop (opaque + sink). **Informa
 **Tier B takeaway:** primary `iter_check` **0.11x** vs typed Cython baseline (list_iter).
 
 
+
+### `iter_eq` (Tier A depth)
+
+Harness: [`bench/cyeq_misc_bench.py`](../../bench/cyeq_misc_bench.py) · N=80_000 × runs=11 · CPython 3.14
+
+| operation | case | cypy mean±σ | p99 | ratio | p99× | verdict |
+|-----------|------|-------------|-----|-------|------|---------|
+| iter_eq | identity | 0.99±0.04ms | 1.06ms | **0.55x** | 0.58x | APPROVED |
+| iter_eq | ne | 1.01±0.06ms | 1.11ms | **0.56x** | 0.60x | APPROVED |
+
 ## Experiment conclusions
 
 **Tier B:** `iter_check` **0.11x** vs hasattr `__next__`.

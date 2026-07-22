@@ -72,6 +72,16 @@ Ratio = cypy `cdef` loop / typed Cython baseline loop (opaque + sink). **Informa
 **Tier B takeaway:** primary `func_check` **0.36x** vs typed Cython baseline (def).
 
 
+
+### `func_eq` (Tier A depth)
+
+Harness: [`bench/cyeq_misc_bench.py`](../../bench/cyeq_misc_bench.py) · N=80_000 × runs=11 · CPython 3.14
+
+| operation | case | cypy mean±σ | p99 | ratio | p99× | verdict |
+|-----------|------|-------------|-----|-------|------|---------|
+| func_eq | identity | 0.97±0.04ms | 1.06ms | **0.54x** | 0.56x | APPROVED |
+| func_eq | ne | 0.97±0.02ms | 1.01ms | **0.54x** | 0.53x | APPROVED |
+
 ## Experiment conclusions
 
 **Tier B:** `func_check` **0.33x** vs FunctionType isinstance.
