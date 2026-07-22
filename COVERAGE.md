@@ -23,7 +23,7 @@ Authoritative symbol lists: `src/cypy/__init__.py` / `__init__.pxd` `__all__`, p
 | Module | Maps to | Surface | Notes |
 |--------|---------|---------|--------|
 | `cydict` | `dict` | public + cimport | `dict_get`, `dict_pop`, `dict_set`, `dict_len`, … |
-| `cylist` | `list` | public + cimport | `list_append`, `list_get` / `list_get_checked`, `list_len`, … |
+| `cylist` | `list` | public + cimport | `list_append`, `list_get` / `list_get_checked`, `list_len`, `list_eq`, … |
 | `cyset` | `set` / `frozenset` | public + cimport | `set_add`, `set_contains`, … |
 | `cytuple` | `tuple` | public + cimport | `tuple_get`, `tuple_len`, `tuple_pack*`; builders mostly cimport |
 | `cybytes` | `bytes` | public + cimport | `bytes_len`, `bytes_contains`, `bytes_eq`, `bytes_ne`, `bytes_startswith`, `bytes_endswith`; `bytes_as_string` cimport-only |

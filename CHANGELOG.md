@@ -3,6 +3,14 @@
 All notable changes to `cypy` are documented here. Version from
 [`src/cypy/__about__.py`](src/cypy/__about__.py).
 
+## [1.16.0] — 2026-07-22 — `list_eq`
+
+### Added
+
+- **`list_eq`** (`cylist`): typed ``list`` equality — identity/len short-circuit +
+  richcompare (same semantics as ``==``). Soft ``leq``. On ``cypy`` /
+  ``cypy.containers``.
+
 ## [1.15.0] — 2026-07-22 — `uutf8_eq`
 
 ### Added

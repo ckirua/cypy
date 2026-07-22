@@ -8,6 +8,7 @@ from cypy import (
     list_clear,
     list_copy,
     list_empty,
+    list_eq,
     list_extend,
     list_get,
     list_insert,
@@ -18,6 +19,7 @@ SYMBOLS: list[str] = ["BTCUSDT", "ETHUSDT", "SOLUSDT"]
 
 def main() -> None:
     empty = list_empty()
+    assert list_eq([1, 2], [1, 2]) and not list_eq([1], [2]) and list_eq([], [])
     print(f"list_empty() -> {empty!r}")
     assert empty == []
     assert list_empty() is not empty

@@ -2,7 +2,7 @@
 # Typed ``list`` helpers. Public docs live in ``cylist.pyi``.
 # ``lnew`` / ``lset`` (SET_ITEM fill): cdef — uninit / steal semantics.
 
-from cpython.object cimport PyObject
+from cpython.object cimport PyObject, PyObject_RichCompareBool, Py_EQ
 from cpython.ref cimport Py_INCREF
 from cpython.pyport cimport PY_SSIZE_T_MAX
 
@@ -64,6 +64,15 @@ cdef inline object lget_ref(list l, Py_ssize_t i):
 
 cdef inline Py_ssize_t llen(list l) noexcept:
     return PyList_GET_SIZE(l)
+
+
+cdef inline bint leq(list a, list b):
+    # Identity / len short-circuit + richcompare (same semantics as ``==``).
+    if a is b:
+        return True
+    if PyList_GET_SIZE(a) != PyList_GET_SIZE(b):
+        return False
+    return <bint>PyObject_RichCompareBool(a, b, Py_EQ)
 
 
 cdef inline Py_ssize_t lsize(object l) except -1:
@@ -165,6 +174,9 @@ cpdef inline int list_insert(list l, Py_ssize_t i, object value) except -1:
 
 cpdef inline Py_ssize_t list_len(list l) noexcept:
     return llen(l)
+
+cpdef inline bint list_eq(list a, list b):
+    return leq(a, b)
 
 cdef inline list list_new(Py_ssize_t n):
     return lnew(n)

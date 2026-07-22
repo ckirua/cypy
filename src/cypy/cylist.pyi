@@ -54,6 +54,11 @@ def list_len(l: list) -> int:
     """Return ``len(l)`` via ``PyList_GET_SIZE``."""
     ...
 
+def list_eq(a: list, b: list) -> bool:
+    """Return True if typed lists are equal (identity/len short-circuit + richcompare)."""
+    ...
+
+
 def list_reverse(l: list) -> int:
     """Reverse ``l`` in place via ``PyList_Reverse`` (``0`` / ``-1``). Returns 0 on success; errors raise — do not use as bool."""
     ...
