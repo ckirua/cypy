@@ -2,7 +2,14 @@
 
 Run: python examples/pybytearray.py
 """
-from cypy import bytearray_check, bytearray_eq, bytearray_from_object, bytearray_len, bytearray_ne
+from cypy import (
+    bytearray_check,
+    bytearray_contains,
+    bytearray_eq,
+    bytearray_from_object,
+    bytearray_len,
+    bytearray_ne,
+)
 
 
 def main() -> None:
@@ -13,6 +20,8 @@ def main() -> None:
     assert bytearray_eq(ba, bytearray(b"hi")) and not bytearray_eq(ba, again)
     assert bytearray_eq(ba, ba)
     assert bytearray_ne(ba, again) and not bytearray_ne(ba, bytearray(b"hi"))
+    assert bytearray_contains(ba, b"h") and not bytearray_contains(ba, b"x")
+    assert bytearray_contains(ba, b"") and bytearray_contains(bytearray(b"abc"), b"bc")
     print("ok", bytearray_len(ba))
 
 

@@ -4,7 +4,11 @@
 
 from cpython.object cimport PyObject
 from libc.stddef cimport size_t
-from libc.string cimport memcmp
+from libc.string cimport memchr, memcmp
+
+cdef extern from "string.h":
+    void* memmem(const void *haystack, size_t haystacklen,
+                 const void *needle, size_t needlelen) nogil
 
 
 cdef extern from "Python.h":
@@ -18,6 +22,8 @@ cdef extern from "Python.h":
     int PyByteArray_Resize(object bytearray, Py_ssize_t len) except -1
     char* PyByteArray_AS_STRING(object bytearray) noexcept
     Py_ssize_t PyByteArray_GET_SIZE(object bytearray) noexcept
+    char* PyBytes_AS_STRING(object op) noexcept
+    Py_ssize_t PyBytes_GET_SIZE(object op) noexcept
 
 
 cdef inline bint bacheck(object p) noexcept:
@@ -81,6 +87,23 @@ cdef inline bint baeq(bytearray a, bytearray b) noexcept:
 cdef inline bint bane(bytearray a, bytearray b) noexcept:
     return not baeq(a, b)
 
+
+cdef inline bint bacontains(bytearray haystack, bytes needle) noexcept:
+    # memchr/memmem win on small buffers; CPython stringlib wins past ~256B.
+    cdef Py_ssize_t hlen = PyByteArray_GET_SIZE(haystack)
+    cdef Py_ssize_t nlen = PyBytes_GET_SIZE(needle)
+    if nlen == 0:
+        return True
+    if nlen > hlen:
+        return False
+    if hlen > 256:
+        return needle in haystack
+    cdef char *hp = PyByteArray_AS_STRING(haystack)
+    cdef char *np = PyBytes_AS_STRING(needle)
+    if nlen == 1:
+        return memchr(hp, <unsigned char>np[0], <size_t>hlen) is not NULL
+    return memmem(hp, <size_t>hlen, np, <size_t>nlen) is not NULL
+
 # Wave 4 N1/N5 preferred names (0.3: soft letter/bare are cdef-only)
 
 cdef inline char* bytearray_as_string(bytearray ba) noexcept:
@@ -112,6 +135,9 @@ cpdef inline bint bytearray_eq(bytearray a, bytearray b) noexcept:
 
 cpdef inline bint bytearray_ne(bytearray a, bytearray b) noexcept:
     return bane(a, b)
+
+cpdef inline bint bytearray_contains(bytearray haystack, bytes needle) noexcept:
+    return bacontains(haystack, needle)
 
 cdef inline bytearray bytearray_new(Py_ssize_t n):
     return banew(n)

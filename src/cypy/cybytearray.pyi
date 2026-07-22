@@ -30,6 +30,10 @@ def bytearray_ne(a: bytearray, b: bytearray) -> bool:
     """Return True if typed ``bytearray`` values differ (``not bytearray_eq``)."""
     ...
 
+def bytearray_contains(haystack: bytearray, needle: bytes) -> bool:
+    """Return True if ``needle`` is found in typed ``haystack`` (mirror ``bytes_contains``)."""
+    ...
+
 def bytearray_resize(ba: bytearray, n: int) -> int:
     """Resize ``ba`` in place via ``PyByteArray_Resize`` (``0`` / ``-1``). Returns 0 on success; errors raise — do not use as bool."""
     ...
