@@ -1,5 +1,5 @@
 # cython: language_level=3, boundscheck=False, wraparound=False, initializedcheck=False
-from cypy.cyunicode cimport uutf8_bytes, uintern, unicode_from_string, uintern_from_string
+from cypy.cyunicode cimport uutf8_bytes, uintern, unicode_from_string, uintern_from_string, uutf8_eq
 from cpython.object cimport PyObject
 include "_sink.pxi"
 
@@ -59,4 +59,18 @@ cpdef bint smoke_unicode_from_string_ok():
         return False
     cdef str again = unicode_from_string(b"hello")
     return again == a
+
+
+cpdef bint smoke_uutf8_eq_ok():
+    if not uutf8_eq("hello", "hello"):
+        return False
+    if uutf8_eq("hello", "world"):
+        return False
+    if not uutf8_eq("", ""):
+        return False
+    if not uutf8_eq("café", "café"):
+        return False
+    if uutf8_eq("café", "cafe"):
+        return False
+    return True
 

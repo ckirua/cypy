@@ -20,6 +20,7 @@ Zero-copy UTF-8 borrow + intern for Cython; public owning `bytes` / `uintern` fo
 |--------|-------|------|--------|-------|
 | uutf8 | cypy | cdef | cimport | borrowed `AsUTF8` — do not outlive `s` |
 | uutf8_and_size | cypy | cdef | cimport | borrowed + length |
+| uutf8_eq | cypy | cdef | cimport | size + `memcmp` on UTF-8 views; lifetime = `a`/`b` |
 | uutf8_bytes | cypy | cpdef | public | owning `AsUTF8String` |
 | uintern_in_place | cypy | cdef | cimport | mutates `PyObject**` slot |
 | uintern | cypy | cpdef | public | intern + return |
@@ -33,6 +34,7 @@ Zero-copy UTF-8 borrow + intern for Cython; public owning `bytes` / `uintern` fo
 | Function | Status | Why |
 |----------|--------|-----|
 | uutf8 / uutf8_and_size | APPROVED (cimport) | zero-copy; unsafe from Python |
+| uutf8_eq | APPROVED (cimport) | UTF-8 size+memcmp; issue #17 |
 | uutf8_bytes | APPROVED | **0.95–1.01x** vs `encode` — clarity / owning mirror |
 | uintern | APPROVED | **1.04–1.05x** vs `sys.intern` — clarity; used by cyansi |
 | unicode_from_string | APPROVED (cimport) | ordinary C→str; no intern; issue #1 |

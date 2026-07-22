@@ -740,6 +740,7 @@ from .cyunicode cimport (
     unicode_from_string,
     uutf8,
     uutf8_and_size,
+    uutf8_eq,
     uutf8_bytes,
 )
 
@@ -1177,6 +1178,7 @@ __all__: tuple[str, ...] = (
     "unicode_from_string",
     "uutf8",
     "uutf8_and_size",
+    "uutf8_eq",
     "uutf8_bytes",
     "ansi_bg8",
     "ansi_bold",
