@@ -69,7 +69,7 @@ Implemented **every** inventory candidate, tier-A benched. Public winners stay `
 |-------|--------|
 | Freeze | **1.0 Core** — public + documented cimport; see COVERAGE § 1.0 freeze |
 | Iteration | 6 |
-| Last pass | 2026-07-21 — Phase 4 Tier B (Cython baseline) |
+P26-07-22 — `*_eq` inventory Tier A (`cyeq_inventory_bench`)|
 | Next action | — |
 
 ## Decision log
@@ -138,6 +138,17 @@ Ratio = cypy `cdef` loop / typed Cython baseline loop (opaque + sink). **Informa
 **Tier B takeaway:** primary `tget` **0.91x** vs typed `t[i]` — matches/beats Cython emit; no API change.
 
 
+
+### `*_eq` inventory (Tier A depth)
+
+Harness: [`bench/cyeq_inventory_bench.py`](../../bench/cyeq_inventory_bench.py) · N=80_000 × runs=11 · CPython 3.14
+
+| operation | case | cypy mean±σ | p99 | ratio | p99× | verdict |
+|-----------|------|-------------|-----|-------|------|---------|
+| tuple_eq | eq small | 0.95±0.03ms | 1.02ms | **0.53x** | 0.46x | APPROVED |
+| tuple_eq | ne small | 1.41±0.11ms | 1.71ms | **0.73x** | 0.82x | APPROVED |
+| tuple_eq | identity | 0.98±0.12ms | 1.30ms | **0.55x** | 0.60x | APPROVED |
+| tuple_eq | eq n=64 | 2.64±0.14ms | 2.92ms | **0.85x** | 0.82x | APPROVED |
 ## Experiment conclusions
 
 | symbol | kind | export | conclusion |

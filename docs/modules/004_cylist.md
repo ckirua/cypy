@@ -68,7 +68,7 @@ Hot-path get/append/len/slice for typed exact `list`, plus full include try-all.
 |-------|--------|
 | Freeze | **1.0 Core** — public + documented cimport; see COVERAGE § 1.0 freeze |
 | Iteration | 1 |
-| Last pass | 2026-07-21 — Phase 4 Tier B (Cython baseline) |
+P26-07-22 — `*_eq` inventory Tier A (`cyeq_inventory_bench`)|
 | Next action | — |
 
 ## Decision log
@@ -132,6 +132,17 @@ Ratio = cypy `cdef` loop / typed Cython baseline loop (opaque + sink). **Informa
 
 **Tier B takeaway:** primary `lget` **0.98x** vs typed `l[i]` — ~parity with Cython emit.
 
+
+### `*_eq` inventory (Tier A depth)
+
+Harness: [`bench/cyeq_inventory_bench.py`](../../bench/cyeq_inventory_bench.py) · N=80_000 × runs=11 · CPython 3.14
+
+| operation | case | cypy mean±σ | p99 | ratio | p99× | verdict |
+|-----------|------|-------------|-----|-------|------|---------|
+| list_eq | eq small | 1.42±0.11ms | 1.70ms | **0.74x** | 0.76x | APPROVED |
+| list_eq | ne small | 1.54±0.10ms | 1.79ms | **0.73x** | 0.78x | APPROVED |
+| list_eq | identity | 1.02±0.11ms | 1.30ms | **0.54x** | 0.59x | APPROVED |
+| list_eq | eq n=64 | 3.37±0.13ms | 3.70ms | **0.86x** | 0.88x | APPROVED |
 ## Experiment conclusions
 
 **Tier B:** primary `lget` **0.98x** vs typed `l[i]` — ~parity with Cython emit.

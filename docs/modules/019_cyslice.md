@@ -39,7 +39,7 @@ Slice construction and index resolution without Python `slice.indices` attribute
 |-------|--------|
 | Freeze | **1.0 Core** — public + documented cimport; see COVERAGE § 1.0 freeze |
 | Iteration | 1 |
-| Last pass | 2026-07-22 — `slice_eq` (#30) |
+P26-07-22 — `*_eq` inventory Tier A (`cyeq_inventory_bench`)|
 | Next action | — |
 
 ## Decision log
@@ -77,6 +77,15 @@ Ratio = cypy `cdef` loop / typed Cython baseline loop (opaque + sink). **Informa
 **Tier B takeaway:** primary `slcheck` **0.97x** vs typed Cython baseline (hit).
 
 
+
+### `*_eq` inventory (Tier A depth)
+
+Harness: [`bench/cyeq_inventory_bench.py`](../../bench/cyeq_inventory_bench.py) · N=80_000 × runs=11 · CPython 3.14
+
+| operation | case | cypy mean±σ | p99 | ratio | p99× | verdict |
+|-----------|------|-------------|-----|-------|------|---------|
+| slice_eq | eq | 2.38±0.05ms | 2.47ms | **0.82x** | 0.83x | APPROVED |
+| slice_eq | ne | 2.51±0.06ms | 2.64ms | **0.84x** | 0.85x | APPROVED |
 ## Experiment conclusions
 
 **Tier B:** `slcheck` **1.03x** vs isinstance — ~parity.

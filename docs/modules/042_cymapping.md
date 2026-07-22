@@ -35,7 +35,7 @@ Abstract mapping protocol. Prefer ``cydict`` when type known.
 |-------|--------|
 | Freeze | **Provisional (Protocols)** after 1.0 — not Core; may evolve under minors |
 | Iteration | 1 |
-| Last pass | 2026-07-22 — `map_eq` (#24) |
+P26-07-22 — `*_eq` inventory Tier A (`cyeq_inventory_bench`)|
 | Next action | — |
 
 ## Decision log
@@ -73,6 +73,15 @@ Ratio = cypy `cdef` loop / typed Cython baseline loop (opaque + sink). **Informa
 **Tier B takeaway:** primary `map_check` **1.17x** vs typed Cython baseline (hit).
 
 
+
+### `*_eq` inventory (Tier A depth)
+
+Harness: [`bench/cyeq_inventory_bench.py`](../../bench/cyeq_inventory_bench.py) · N=80_000 × runs=11 · CPython 3.14
+
+| operation | case | cypy mean±σ | p99 | ratio | p99× | verdict |
+|-----------|------|-------------|-----|-------|------|---------|
+| map_eq | dict eq | 2.02±0.03ms | 2.06ms | **0.79x** | 0.76x | APPROVED |
+| map_eq | dict ne | 2.19±0.06ms | 2.31ms | **0.82x** | 0.81x | APPROVED |
 ## Experiment conclusions
 
 **Tier B:** `map_check` **1.16x** vs isinstance(dict) — Mapping check is broader.

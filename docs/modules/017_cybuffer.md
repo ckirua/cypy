@@ -46,7 +46,7 @@ Buffer-protocol check/copy for Python, plus cdef wrappers for `Py_buffer*` lifec
 |-------|--------|
 | Freeze | **1.0 Core** — public + documented cimport; see COVERAGE § 1.0 freeze |
 | Iteration | 1 |
-| Last pass | 2026-07-21 — Phase 4 Tier B |
+P26-07-22 — `*_eq` inventory Tier A (`cyeq_inventory_bench`)|
 | Next action | — |
 
 ## Decision log
@@ -85,7 +85,21 @@ Ratio = cypy `cdef` loop / typed Cython baseline loop (opaque + sink). **Informa
 **Tier B takeaway:** primary `buf_check` **0.99x** vs typed Cython baseline (hit).
 
 
+
+### `*_eq` inventory (Tier A depth)
+
+Harness: [`bench/cyeq_inventory_bench.py`](../../bench/cyeq_inventory_bench.py) · N=80_000 × runs=11 · CPython 3.14
+
+| operation | case | cypy mean±σ | p99 | ratio | p99× | verdict |
+|-----------|------|-------------|-----|-------|------|---------|
+| buf_eq | bytes↔ba | 1.79±0.02ms | 1.85ms | **0.81x** | 0.79x | APPROVED |
+| buf_eq | mv↔mv | 3.10±0.03ms | 3.16ms | **1.14x** | 1.10x | LOSE (prefer typed helper) |
+| buf_eq | ne | 1.70±0.02ms | 1.75ms | **0.92x** | 0.88x | APPROVED |
 ## Experiment conclusions
+
+**`buf_eq` depth:** bytes↔bytearray **0.81x** (win); memoryview↔memoryview **1.14x** (lose vs `==` — prefer `memoryview_eq` for typed views).
+
+
 
 **Tier B:** `buf_check` **1.00x** vs isinstance — ~parity.
 

@@ -36,7 +36,7 @@ Type-object checks for Cython. Mutation/alloc helpers stay cimport.
 | Field | Value |
 |-------|--------|
 | Iteration | 1 |
-| Last pass | 2026-07-22 — `type_eq` (#36) |
+P26-07-22 — `*_eq` inventory Tier A (`cyeq_inventory_bench`)|
 | Next action | — |
 
 ## Decision log
@@ -74,6 +74,15 @@ Ratio = cypy `cdef` loop / typed Cython baseline loop (opaque + sink). **Informa
 **Tier B takeaway:** primary `type_check` **1.01x** vs typed Cython baseline (hit).
 
 
+
+### `*_eq` inventory (Tier A depth)
+
+Harness: [`bench/cyeq_inventory_bench.py`](../../bench/cyeq_inventory_bench.py) · N=80_000 × runs=11 · CPython 3.14
+
+| operation | case | cypy mean±σ | p99 | ratio | p99× | verdict |
+|-----------|------|-------------|-----|-------|------|---------|
+| type_eq | identity | 0.90±0.03ms | 0.95ms | **0.57x** | 0.58x | APPROVED |
+| type_eq | ne | 0.90±0.03ms | 0.93ms | **0.54x** | 0.53x | APPROVED |
 ## Experiment conclusions
 
 **Tier B:** `type_check` **0.99x** — ~parity.

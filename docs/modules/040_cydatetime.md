@@ -43,7 +43,7 @@
 |-------|--------|
 | Freeze | **Provisional (Runtime)** after 1.0 — not Core; may evolve under minors |
 | Iteration | 1 |
-| Last pass | 2026-07-22 — `dt_timedelta_eq` (#34) |
+P26-07-22 — `*_eq` inventory Tier A (`cyeq_inventory_bench`)|
 | Next action | — |
 
 ## Decision log
@@ -85,6 +85,18 @@ Ratio = cypy `cdef` loop / typed Cython baseline loop (opaque + sink). **Informa
 **Tier B takeaway:** primary `dt_date_check` **1.01x** vs typed Cython baseline (date).
 
 
+
+### `*_eq` inventory (Tier A depth)
+
+Harness: [`bench/cyeq_inventory_bench.py`](../../bench/cyeq_inventory_bench.py) · N=80_000 × runs=11 · CPython 3.14
+
+| operation | case | cypy mean±σ | p99 | ratio | p99× | verdict |
+|-----------|------|-------------|-----|-------|------|---------|
+| dt_date_eq | eq | 1.04±0.06ms | 1.17ms | **0.60x** | 0.64x | APPROVED |
+| dt_date_eq | ne | 1.01±0.02ms | 1.05ms | **0.57x** | 0.53x | APPROVED |
+| dt_time_eq | eq | 1.08±0.04ms | 1.13ms | **0.62x** | 0.62x | APPROVED |
+| dt_datetime_eq | eq | 1.14±0.04ms | 1.22ms | **0.65x** | 0.67x | APPROVED |
+| dt_timedelta_eq | eq | 1.02±0.03ms | 1.09ms | **0.61x** | 0.62x | APPROVED |
 ## Experiment conclusions
 
 **Tier B:** `dt_date_check` **1.01x** vs isinstance(date) — ~parity.

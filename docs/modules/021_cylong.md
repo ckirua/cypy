@@ -42,7 +42,7 @@ C↔`int` bridge and exactness checks (`bool` is a long subtype). From Python, `
 | Field | Value |
 |-------|--------|
 | Iteration | 1 |
-| Last pass | 2026-07-22 — `long_eq` / `int_eq` (#25) |
+P26-07-22 — `*_eq` inventory Tier A (`cyeq_inventory_bench`)|
 | Next action | — |
 
 ## Decision log
@@ -82,6 +82,17 @@ Ratio = cypy `cdef` loop / typed Cython baseline loop (opaque + sink). **Informa
 **Tier B takeaway:** primary `long_check` **1.00x** vs typed Cython baseline (hit).
 
 
+
+### `*_eq` inventory (Tier A depth)
+
+Harness: [`bench/cyeq_inventory_bench.py`](../../bench/cyeq_inventory_bench.py) · N=80_000 × runs=11 · CPython 3.14
+
+| operation | case | cypy mean±σ | p99 | ratio | p99× | verdict |
+|-----------|------|-------------|-----|-------|------|---------|
+| long_eq | eq small | 0.90±0.02ms | 0.94ms | **0.59x** | 0.57x | APPROVED |
+| long_eq | ne | 1.15±0.03ms | 1.19ms | **0.78x** | 0.77x | APPROVED |
+| long_eq | eq big | 1.24±0.05ms | 1.32ms | **0.72x** | 0.74x | APPROVED |
+| int_eq | eq | 0.94±0.06ms | 1.08ms | **0.63x** | 0.69x | APPROVED |
 ## Experiment conclusions
 
 **Tier B:** `long_check` **1.00x** vs isinstance — ~parity.

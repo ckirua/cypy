@@ -43,7 +43,7 @@ Abstract sequence protocol for unknown concrete types. Prefer typed modules (`cy
 |-------|--------|
 | Freeze | **Provisional (Protocols)** after 1.0 — not Core; may evolve under minors |
 | Iteration | 1 |
-| Last pass | 2026-07-22 — `seq_eq` (#23) |
+P26-07-22 — `*_eq` inventory Tier A (`cyeq_inventory_bench`)|
 | Next action | — |
 
 ## Decision log
@@ -87,6 +87,16 @@ Ratio = cypy `cdef` loop / typed Cython baseline loop (opaque + sink). **Informa
 **Tier B takeaway:** primary `sqget` **1.09x** vs typed Cython baseline (list[0]).
 
 
+
+### `*_eq` inventory (Tier A depth)
+
+Harness: [`bench/cyeq_inventory_bench.py`](../../bench/cyeq_inventory_bench.py) · N=80_000 × runs=11 · CPython 3.14
+
+| operation | case | cypy mean±σ | p99 | ratio | p99× | verdict |
+|-----------|------|-------------|-----|-------|------|---------|
+| seq_eq | list eq | 1.43±0.12ms | 1.76ms | **0.76x** | 0.80x | APPROVED |
+| seq_eq | tuple↔list eq | 1.39±0.12ms | 1.69ms | **0.76x** | 0.81x | APPROVED |
+| seq_eq | list ne | 1.57±0.06ms | 1.72ms | **0.73x** | 0.75x | APPROVED |
 ## Experiment conclusions
 
 **Tier B:** primary `sqget` **1.10x** vs typed index; `sqlen` **0.90x**.

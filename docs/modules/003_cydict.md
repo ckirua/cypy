@@ -91,7 +91,7 @@ Hot-path get/set/pop/merge/len for typed exact `dict` + `str` keys, plus full in
 |-------|--------|
 | Freeze | **1.0 Core** — public + documented cimport; see COVERAGE § 1.0 freeze |
 | Iteration | 3 |
-| Last pass | 2026-07-21 — Phase 4 Tier B (Cython baseline) |
+P26-07-22 — `*_eq` inventory Tier A (`cyeq_inventory_bench`)|
 | Next action | — |
 
 ## Decision log
@@ -171,6 +171,16 @@ Ratio = cypy `cdef` loop / typed Cython baseline loop (opaque + sink). **Informa
 
 **Tier B takeaway:** primary `dget` **1.15x** vs `dict.get` — Cython emit slightly tighter; keep public (Tier A still wins vs Python).
 
+
+### `*_eq` inventory (Tier A depth)
+
+Harness: [`bench/cyeq_inventory_bench.py`](../../bench/cyeq_inventory_bench.py) · N=80_000 × runs=11 · CPython 3.14
+
+| operation | case | cypy mean±σ | p99 | ratio | p99× | verdict |
+|-----------|------|-------------|-----|-------|------|---------|
+| dict_eq | eq small | 1.95±0.11ms | 2.25ms | **0.78x** | 0.79x | APPROVED |
+| dict_eq | ne small | 2.05±0.08ms | 2.26ms | **0.77x** | 0.77x | APPROVED |
+| dict_eq | identity | 1.01±0.07ms | 1.14ms | **0.39x** | 0.41x | APPROVED |
 ## Experiment conclusions
 
 **Tier B:** primary `dget` **1.15x** vs `dict.get` — Cython emit slightly tighter; keep public (Tier A still wins vs Python).

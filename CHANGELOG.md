@@ -3,6 +3,15 @@
 All notable changes to `cypy` are documented here. Version from
 [`src/cypy/__about__.py`](src/cypy/__about__.py).
 
+## [1.42.2] — 2026-07-22 — full `*_eq` Tier A inventory
+
+### Docs / benches
+
+- Add ``bench/cyeq_inventory_bench.py`` covering remaining public ``*_eq``
+  helpers missing from module harnesses; paste measured tables into trackers.
+- ``docs/EQ_INVENTORY.md`` summary. Note: ``buf_eq`` mv↔mv **1.14x** lose
+  (prefer ``memoryview_eq``).
+
 ## [1.42.1] — 2026-07-22 — eq Tier A depth pass
 
 ### Fixed / docs
