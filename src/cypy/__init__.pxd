@@ -489,6 +489,7 @@ from .cydict cimport (
 from .cyfloat cimport (
     float_check,
     float_check_exact,
+    float_eq,
     float_from_double,
     float_from_cstr,
     float_as_double,
@@ -896,6 +897,7 @@ __all__: tuple[str, ...] = (
     "dvalues",
     "float_check",
     "float_check_exact",
+    "float_eq",
     "float_from_double",
     "float_as_double",
     "float_as_double_unchecked",
