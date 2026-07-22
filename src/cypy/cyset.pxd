@@ -79,6 +79,16 @@ cdef inline bint seteq(set a, set b):
     return <bint>PyObject_RichCompareBool(a, b, Py_EQ)
 
 
+cdef inline bint fseteq(frozenset a, frozenset b):
+    # Identity / size short-circuit + richcompare (same semantics as ``==``).
+    # Soft name ``fseteq`` mirrors ``seteq`` for frozenset.
+    if a is b:
+        return True
+    if PySet_GET_SIZE(a) != PySet_GET_SIZE(b):
+        return False
+    return <bint>PyObject_RichCompareBool(a, b, Py_EQ)
+
+
 cdef inline Py_ssize_t ssize(object anyset) except -1:
     return PySet_Size(anyset)
 
@@ -155,6 +165,9 @@ cpdef inline frozenset frozenset_empty():
 
 cpdef inline frozenset frozenset_new(object iterable):
     return sfrozen_new(iterable)
+
+cpdef inline bint frozenset_eq(frozenset a, frozenset b):
+    return fseteq(a, b)
 
 cpdef inline Py_ssize_t set_len(set s) noexcept:
     return slen(s)
