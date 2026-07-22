@@ -119,9 +119,19 @@ Ratio = cypy `cdef` loop / typed Cython baseline `==` loop (opaque + sink). **In
 **Tier B `*_eq` notes:**
 - **`array_eq`:** **0.13–0.30x** win — raw buffer compare vs Cython elementwise/`==`.
 
+### `array_ne` inventory (Tier A + B)
+
+Harness: [`bench/cyne_search_inventory_bench.py`](../../bench/cyne_search_inventory_bench.py) · Tier B [`bench/tier_b/cyne_search.py`](../../bench/tier_b/cyne_search.py).
+
+| operation | case | ratio A | ratio B | note |
+|-----------|------|---------|---------|------|
+| `array_ne` | eq/ne small + n=64 | **0.39–0.58x** | **0.26x** ne small | pass |
+
 ## Experiment conclusions
 
 **Tier B `*_eq` inventory:** see section **Tier B — `*_eq` (inventory)** table. **0.13–0.30x** win — raw buffer compare vs Cython elementwise/`==`.
+
+**`array_ne` inventory:** Tier A **0.39–0.58x**; Tier B **0.26x** vs typed `!=`.
 
 **Tier B:** primary `aylen` **1.04x** vs typed `len` — ~parity.
 

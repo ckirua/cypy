@@ -135,9 +135,20 @@ Ratio = cypy `cdef` loop / typed Cython baseline `==` loop (opaque + sink). **In
 **Tier B `*_eq` notes:**
 - **`bytearray_eq`:** **0.18–0.55x** win — AS_STRING + memcmp beats Cython `bytearray == bytearray`.
 
+### ne / contains inventory (Tier A + B)
+
+Harness: [`bench/cyne_search_inventory_bench.py`](../../bench/cyne_search_inventory_bench.py) · Tier B [`bench/tier_b/cyne_search.py`](../../bench/tier_b/cyne_search.py).
+
+| operation | case | ratio A | ratio B | note |
+|-----------|------|---------|---------|------|
+| `bytearray_ne` | eq/ne short + 1KiB | **0.51–0.64x** | **0.17x** ne short | pass |
+| `bytearray_contains` | hit/miss; hit 1KiB | **0.32x** / **0.92x** | **0.24x** hit | pass; large closer to tie |
+
 ## Experiment conclusions
 
 **Tier B `*_eq` inventory:** see section **Tier B — `*_eq` (inventory)** table. **0.18–0.55x** win — AS_STRING + memcmp beats Cython `bytearray == bytearray`.
+
+**ne/search inventory:** `bytearray_ne` / `bytearray_contains` gate-pass; Tier B **0.17–0.24x** vs typed Cython.
 
 **Tier B:** primary `balen` **1.03x** vs typed `len` — ~parity.
 
