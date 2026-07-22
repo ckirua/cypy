@@ -3,6 +3,14 @@
 All notable changes to `cypy` are documented here. Version from
 [`src/cypy/__about__.py`](src/cypy/__about__.py).
 
+## [1.2.0] — 2026-07-22 — `unicode_from_string`
+
+### Added
+
+- **`unicode_from_string`** (`cyunicode`): cimport thin wrapper for
+  `PyUnicode_FromString` (no intern). Sibling of `uintern_from_string`;
+  mirrors `bytes_from_string`.
+
 ## [1.1.0] — 2026-07-22 — `bytes_eq`
 
 ### Added

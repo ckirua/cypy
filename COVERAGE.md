@@ -29,7 +29,7 @@ Authoritative symbol lists: `src/cypy/__init__.py` / `__init__.pxd` `__all__`, p
 | `cybytes` | `bytes` | public + cimport | `bytes_len`, `bytes_contains`, `bytes_eq`; `bytes_as_string` cimport-only |
 | `cybytearray` | `bytearray` | public + cimport | `bytearray_len`, `bytearray_from_object`, … |
 | `cystr` | `str` value ops | public subset + cimport | `str_len`, `str_eq`, `str_contains`, coerce helpers, … |
-| `cyunicode` | UTF-8 / intern | public subset + cimport | `uintern`, `uutf8_bytes`; raw `uutf8` cimport |
+| `cyunicode` | UTF-8 / intern | public subset + cimport | `uintern`, `uutf8_bytes`; `unicode_from_string` / `uutf8` cimport |
 | `cyansi` | terminal SGR | public | Not CPython; builds on unicode intern |
 | `cygc` | GC | public | `gc_collect`, `gc_is_enabled`, … |
 | `cyarray` / `cymemoryview` / `cybuffer` / `cyslice` | buffers / slice | public | sequences/buffers adjacent to Core |
@@ -113,7 +113,7 @@ Still too dynamic?
 | Layer | Module | Role |
 |-------|--------|------|
 | Value ops on `str` | `cystr` | len/eq/contains/concat/coerce/… |
-| Encode / intern / borrow | `cyunicode` | `uintern`, `uutf8_bytes`, cimport `uutf8` |
+| Encode / intern / borrow | `cyunicode` | `uintern`, `uutf8_bytes`, cimport `unicode_from_string` / `uutf8` |
 
 ### Naming conventions (N3 + N4)
 

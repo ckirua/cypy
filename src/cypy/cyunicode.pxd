@@ -8,6 +8,7 @@ from cpython.unicode cimport (
     PyUnicode_AsUTF8,
     PyUnicode_AsUTF8AndSize,
     PyUnicode_AsUTF8String,
+    PyUnicode_FromString,
     PyUnicode_InternFromString,
 )
 
@@ -30,6 +31,11 @@ cdef inline void uintern_in_place(str s) except *:
     # Mutates the caller's PyObject* slot — Cython extension use only.
     cdef PyObject *p = <PyObject *>s
     PyUnicode_InternInPlace(&p)
+
+
+cdef inline str unicode_from_string(const char *s):
+    # Cheap sibling: str from C string (no intern). Mirror ``bytes_from_string``.
+    return <str>PyUnicode_FromString(s)
 
 
 cdef inline str uintern_from_string(const char *s):
