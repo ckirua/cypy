@@ -32,6 +32,10 @@ def array_eq(a: array, b: array) -> bool:
     """Return True if typed ``array.array`` values are equal (typecode/len/`memcmp`)."""
     ...
 
+def array_ne(a: array, b: array) -> bool:
+    """Return True if typed ``array.array`` values differ (``not array_eq``)."""
+    ...
+
 def array_resize(a: array, n: int) -> int:
     """Resize ``a`` to ``n`` elements via Cython ``array.resize`` (``0`` / ``-1``). Returns 0 on success; errors raise — do not use as bool."""
     ...

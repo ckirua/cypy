@@ -2,7 +2,7 @@
 
 Run: python examples/pybytearray.py
 """
-from cypy import bytearray_check, bytearray_eq, bytearray_from_object, bytearray_len
+from cypy import bytearray_check, bytearray_eq, bytearray_from_object, bytearray_len, bytearray_ne
 
 
 def main() -> None:
@@ -12,6 +12,7 @@ def main() -> None:
     assert isinstance(again, bytearray) and bytes(again) == b"xy"
     assert bytearray_eq(ba, bytearray(b"hi")) and not bytearray_eq(ba, again)
     assert bytearray_eq(ba, ba)
+    assert bytearray_ne(ba, again) and not bytearray_ne(ba, bytearray(b"hi"))
     print("ok", bytearray_len(ba))
 
 

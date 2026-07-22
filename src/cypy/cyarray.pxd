@@ -44,6 +44,10 @@ cdef inline bint ayeq(array a, array b) noexcept:
     return memcmp(a.data.as_chars, b.data.as_chars, nbytes) == 0
 
 
+cdef inline bint ayne(array a, array b) noexcept:
+    return not ayeq(a, b)
+
+
 cdef inline array aycopy(array a):
     return _ay_copy(a)
 
@@ -98,6 +102,9 @@ cpdef inline Py_ssize_t array_len(array a) noexcept:
 
 cpdef inline bint array_eq(array a, array b) noexcept:
     return ayeq(a, b)
+
+cpdef inline bint array_ne(array a, array b) noexcept:
+    return ayne(a, b)
 
 cpdef inline int array_resize(array a, Py_ssize_t n) except -1:
     return ayresize(a, n)

@@ -21,6 +21,7 @@ Stable `cypy` names over Cython’s `array.pxd` inline helpers (`clone`/`copy`/`
 | aycheck / aycheck_exact | cypy | cpdef | public | `isinstance` / `type is` |
 | aylen | cypy | cpdef | public | `Py_SIZE` |
 | ayeq | cypy | cpdef | public | typecode/len/`memcmp` (soft); preferred `array_eq` |
+| ayne | cypy | cpdef | public | `not ayeq` (soft); preferred `array_ne` |
 | aycopy / ayclone | cypy | cpdef | public | Cython `copy` / `clone` |
 | ayextend / ayzero | cypy | cpdef | public | `extend` / `memset` zero |
 | ayresize / ayresize_smart | cypy | cpdef | public | Cython resize helpers |
@@ -34,6 +35,7 @@ Stable `cypy` names over Cython’s `array.pxd` inline helpers (`clone`/`copy`/`
 |----------|--------|-----|
 | aylen / checks | APPROVED | **0.51–0.61x** |
 | ayeq / array_eq | APPROVED | mirrors `bytes_eq` (typecode + memcmp) |
+| ayne / array_ne | APPROVED | `not ayeq` — API sibling of `bytes_ne` |
 | aycopy / ayclone | APPROVED | **0.19–0.46x** |
 | ayextend / ayzero | APPROVED | **0.08–0.82x** (`memset` demolishes Python loop) |
 | ayresize / smart | APPROVED | **0.25–0.81x** |

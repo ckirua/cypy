@@ -3,6 +3,15 @@
 All notable changes to `cypy` are documented here. Version from
 [`src/cypy/__about__.py`](src/cypy/__about__.py).
 
+## [1.7.0] — 2026-07-22 — `bytearray_ne` / `array_ne` / `memoryview_ne`
+
+### Added
+
+- **`bytearray_ne`**, **`array_ne`**, **`memoryview_ne`**: typed inequality siblings of
+  the corresponding `*_eq` helpers (`not *_eq` / soft `bane` / `ayne` / `mvne`).
+  Same contig/format rules as `*_eq`. On `cypy` / `cypy.hot` / `cypy.buffers`
+  (mirrors `bytes_ne` / `str_ne`).
+
 ## [1.6.0] — 2026-07-22 — `bytes_ne`
 
 ### Added

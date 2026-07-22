@@ -26,6 +26,10 @@ def bytearray_eq(a: bytearray, b: bytearray) -> bool:
     """Return True if typed ``bytearray`` values are equal (identity/len/`memcmp`)."""
     ...
 
+def bytearray_ne(a: bytearray, b: bytearray) -> bool:
+    """Return True if typed ``bytearray`` values differ (``not bytearray_eq``)."""
+    ...
+
 def bytearray_resize(ba: bytearray, n: int) -> int:
     """Resize ``ba`` in place via ``PyByteArray_Resize`` (``0`` / ``-1``). Returns 0 on success; errors raise — do not use as bool."""
     ...

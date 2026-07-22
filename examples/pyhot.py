@@ -5,7 +5,9 @@ Run: python examples/pyhot.py
 
 from cypy.hot import (
     array_eq,
+    array_ne,
     bytearray_eq,
+    bytearray_ne,
     bytes_contains,
     bytes_eq,
     bytes_len,
@@ -15,6 +17,7 @@ from cypy.hot import (
     list_append,
     list_len,
     memoryview_eq,
+    memoryview_ne,
     set_add,
     set_contains,
     str_len,
@@ -34,9 +37,12 @@ def main() -> None:
     assert bytes_eq(b"ok", b"ok") and not bytes_eq(b"ok", b"no")
     assert bytes_ne(b"ok", b"no") and not bytes_ne(b"ok", b"ok")
     assert bytearray_eq(bytearray(b"ok"), bytearray(b"ok"))
+    assert bytearray_ne(bytearray(b"ok"), bytearray(b"no"))
     from array import array as Array
     assert array_eq(Array("i", [1, 2]), Array("i", [1, 2]))
+    assert array_ne(Array("i", [1, 2]), Array("i", [1, 3]))
     assert memoryview_eq(memoryview(b"ok"), memoryview(b"ok"))
+    assert memoryview_ne(memoryview(b"ok"), memoryview(b"no"))
     assert str_len("hi") == 2
     print("ok", dict_len(d), list_len(xs), bytes_len(b"ok"))
 

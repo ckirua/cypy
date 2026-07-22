@@ -49,6 +49,10 @@ cdef inline bint mveq(memoryview a, memoryview b):
     return memcmp(pa.buf, pb.buf, nbytes) == 0
 
 
+cdef inline bint mvne(memoryview a, memoryview b):
+    return not mveq(a, b)
+
+
 cdef inline memoryview mvfrom_object(object obj):
     return PyMemoryView_FromObject(obj)
 
@@ -85,6 +89,9 @@ cpdef inline bint memoryview_check(object p) noexcept:
 
 cpdef inline bint memoryview_eq(memoryview a, memoryview b):
     return mveq(a, b)
+
+cpdef inline bint memoryview_ne(memoryview a, memoryview b):
+    return mvne(a, b)
 
 cdef inline memoryview memoryview_from_buffer(Py_buffer *view):
     return mvfrom_buffer(view)

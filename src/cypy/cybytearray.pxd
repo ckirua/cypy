@@ -77,6 +77,10 @@ cdef inline bint baeq(bytearray a, bytearray b) noexcept:
         return True
     return memcmp(PyByteArray_AS_STRING(a), PyByteArray_AS_STRING(b), <size_t>la) == 0
 
+
+cdef inline bint bane(bytearray a, bytearray b) noexcept:
+    return not baeq(a, b)
+
 # Wave 4 N1/N5 preferred names (0.3: soft letter/bare are cdef-only)
 
 cdef inline char* bytearray_as_string(bytearray ba) noexcept:
@@ -105,6 +109,9 @@ cpdef inline Py_ssize_t bytearray_len(bytearray ba) noexcept:
 
 cpdef inline bint bytearray_eq(bytearray a, bytearray b) noexcept:
     return baeq(a, b)
+
+cpdef inline bint bytearray_ne(bytearray a, bytearray b) noexcept:
+    return bane(a, b)
 
 cdef inline bytearray bytearray_new(Py_ssize_t n):
     return banew(n)
