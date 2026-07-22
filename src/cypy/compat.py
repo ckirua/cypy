@@ -159,6 +159,7 @@ COMPAT_MAP: dict[str, str] = {
     "sdiscard": "set_discard",
     "sempty": "set_empty",
     "seteq": "set_eq",
+    "fseteq": "frozenset_eq",
     "sfrozen_check": "frozenset_check",
     "sfrozen_check_exact": "frozenset_check_exact",
     "sfrozen_empty": "frozenset_empty",

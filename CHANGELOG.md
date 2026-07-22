@@ -3,6 +3,14 @@
 All notable changes to `cypy` are documented here. Version from
 [`src/cypy/__about__.py`](src/cypy/__about__.py).
 
+## [1.20.0] — 2026-07-22 — `frozenset_eq`
+
+### Added
+
+- **`frozenset_eq`** (`cyset`): typed ``frozenset`` equality — identity/size
+  short-circuit + richcompare (same semantics as ``==``). Soft ``fseteq``. On
+  ``cypy`` / ``cypy.containers``.
+
 ## [1.19.0] — 2026-07-22 — `set_eq`
 
 ### Added

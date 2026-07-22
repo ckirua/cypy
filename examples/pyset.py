@@ -4,6 +4,7 @@ Run: python examples/pyset.py
 """
 
 from cypy import (
+    frozenset_eq,
     set_add,
     set_clear,
     set_contains,
@@ -20,6 +21,14 @@ SYMBOLS: set[str] = {"BTCUSDT", "ETHUSDT", "SOLUSDT"}
 def main() -> None:
     assert set_eq({"a", "b"}, {"b", "a"}) and not set_eq({"a"}, {"b"}) and set_eq(set(), set())
     assert set_eq({1, 2, 3}, {3, 2, 1}) and not set_eq({1}, {1, 2})
+    assert (
+        frozenset_eq(frozenset({"a", "b"}), frozenset({"b", "a"}))
+        and not frozenset_eq(frozenset({"a"}), frozenset({"b"}))
+        and frozenset_eq(frozenset(), frozenset())
+    )
+    assert frozenset_eq(frozenset({1, 2, 3}), frozenset({3, 2, 1})) and not frozenset_eq(
+        frozenset({1}), frozenset({1, 2})
+    )
     print(f"set_len(symbols) -> {set_len(SYMBOLS)!r}")
     for symbol in sorted(SYMBOLS):
         print(f"set_contains(symbols, {symbol!r}) -> {set_contains(SYMBOLS, symbol)!r}")

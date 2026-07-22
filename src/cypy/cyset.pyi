@@ -58,6 +58,10 @@ def frozenset_new(iterable: object) -> frozenset:
     """Return a new frozenset from ``iterable`` via ``PyFrozenSet_New``."""
     ...
 
+def frozenset_eq(a: frozenset, b: frozenset) -> bool:
+    """Return True if typed frozensets are equal (identity/size short-circuit + richcompare)."""
+    ...
+
 def set_len(s: set) -> int:
     """Return ``len(s)`` via ``PySet_GET_SIZE`` (exact ``set``)."""
     ...

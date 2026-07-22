@@ -30,6 +30,7 @@ Hot-path contains/len/checks/constructors for typed `set` / any-set, plus full i
 | sfrozen_new | cypy | cpdef | public | `PyFrozenSet_New(iterable)` |
 | slen | cypy | cpdef | public | `PySet_GET_SIZE` — exact `set` |
 | seteq | cypy | cpdef | public | identity/size + richcompare; preferred `set_eq` (not soft `seq`) |
+| fseteq | cypy | cpdef | public | identity/size + richcompare; preferred `frozenset_eq` |
 | ssize | cypy | cpdef | public | `PySet_Size` — set/frozenset/subtypes |
 | scontains | cypy | cpdef | public | `PySet_Contains` (any-set) |
 | sadd | cypy | cpdef | public | `PySet_Add` |
@@ -48,6 +49,7 @@ Hot-path contains/len/checks/constructors for typed `set` / any-set, plus full i
 | scontains | APPROVED | primary hit **0.71x**; frozenset **0.73x** |
 | slen / ssize | APPROVED | **0.61x** / **0.63–0.64x** |
 | seteq / set_eq | APPROVED | identity/size + richcompare (issue #21) |
+| fseteq / frozenset_eq | APPROVED | identity/size + richcompare (issue #22) |
 | scheck / exact | APPROVED | **0.52x** / **0.57x** |
 | sany_* / sfrozen_* | APPROVED | **0.29–0.58x** vs `isinstance` |
 | sempty / snew / sfrozen_* / scopy | APPROVED | **0.72–0.93x** |

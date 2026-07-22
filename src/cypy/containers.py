@@ -41,6 +41,7 @@ from .cylist import (
 from .cyset import (
     frozenset_check,
     frozenset_check_exact,
+    frozenset_eq,
     set_add,
     set_check,
     set_check_exact,
@@ -98,6 +99,7 @@ __all__: tuple[str, ...] = (
     "set_check_exact",
     "frozenset_check",
     "frozenset_check_exact",
+    "frozenset_eq",
     "set_contains",
     "set_add",
     "set_discard",
