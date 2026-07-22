@@ -29,6 +29,7 @@ from cpython.datetime cimport (
     time_minute,
     time_new,
     time_second,
+    time_tzinfo,
     timedelta_days,
     timedelta_microseconds,
     timedelta_new,
@@ -77,6 +78,27 @@ cpdef inline bint dt_time_check(object o) noexcept:
 
 cpdef inline bint dt_time_check_exact(object o) noexcept:
     return PyTime_CheckExact(o)
+
+
+cdef inline bint dteq_time(object a, object b):
+    # Identity short-circuit; exact naive ``time`` pairs compare h/m/s/us;
+    # else richcompare (subtypes / aware/naive / offset — Python ``==`` parity).
+    # Soft ``dteq_time``. Fold is ignored (matches ``time.__eq__``).
+    if a is b:
+        return True
+    if PyTime_CheckExact(a) and PyTime_CheckExact(b):
+        if time_tzinfo(a) is None and time_tzinfo(b) is None:
+            return (
+                time_hour(a) == time_hour(b)
+                and time_minute(a) == time_minute(b)
+                and time_second(a) == time_second(b)
+                and time_microsecond(a) == time_microsecond(b)
+            )
+    return <bint>PyObject_RichCompareBool(a, b, Py_EQ)
+
+
+cpdef inline bint dt_time_eq(object a, object b):
+    return dteq_time(a, b)
 
 
 cdef inline bint dt_delta_check(object o) noexcept:

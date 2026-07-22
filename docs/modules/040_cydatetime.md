@@ -20,6 +20,7 @@
 |--------|--------|-------|
 | dt_*_check* / *_new / field getters | public | wraps cpython.datetime helpers |
 | dteq_date / dt_date_eq | public | identity + exact y/m/d / richcompare; soft `dteq_date` |
+| dteq_time / dt_time_eq | public | identity + exact naive h/m/s/us / richcompare; soft `dteq_time` |
 | dt_timedelta_check* / days / seconds / microseconds | public | preferred spelling |
 | dt_delta_* (check/days/seconds/microseconds) | cimport impl | 0.3: soft names cdef-only; prefer `dt_timedelta_*` |
 
@@ -29,6 +30,7 @@
 |----------|--------|-----|
 | checks / year / date_new / timedelta_new | APPROVED | **0.20–0.65x** |
 | dteq_date / dt_date_eq | APPROVED | identity + exact field compare / richcompare (issue #31); not `hot` |
+| dteq_time / dt_time_eq | APPROVED | identity + exact naive field compare / richcompare (issue #32); not `hot` |
 | remaining getters/ctors | APPROVED (API) | completeness |
 
 ## Lifecycle
@@ -37,7 +39,7 @@
 |-------|--------|
 | Freeze | **Provisional (Runtime)** after 1.0 — not Core; may evolve under minors |
 | Iteration | 1 |
-| Last pass | 2026-07-22 — `dt_date_eq` (#31) |
+| Last pass | 2026-07-22 — `dt_time_eq` (#32) |
 | Next action | — |
 
 ## Decision log
@@ -46,6 +48,7 @@
 |----------|--------|----------|-----------|
 | checks/getters/ctors | 0.20–0.65x | APPROVED | 1 |
 | dteq_date / dt_date_eq | identity + exact y/m/d; richcompare for subtypes / date↔datetime | APPROVED | 1 |
+| dteq_time / dt_time_eq | identity + exact naive h/m/s/us; richcompare for subtypes / aware | APPROVED | 1 |
 
 ## Bench notes
 
@@ -91,6 +94,7 @@ Ratio = cypy `cdef` loop / typed Cython baseline loop (opaque + sink). **Informa
 | Safety | Must call `PyDateTime_IMPORT` once before macros — wrappers ensure import |
 | ABI | datetime C-API via capsule; missing import → segfault risk if bypassed |
 | `dt_date_eq` | Exact `date` pairs: C y/m/d compare; subtypes / date↔datetime via richcompare (Python `==`; date≠datetime); leave off `hot` until measured win |
+| `dt_time_eq` | Exact naive `time` pairs: C h/m/s/us (fold ignored); aware/subtypes via richcompare (Python `==` offset rules); leave off `hot` until measured win |
 
 
 ## Done when

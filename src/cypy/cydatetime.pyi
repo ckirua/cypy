@@ -28,6 +28,10 @@ def dt_time_check_exact(o: object) -> bool:
     """Return True if ``type(o) is time`` (``PyTime_CheckExact``)."""
     ...
 
+def dt_time_eq(a: object, b: object) -> bool:
+    """Return True if ``a == b`` for times (exact naive h/m/s/us; else richcompare)."""
+    ...
+
 def dt_date_new(year: int, month: int, day: int) -> object:
     """Return a ``date`` via DateTime C-API (unchecked ranges)."""
     ...

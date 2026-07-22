@@ -3,6 +3,16 @@
 All notable changes to `cypy` are documented here. Version from
 [`src/cypy/__about__.py`](src/cypy/__about__.py).
 
+## [1.30.0] — 2026-07-22 — `dt_time_eq`
+
+### Added
+
+- **`dt_time_eq`** (`cydatetime`): time equality — identity short-circuit; exact
+  naive ``time`` pairs compare hour/minute/second/microsecond; else richcompare
+  (subtypes / aware/naive / offset Python ``==`` parity; fold ignored). Soft
+  ``dteq_time``. On ``cypy`` (not ``hot`` — Runtime; validate win before
+  promoting).
+
 ## [1.29.0] — 2026-07-22 — `dt_date_eq`
 
 ### Added
