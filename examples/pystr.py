@@ -9,6 +9,10 @@ from cypy import (
     str_as_or_empty,
     str_cmp,
     str_contains,
+    str_ge,
+    str_gt,
+    str_le,
+    str_lt,
     str_eq,
     str_is,
     str_is_blank,
@@ -61,6 +65,7 @@ CONTAINS_CASES: tuple[tuple[str, str, bool], ...] = (
 
 def main() -> None:
     assert str_cmp("a", "b") < 0 and str_cmp("b", "a") > 0 and str_cmp("x", "x") == 0
+    assert str_lt("a", "b") and str_le("a", "a") and str_gt("b", "a") and str_ge("b", "b")
     print(f"str_len({SYMBOL!r}) -> {str_len(SYMBOL)!r}")
     assert str_len(SYMBOL) == len(SYMBOL)
     assert str_len("") == 0

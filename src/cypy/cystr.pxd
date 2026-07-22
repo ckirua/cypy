@@ -114,6 +114,22 @@ cdef inline int scmp(str a, str b) noexcept:
     return 0
 
 
+cdef inline bint slt(str a, str b) noexcept:
+    return scmp(a, b) < 0
+
+
+cdef inline bint sle(str a, str b) noexcept:
+    return scmp(a, b) <= 0
+
+
+cdef inline bint sgt(str a, str b) noexcept:
+    return scmp(a, b) > 0
+
+
+cdef inline bint sge(str a, str b) noexcept:
+    return scmp(a, b) >= 0
+
+
 cdef inline bint startswith(str s, str prefix) noexcept:
     cdef Py_ssize_t sn = PyUnicode_GET_LENGTH(s)
     cdef Py_ssize_t pn = PyUnicode_GET_LENGTH(prefix)
@@ -375,6 +391,18 @@ cpdef inline bint str_eq(str a, str b) noexcept:
 
 cpdef inline int str_cmp(str a, str b) noexcept:
     return scmp(a, b)
+
+cpdef inline bint str_lt(str a, str b) noexcept:
+    return slt(a, b)
+
+cpdef inline bint str_le(str a, str b) noexcept:
+    return sle(a, b)
+
+cpdef inline bint str_gt(str a, str b) noexcept:
+    return sgt(a, b)
+
+cpdef inline bint str_ge(str a, str b) noexcept:
+    return sge(a, b)
 
 cpdef inline Py_ssize_t str_len(str s) noexcept:
     return strlen(s)

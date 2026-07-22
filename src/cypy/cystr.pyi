@@ -94,6 +94,22 @@ def str_cmp(a: str, b: str) -> int:
     """Three-way compare of typed ``str`` values: ``-1`` / ``0`` / ``1`` (``PyUnicode_Compare``)."""
     ...
 
+def str_lt(a: str, b: str) -> bool:
+    """Return True if typed ``a < b`` (via ``str_cmp``)."""
+    ...
+
+def str_le(a: str, b: str) -> bool:
+    """Return True if typed ``a <= b`` (via ``str_cmp``)."""
+    ...
+
+def str_gt(a: str, b: str) -> bool:
+    """Return True if typed ``a > b`` (via ``str_cmp``)."""
+    ...
+
+def str_ge(a: str, b: str) -> bool:
+    """Return True if typed ``a >= b`` (via ``str_cmp``)."""
+    ...
+
 
 def str_len(s: str) -> int:
     """Return ``len(s)`` via ``PyUnicode_GET_LENGTH``."""

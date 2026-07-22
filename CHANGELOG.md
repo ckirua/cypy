@@ -3,6 +3,14 @@
 All notable changes to `cypy` are documented here. Version from
 [`src/cypy/__about__.py`](src/cypy/__about__.py).
 
+## [1.14.0] — 2026-07-22 — `str_lt` / `str_le` / `str_gt` / `str_ge`
+
+### Added
+
+- **`str_lt` / `str_le` / `str_gt` / `str_ge`** (`cystr`): typed ordering
+  predicates via ``str_cmp``. Soft ``slt``/``sle``/``sgt``/``sge``. On ``cypy``
+  (not ``hot``).
+
 ## [1.13.0] — 2026-07-22 — `str_cmp`
 
 ### Added
