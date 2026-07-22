@@ -3,6 +3,15 @@
 All notable changes to `cypy` are documented here. Version from
 [`src/cypy/__about__.py`](src/cypy/__about__.py).
 
+## [1.4.0] — 2026-07-22 — `array_eq`
+
+### Added
+
+- **`array_eq`** (`cyarray`): typed `array.array` equality — identity/typecode/len
+  short-circuit + `memcmp` over `itemsize * len` (mirrors `bytes_eq`). Soft
+  letter `ayeq` stays cdef-only; preferred name on `cypy` / `cypy.hot` /
+  `cypy.buffers`. Different typecodes compare false (same as Python `==`).
+
 ## [1.3.0] — 2026-07-22 — `bytearray_eq`
 
 ### Added
