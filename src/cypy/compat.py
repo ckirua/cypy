@@ -68,6 +68,7 @@ COMPAT_MAP: dict[str, str] = {
     "bstartswith": "bytes_startswith",
     "buffer_eq": "buf_eq",
     "ceq": "complex_eq",
+    "capsuleeq": "capsule_eq",
     "celleq": "cell_eq",
     "char_at": "str_char_at",
     "concat": "str_concat",

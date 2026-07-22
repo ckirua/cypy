@@ -3,6 +3,15 @@
 All notable changes to `cypy` are documented here. Version from
 [`src/cypy/__about__.py`](src/cypy/__about__.py).
 
+## [1.36.0] — 2026-07-22 — `capsule_eq`
+
+### Added
+
+- **`capsule_eq`** (`cypycapsule`): capsule equality via identity (``a is b``) —
+  CPython uses ``object.__eq__``; same pointer/name does not make distinct
+  capsules equal. Soft ``capsuleeq``. On ``cypy`` (not ``hot`` — Runtime;
+  validate win before promoting).
+
 ## [1.35.0] — 2026-07-22 — `cell_eq`
 
 ### Added

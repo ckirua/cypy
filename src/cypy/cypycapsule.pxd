@@ -22,6 +22,17 @@ cpdef inline bint capsule_is_valid(object capsule, const char *name) noexcept:
     return PyCapsule_IsValid(capsule, name)
 
 
+cdef inline bint capsuleeq(object a, object b) noexcept:
+    # Capsule equality is identity (CPython uses ``object.__eq__`` —
+    # same pointer/name does not make distinct capsules equal). Soft
+    # ``capsuleeq``. Callers should pass capsule objects. Not on ``hot``.
+    return a is b
+
+
+cpdef inline bint capsule_eq(object a, object b) noexcept:
+    return capsuleeq(a, b)
+
+
 cdef inline object capsule_new(void *pointer, const char *name, void *destructor=NULL):
     return PyCapsule_New(pointer, name, destructor)
 

@@ -275,6 +275,7 @@ from .cyfileobject import (
 )
 from .cypycapsule import (
     capsule_check_exact,
+    capsule_eq,
     capsule_is_valid,
 )
 from .cyweakref import (
