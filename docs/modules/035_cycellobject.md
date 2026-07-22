@@ -19,6 +19,7 @@ Closure cell objects for Cython/function tooling.
 | Symbol | Export | Notes |
 |--------|--------|-------|
 | cell_check / new / get / set | public | |
+| cell_eq / celleq | public | content eq (`cell_richcompare`); soft `celleq`; not `hot` |
 | cell_get_unchecked / set_unchecked | cimport | GET/SET macros |
 
 ## Workflow status
@@ -27,6 +28,7 @@ Closure cell objects for Cython/function tooling.
 |----------|--------|-----|
 | cell_check / get / new | APPROVED | see benches |
 | cell_set | APPROVED (API) | mutation |
+| cell_eq / celleq | APPROVED | content equality (issue #37); not `hot` |
 | GET/SET unchecked | APPROVED (cimport) | no checks / SET skips INCREF |
 
 ## Lifecycle
@@ -34,7 +36,7 @@ Closure cell objects for Cython/function tooling.
 | Field | Value |
 |-------|--------|
 | Iteration | 1 |
-| Last pass | 2026-07-21 — Phase 4 Tier B |
+| Last pass | 2026-07-22 — `cell_eq` (#37) |
 | Next action | — |
 
 ## Decision log
@@ -42,6 +44,7 @@ Closure cell objects for Cython/function tooling.
 | Function | Decision | Iteration |
 |----------|----------|-----------|
 | public | APPROVED | 1 |
+| cell_eq / celleq | APPROVED | 1 |
 | macros | APPROVED (cimport) | 1 |
 
 ## Bench notes
@@ -82,6 +85,7 @@ Ratio = cypy `cdef` loop / typed Cython baseline loop (opaque + sink). **Informa
 | ABI / safety | Unchecked GET/SET macros assume a live cell; wrong type → undefined |
 | Scale | Cell ops are O(1); no size crossover — cost is wrapper vs attribute |
 | New(None) | Empty cell allowed; construction ~ties Python `types.CellType` |
+| `cell_eq` | Content equality via richcompare (not identity); empty↔empty True; soft `celleq`; leave off `hot` until measured win |
 
 ## Done when
 

@@ -3,6 +3,15 @@
 All notable changes to `cypy` are documented here. Version from
 [`src/cypy/__about__.py`](src/cypy/__about__.py).
 
+## [1.35.0] — 2026-07-22 — `cell_eq`
+
+### Added
+
+- **`cell_eq`** (`cycellobject`): cell equality via identity short-circuit +
+  ``PyObject_RichCompareBool`` (``Py_EQ``) — content equality (CPython
+  ``cell_richcompare``; empty↔empty True; not identity). Soft ``celleq``. On
+  ``cypy`` (not ``hot`` — Runtime; validate win before promoting).
+
 ## [1.34.0] — 2026-07-22 — `type_eq`
 
 ### Added

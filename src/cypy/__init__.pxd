@@ -221,6 +221,8 @@ from .cygenobject cimport (
 )
 from .cycellobject cimport (
     cell_check,
+    cell_eq,
+    celleq,
     cell_new,
     cell_get,
     cell_set,
@@ -1045,6 +1047,7 @@ __all__: tuple[str, ...] = (
     "gen_new",
     "gen_new_with_qualname",
     "cell_check",
+    "cell_eq",
     "cell_new",
     "cell_get",
     "cell_set",
