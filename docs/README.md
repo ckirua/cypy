@@ -38,6 +38,7 @@ Ship / remaster via [`PIPELINE.md`](PIPELINE.md) + [`TEMPLATE.md`](TEMPLATE.md).
 | [`TEMPLATE.md`](TEMPLATE.md) | v2 tracker template |
 | [`modules/`](modules/) | **Trackers** — one `NNN_cy{name}.md` per module (Order `001`…`055`) |
 | [`EQ_INVENTORY.md`](EQ_INVENTORY.md) · [`EQ_INVENTORY_TIERB.md`](EQ_INVENTORY_TIERB.md) · [`EQ_RUNTIME.md`](EQ_RUNTIME.md) · [`AGENT_LOOPS.md`](AGENT_LOOPS.md) | Grind `[eq/…]` issues via chat `/loop` or CLI agent in tmux |
+| [`OPS_INVENTORY.md`](OPS_INVENTORY.md) | Full public-barrel ops checklist (Tier A/B / pending / n/a); gate: `scripts/ops_inventory_coverage.py` |
 | [`future/MONKEY.md`](future/MONKEY.md) | Archived monkey-patch experiment — **not** in prod |
 
 Bench harnesses: [`bench/BENCH.md`](../bench/BENCH.md). Coverage map: [`COVERAGE.md`](../COVERAGE.md). Grader: `python scripts/grade_trackers.py` (optional `--write-audit` regenerates a local depth audit).
