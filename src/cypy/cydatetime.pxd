@@ -34,6 +34,7 @@ from cpython.datetime cimport (
     timedelta_new,
     timedelta_seconds,
 )
+from cpython.object cimport PyObject_RichCompareBool, Py_EQ
 
 
 cpdef inline bint dt_date_check(object o) noexcept:
@@ -42,6 +43,24 @@ cpdef inline bint dt_date_check(object o) noexcept:
 
 cpdef inline bint dt_date_check_exact(object o) noexcept:
     return PyDate_CheckExact(o)
+
+
+cdef inline bint dteq_date(object a, object b):
+    # Identity short-circuit; exact ``date`` pairs compare y/m/d; else richcompare
+    # (subtypes / ``date`` vs ``datetime`` — Python ``==`` parity). Soft ``dteq_date``.
+    if a is b:
+        return True
+    if PyDate_CheckExact(a) and PyDate_CheckExact(b):
+        return (
+            date_year(a) == date_year(b)
+            and date_month(a) == date_month(b)
+            and date_day(a) == date_day(b)
+        )
+    return <bint>PyObject_RichCompareBool(a, b, Py_EQ)
+
+
+cpdef inline bint dt_date_eq(object a, object b):
+    return dteq_date(a, b)
 
 
 cpdef inline bint dt_datetime_check(object o) noexcept:

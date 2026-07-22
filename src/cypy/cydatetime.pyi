@@ -8,6 +8,10 @@ def dt_date_check_exact(o: object) -> bool:
     """Return True if ``type(o) is date`` (``PyDate_CheckExact``)."""
     ...
 
+def dt_date_eq(a: object, b: object) -> bool:
+    """Return True if ``a == b`` for dates (exact y/m/d; else richcompare)."""
+    ...
+
 def dt_datetime_check(o: object) -> bool:
     """Return True if ``o`` is a ``datetime`` or subtype (``PyDateTime_Check``)."""
     ...
