@@ -3,6 +3,15 @@
 All notable changes to `cypy` are documented here. Version from
 [`src/cypy/__about__.py`](src/cypy/__about__.py).
 
+## [1.9.0] — 2026-07-22 — `bytearray_contains`
+
+### Added
+
+- **`bytearray_contains`** (`cybytearray`): typed `bytearray` membership for a
+  `bytes` needle — same small-buffer `memchr`/`memmem` / large-buffer `in`
+  hybrid as `bytes_contains`. Soft `bacontains`. On `cypy` / `cypy.hot` /
+  `cypy.buffers`.
+
 ## [1.8.0] — 2026-07-22 — `buf_eq`
 
 ### Added

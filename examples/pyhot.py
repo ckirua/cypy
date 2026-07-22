@@ -6,6 +6,7 @@ Run: python examples/pyhot.py
 from cypy.hot import (
     array_eq,
     array_ne,
+    bytearray_contains,
     bytearray_eq,
     bytearray_ne,
     bytes_contains,
@@ -38,6 +39,7 @@ def main() -> None:
     assert bytes_ne(b"ok", b"no") and not bytes_ne(b"ok", b"ok")
     assert bytearray_eq(bytearray(b"ok"), bytearray(b"ok"))
     assert bytearray_ne(bytearray(b"ok"), bytearray(b"no"))
+    assert bytearray_contains(bytearray(b"ok"), b"o")
     from array import array as Array
     assert array_eq(Array("i", [1, 2]), Array("i", [1, 2]))
     assert array_ne(Array("i", [1, 2]), Array("i", [1, 3]))
