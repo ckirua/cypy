@@ -38,6 +38,16 @@ cpdef inline bint mod_check_exact(object p) noexcept:
     return PyModule_CheckExact(p)
 
 
+cdef inline bint modeq(object a, object b) noexcept:
+    # Module equality is identity (CPython uses ``object.__eq__``). Soft
+    # ``modeq``. Callers should pass module objects. Not on ``hot``.
+    return a is b
+
+
+cpdef inline bint mod_eq(object a, object b) noexcept:
+    return modeq(a, b)
+
+
 cpdef inline object mod_new(const char *name):
     return PyModule_New(name)
 

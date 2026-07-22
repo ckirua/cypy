@@ -19,6 +19,7 @@ Module checks, construction, import helpers. Prefer `AddObjectRef` over stealing
 | Symbol | Export | Notes |
 |--------|--------|-------|
 | mod_check* / new* / get_name/filename / add_*_ref / import* / magic | public | |
+| mod_eq / modeq | public | identity eq (`object.__eq__`); soft `modeq`; not `hot` |
 | get_dict / add_object (steal) / get_state / add_module / modules_dict | cimport | |
 | ExtendInittab / ImportFrozen / ExecCode* | — | REJECTED (process-init / niche) |
 
@@ -27,6 +28,7 @@ Module checks, construction, import helpers. Prefer `AddObjectRef` over stealing
 | Function | Status | Why |
 |----------|--------|-----|
 | check / get_name / import / magic | APPROVED | **0.22–0.79x** |
+| mod_eq / modeq | APPROVED | identity equality (issue #40); not `hot` |
 | mod_new_object | APPROVED (API) | **0.99x** |
 | get_dict / steal add / state | APPROVED (cimport) | borrowed / steal / void* |
 | ExtendInittab / Frozen / ExecCode | REJECTED | pre-init / niche |
@@ -36,7 +38,7 @@ Module checks, construction, import helpers. Prefer `AddObjectRef` over stealing
 | Field | Value |
 |-------|--------|
 | Iteration | 1 |
-| Last pass | 2026-07-21 — Phase 4 Tier B |
+| Last pass | 2026-07-22 — `mod_eq` (#40) |
 | Next action | — |
 
 ## Decision log
@@ -44,6 +46,7 @@ Module checks, construction, import helpers. Prefer `AddObjectRef` over stealing
 | Function | Result | Decision | Iteration |
 |----------|--------|----------|-----------|
 | checks/import/magic | 0.22–0.79x | APPROVED | 1 |
+| mod_eq / modeq | identity | APPROVED | 1 |
 | AddObject | steals ref | APPROVED (cimport) | 1 |
 | AddObjectRef | safe alias | APPROVED | 1 |
 
@@ -90,6 +93,7 @@ Ratio = cypy `cdef` loop / typed Cython baseline loop (opaque + sink). **Informa
 | Scale | Create ~tie with `ModuleType(name)`; GetDict wins vs `mod.__dict__` (~0.49x) |
 | Safety | SetDoc/AddObject mutate module state — GIL / free-threading: serialize writers |
 | ABI | Multi-phase init helpers stay for extension authors (cimport) |
+| `mod_eq` | Identity (`a is b`) — CPython `object.__eq__`; soft `modeq`; leave off `hot` until measured win |
 
 
 ## Done when

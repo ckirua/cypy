@@ -19,12 +19,14 @@ Iterator protocol check and C-style next (None at end).
 | Symbol | Export | Notes |
 |--------|--------|-------|
 | iter_check / iter_next | public | next returns None at end |
+| iter_eq / itereq | public | identity eq (`object.__eq__`); soft `itereq`; not `hot` |
 
 ## Workflow status
 
 | Function | Status | Why |
 |----------|--------|-----|
 | iter_check | APPROVED | **0.31–0.46x** |
+| iter_eq / itereq | APPROVED | identity equality (issue #40); not `hot` |
 | iter_next | APPROVED (API) | **1.05x** — different end semantics vs `next` |
 
 ## Lifecycle
@@ -32,7 +34,7 @@ Iterator protocol check and C-style next (None at end).
 | Field | Value |
 |-------|--------|
 | Iteration | 1 |
-| Last pass | 2026-07-21 — Phase 4 Tier B |
+| Last pass | 2026-07-22 — `iter_eq` (#40) |
 | Next action | — |
 
 ## Decision log
@@ -40,6 +42,7 @@ Iterator protocol check and C-style next (None at end).
 | Function | Result | Decision | Iteration |
 |----------|--------|----------|-----------|
 | iter_check | 0.31–0.46x | APPROVED | 1 |
+| iter_eq / itereq | identity | APPROVED | 1 |
 | iter_next | 1.05x | APPROVED (API) | 1 |
 
 ## Bench notes
@@ -80,6 +83,7 @@ Ratio = cypy `cdef` loop / typed Cython baseline loop (opaque + sink). **Informa
 | Scale | `iter(range)` constructor ~1.09x lose — prefer builtin `iter` for construction |
 | Safety | Next/Send/Throw match generator protocol; StopIteration must propagate |
 | ABI | Iterator API stable on 3.14 |
+| `iter_eq` | Identity (`a is b`) — typical CPython `object.__eq__`; soft `itereq`; leave off `hot` until measured win |
 
 
 ## Done when

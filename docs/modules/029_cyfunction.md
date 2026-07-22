@@ -19,6 +19,7 @@ Function-object checks and field accessors beat attribute lookup from Python.
 | Symbol | Export | Notes |
 |--------|--------|-------|
 | func_check / new / get_* / set_* | public | getters INCREF borrowed |
+| func_eq / funceq | public | identity eq (`object.__eq__`); soft `funceq`; not `hot` |
 
 ## Workflow status
 
@@ -26,13 +27,14 @@ Function-object checks and field accessors beat attribute lookup from Python.
 |----------|--------|-----|
 | func_check / get_code / globals / defaults | APPROVED | **0.40–0.63x** |
 | func_new / set_* | APPROVED (API) | construction / mutation completeness |
+| func_eq / funceq | APPROVED | identity equality (issue #40); not `hot` |
 
 ## Lifecycle
 
 | Field | Value |
 |-------|--------|
 | Iteration | 1 |
-| Last pass | 2026-07-21 — Phase 4 Tier B |
+| Last pass | 2026-07-22 — `func_eq` (#40) |
 | Next action | — |
 
 ## Decision log
@@ -41,6 +43,7 @@ Function-object checks and field accessors beat attribute lookup from Python.
 |----------|--------|----------|-----------|
 | check/getters | 0.40–0.63x | APPROVED | 1 |
 | new/set | API | APPROVED (API) | 1 |
+| func_eq / funceq | identity | APPROVED | 1 |
 
 ## Bench notes
 
@@ -79,6 +82,7 @@ Ratio = cypy `cdef` loop / typed Cython baseline loop (opaque + sink). **Informa
 | Getter win | Direct C struct fields vs descriptor attr |
 | Borrowed | Get* return borrowed — wrappers INCREF for safe owned Python refs |
 | SetDefaults/Closure | SystemError on bad types — documented by C-API |
+| `func_eq` | Identity (`a is b`) — CPython `object.__eq__`; soft `funceq`; leave off `hot` until measured win |
 
 ## Done when
 

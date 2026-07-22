@@ -3,7 +3,7 @@
 # Prefer ``method_get_*`` (checked). Unchecked GET_* macros: ``method_*_unchecked``.
 # ``PyMethod_Class`` ABI-missing on 3.14.
 
-from cpython.object cimport PyObject
+from cpython.object cimport PyObject, PyObject_RichCompareBool, Py_EQ
 from cpython.ref cimport Py_INCREF
 
 
@@ -26,6 +26,20 @@ cdef inline object _borrowed_to_owned(PyObject *p):
 
 cpdef inline bint method_check(object o) noexcept:
     return PyMethod_Check(o)
+
+
+cdef inline bint methodeq(object a, object b) except -1:
+    # Bound-method equality matches CPython ``method_richcompare``: same
+    # function + same ``__self__`` (not identity — ``c.m == c.m`` can be
+    # True for distinct method objects). Soft ``methodeq``. Callers should
+    # pass method objects. Not on ``hot``.
+    if a is b:
+        return True
+    return <bint>PyObject_RichCompareBool(a, b, Py_EQ)
+
+
+cpdef inline bint method_eq(object a, object b) except -1:
+    return methodeq(a, b)
 
 
 cpdef inline object method_new(object func, object self):

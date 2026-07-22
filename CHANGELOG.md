@@ -3,6 +3,28 @@
 All notable changes to `cypy` are documented here. Version from
 [`src/cypy/__about__.py`](src/cypy/__about__.py).
 
+## [1.38.0] — 2026-07-22 — `func_eq` / `method_eq` / `mod_eq` / `gen_eq` / `iter_eq`
+
+### Added
+
+- **`func_eq`** (`cyfunction`): function equality via identity (``a is b``) —
+  CPython ``object.__eq__``. Soft ``funceq``. On ``cypy`` (not ``hot``).
+- **`method_eq`** (`cymethod`): bound-method equality via identity short-circuit
+  + ``PyObject_RichCompareBool`` (``Py_EQ``) — CPython ``method_richcompare``
+  (same function + ``__self__``; not identity). Soft ``methodeq``. On ``cypy``
+  (not ``hot``).
+- **`mod_eq`** (`cymodule`): module equality via identity (``a is b``) —
+  CPython ``object.__eq__``. Soft ``modeq``. On ``cypy`` (not ``hot``).
+- **`gen_eq`** (`cygenobject`): generator equality via identity (``a is b``) —
+  CPython ``object.__eq__``. Soft ``geneq``. On ``cypy`` (not ``hot``).
+- **`iter_eq`** (`cyiterator`): iterator equality via identity (``a is b``) —
+  typical CPython ``object.__eq__``. Soft ``itereq``. On ``cypy`` (not ``hot``).
+
+### Notes
+
+- **`code_eq` skipped:** no ``cycode`` module (``cycodecs`` is codecs); structural
+  code equality would need a dedicated module — out of scope for this batch.
+
 ## [1.37.0] — 2026-07-22 — `weakref_eq`
 
 ### Added

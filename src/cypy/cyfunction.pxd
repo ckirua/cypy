@@ -30,6 +30,16 @@ cpdef inline bint func_check(object o) noexcept:
     return PyFunction_Check(o)
 
 
+cdef inline bint funceq(object a, object b) noexcept:
+    # Function equality is identity (CPython uses ``object.__eq__``). Soft
+    # ``funceq``. Callers should pass function objects. Not on ``hot``.
+    return a is b
+
+
+cpdef inline bint func_eq(object a, object b) noexcept:
+    return funceq(a, b)
+
+
 cpdef inline object func_new(object code, object globals):
     return PyFunction_New(code, globals)
 

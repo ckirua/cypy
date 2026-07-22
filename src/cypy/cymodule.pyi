@@ -8,6 +8,10 @@ def mod_check_exact(p: object) -> bool:
     """Return True if ``type(p) is types.ModuleType`` (``PyModule_CheckExact``)."""
     ...
 
+def mod_eq(a: object, b: object) -> bool:
+    """Return True if ``a is b`` (module-object identity; CPython ``object.__eq__``)."""
+    ...
+
 def mod_new(name: bytes) -> object:
     """Return a new module named ``name`` via ``PyModule_New``."""
     ...

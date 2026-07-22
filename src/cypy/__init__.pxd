@@ -166,6 +166,8 @@ from .cyref cimport (
 )
 from .cyfunction cimport (
     func_check,
+    func_eq,
+    funceq,
     func_new,
     func_get_code,
     func_get_globals,
@@ -177,6 +179,8 @@ from .cyfunction cimport (
 )
 from .cymethod cimport (
     method_check,
+    method_eq,
+    methodeq,
     method_new,
     method_get_function,
     method_get_self,
@@ -186,6 +190,8 @@ from .cymethod cimport (
 from .cymodule cimport (
     mod_check,
     mod_check_exact,
+    mod_eq,
+    modeq,
     mod_new,
     mod_new_object,
     mod_get_name,
@@ -205,6 +211,8 @@ from .cymodule cimport (
 )
 from .cyiterator cimport (
     iter_check,
+    iter_eq,
+    itereq,
     iter_next,
 )
 from .cyiterobject cimport (
@@ -216,6 +224,8 @@ from .cyiterobject cimport (
 from .cygenobject cimport (
     gen_check,
     gen_check_exact,
+    gen_eq,
+    geneq,
     gen_new,
     gen_new_with_qualname,
 )
@@ -1009,6 +1019,7 @@ __all__: tuple[str, ...] = (
     "ref_xdecref",
     "ref_xincref",
     "func_check",
+    "func_eq",
     "func_new",
     "func_get_code",
     "func_get_globals",
@@ -1018,6 +1029,7 @@ __all__: tuple[str, ...] = (
     "func_get_closure",
     "func_set_closure",
     "method_check",
+    "method_eq",
     "method_new",
     "method_get_function",
     "method_get_self",
@@ -1025,6 +1037,7 @@ __all__: tuple[str, ...] = (
     "method_self_unchecked",
     "mod_check",
     "mod_check_exact",
+    "mod_eq",
     "mod_new",
     "mod_new_object",
     "mod_get_name",
@@ -1041,6 +1054,7 @@ __all__: tuple[str, ...] = (
     "mod_add_module",
     "mod_modules_dict",
     "iter_check",
+    "iter_eq",
     "iter_next",
     "seqiter_check",
     "seqiter_new",
@@ -1048,6 +1062,7 @@ __all__: tuple[str, ...] = (
     "calliter_new",
     "gen_check",
     "gen_check_exact",
+    "gen_eq",
     "gen_new",
     "gen_new_with_qualname",
     "cell_check",

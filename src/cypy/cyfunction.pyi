@@ -4,6 +4,10 @@ def func_check(o: object) -> bool:
     """Return True if ``o`` is a Python function object (``PyFunction_Check``)."""
     ...
 
+def func_eq(a: object, b: object) -> bool:
+    """Return True if ``a is b`` (function-object identity; CPython ``object.__eq__``)."""
+    ...
+
 def func_new(code: object, globals: object) -> object:
     """Return a new function from ``code`` and ``globals`` (``PyFunction_New``)."""
     ...

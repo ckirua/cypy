@@ -19,6 +19,7 @@ Generator type checks. Construction steals frames — cimport only.
 | Symbol | Export | Notes |
 |--------|--------|-------|
 | gen_check / exact | public | |
+| gen_eq / geneq | public | identity eq (`object.__eq__`); soft `geneq`; not `hot` |
 | gen_new / new_with_qualname | cimport | steals frame |
 
 ## Workflow status
@@ -26,6 +27,7 @@ Generator type checks. Construction steals frames — cimport only.
 | Function | Status | Why |
 |----------|--------|-----|
 | gen_check* | APPROVED | type-slot vs isinstance |
+| gen_eq / geneq | APPROVED | identity equality (issue #40); not `hot` |
 | gen_new* | APPROVED (cimport) | steals frame ref |
 
 ## Lifecycle
@@ -33,7 +35,7 @@ Generator type checks. Construction steals frames — cimport only.
 | Field | Value |
 |-------|--------|
 | Iteration | 1 |
-| Last pass | 2026-07-21 — Phase 4 Tier B |
+| Last pass | 2026-07-22 — `gen_eq` (#40) |
 | Next action | — |
 
 ## Decision log
@@ -41,6 +43,7 @@ Generator type checks. Construction steals frames — cimport only.
 | Function | Decision | Iteration |
 |----------|----------|-----------|
 | check* | APPROVED | 1 |
+| gen_eq / geneq | APPROVED | 1 |
 | new* | APPROVED (cimport) | 1 |
 
 ## Bench notes
@@ -80,6 +83,7 @@ Ratio = cypy `cdef` loop / typed Cython baseline loop (opaque + sink). **Informa
 | ABI / safety | Frame steal is a hard ABI contract; wrong ownership → crash / double-free |
 | QualName | Cheap sibling of New; same steal semantics — cimport only |
 | Prefer | Public checks for type gates; construction stays cdef for Cython runtime authors |
+| `gen_eq` | Identity (`a is b`) — CPython `object.__eq__`; soft `geneq`; leave off `hot` until measured win |
 
 ## Done when
 

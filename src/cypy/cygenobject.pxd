@@ -20,6 +20,16 @@ cpdef inline bint gen_check_exact(object ob) noexcept:
     return PyGen_CheckExact(ob)
 
 
+cdef inline bint geneq(object a, object b) noexcept:
+    # Generator equality is identity (CPython uses ``object.__eq__``). Soft
+    # ``geneq``. Callers should pass generator objects. Not on ``hot``.
+    return a is b
+
+
+cpdef inline bint gen_eq(object a, object b) noexcept:
+    return geneq(a, b)
+
+
 cdef inline object gen_new(PyFrameObject *frame):
     # Steals reference to frame.
     return PyGen_New(frame)
