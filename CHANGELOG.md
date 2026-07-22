@@ -3,6 +3,15 @@
 All notable changes to `cypy` are documented here. Version from
 [`src/cypy/__about__.py`](src/cypy/__about__.py).
 
+## [1.10.0] — 2026-07-22 — `bytes_startswith`
+
+### Added
+
+- **`bytes_startswith`** (`cybytes`): typed prefix test — empty prefix True,
+  longer-than-`s` False, else `memcmp` on `PyBytes_AS_STRING`. Soft
+  `bstartswith`. On `cypy` / `cypy.hot` / `cypy.buffers` (mirrors
+  `str_startswith`).
+
 ## [1.9.0] — 2026-07-22 — `bytearray_contains`
 
 ### Added

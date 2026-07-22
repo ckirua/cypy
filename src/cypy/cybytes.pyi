@@ -22,6 +22,10 @@ def bytes_ne(a: bytes, b: bytes) -> bool:
     """Return True if ``a != b`` (inverse of ``bytes_eq``)."""
     ...
 
+def bytes_startswith(s: bytes, prefix: bytes) -> bool:
+    """Return True if typed ``s`` begins with ``prefix`` (len gate + ``memcmp``)."""
+    ...
+
 def bytes_from_object(o: object) -> bytes:
     """Return ``bytes`` from a buffer-protocol object (``PyBytes_FromObject``)."""
     ...

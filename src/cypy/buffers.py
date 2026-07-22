@@ -23,6 +23,7 @@ from .cybytes import (
     bytes_contains,
     bytes_eq,
     bytes_ne,
+    bytes_startswith,
     bytes_len,
     bytes_size,
 )
@@ -37,6 +38,7 @@ __all__: tuple[str, ...] = (
     "bytes_contains",
     "bytes_eq",
     "bytes_ne",
+    "bytes_startswith",
     "bytearray_check",
     "bytearray_check_exact",
     "bytearray_eq",
