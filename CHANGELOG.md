@@ -3,6 +3,14 @@
 All notable changes to `cypy` are documented here. Version from
 [`src/cypy/__about__.py`](src/cypy/__about__.py).
 
+## [1.40.0] — 2026-07-22 — `range_eq`
+
+### Added
+
+- **`range_eq`** (`cyrange`): ``range`` equality — identity +
+  richcompare (same as ``range.__eq__``; empty / equivalent spans).
+  Soft ``rqeq``. On ``cypy`` / ``cypy.containers`` (not ``hot``).
+
 ## [1.39.0] — 2026-07-22 — `deque_eq`
 
 ### Added

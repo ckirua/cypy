@@ -1,6 +1,6 @@
 # Module trackers
 
-One `NNN_cy{name}.md` per area — **`NNN` = QUEUE Order** (zero-padded, `001`…`054`).  
+One `NNN_cy{name}.md` per area — **`NNN` = QUEUE Order** (zero-padded, `001`…`055`).  
 **Process docs are one level up:** [`../README.md`](../README.md), [`../PIPELINE.md`](../PIPELINE.md), [`../TEMPLATE.md`](../TEMPLATE.md).
 
 Gold exemplar: [`001_cytuple.md`](001_cytuple.md).
@@ -25,4 +25,4 @@ Gold exemplar: [`001_cytuple.md`](001_cytuple.md).
 
 ## Absent
 
-Orders `014_`…`054_` live in this directory (all decided at 1.0). See [`../README.md`](../README.md#status-complete--not-an-open-backlog) for phase-complete status — not an open promote backlog.
+Orders `014_`…`055_` live in this directory (all decided at 1.0). See [`../README.md`](../README.md#status-complete--not-an-open-backlog) for phase-complete status — not an open promote backlog.

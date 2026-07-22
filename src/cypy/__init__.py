@@ -447,6 +447,9 @@ from .cysequence import (
     seq_list,
     seq_tuple,
 )
+from .cyrange import (
+    range_eq,
+)
 from .cyset import (
     set_add,
     set_any_check,
@@ -547,6 +550,7 @@ __all__: tuple[str, ...] = (
     "dict_check",
     "dict_check_exact",
     "deque_eq",
+    "range_eq",
     "dict_get",
     "dict_get_ref",
     "dict_contains",
