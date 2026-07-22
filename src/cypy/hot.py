@@ -8,7 +8,7 @@
 from __future__ import annotations
 
 from .cyansi import ansi_fg8, ansi_strip, ansi_wrap
-from .cybytes import bytes_contains, bytes_eq, bytes_len
+from .cybytes import bytes_contains, bytes_eq, bytes_len, bytes_ne
 from .cybytearray import bytearray_eq
 from .cyarray import array_eq
 from .cymemoryview import memoryview_eq
@@ -42,6 +42,7 @@ __all__: tuple[str, ...] = (
     "bytes_len",
     "bytes_contains",
     "bytes_eq",
+    "bytes_ne",
     # bytearray
     "bytearray_eq",
     # array

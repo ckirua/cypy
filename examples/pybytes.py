@@ -1,9 +1,9 @@
-"""Python usage of :func:`cypy.bytes_len`, :func:`cypy.bytes_contains`, :func:`cypy.bytes_eq`.
+"""Python usage of :func:`cypy.bytes_len`, :func:`cypy.bytes_contains`, :func:`cypy.bytes_eq`, :func:`cypy.bytes_ne`.
 
 Run: python examples/pybytes.py
 """
 
-from cypy import bytes_contains, bytes_eq, bytes_len
+from cypy import bytes_contains, bytes_eq, bytes_len, bytes_ne
 PAYLOAD: bytes = b"BTCUSDT"
 HAYSTACK: bytes = b"abcabc"
 
@@ -52,6 +52,7 @@ def main() -> None:
         )
         assert result == expected
         assert result == py_result
+        assert bytes_ne(a, b) == (not expected) == (a != b)
 
     print()
     print("assertions passed")

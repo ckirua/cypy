@@ -80,6 +80,10 @@ cdef inline bint beq(bytes a, bytes b) noexcept:
     return memcmp(PyBytes_AS_STRING(a), PyBytes_AS_STRING(b), <size_t>la) == 0
 
 
+cdef inline bint bne(bytes a, bytes b) noexcept:
+    return not beq(a, b)
+
+
 cdef inline bytes bfrom_object(object o):
     return PyBytes_FromObject(o)
 
@@ -142,6 +146,9 @@ cpdef inline bint bytes_contains(bytes haystack, bytes needle) noexcept:
 
 cpdef inline bint bytes_eq(bytes a, bytes b) noexcept:
     return beq(a, b)
+
+cpdef inline bint bytes_ne(bytes a, bytes b) noexcept:
+    return bne(a, b)
 
 cpdef inline bytes bytes_from_object(object o):
     return bfrom_object(o)

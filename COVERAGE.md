@@ -26,7 +26,7 @@ Authoritative symbol lists: `src/cypy/__init__.py` / `__init__.pxd` `__all__`, p
 | `cylist` | `list` | public + cimport | `list_append`, `list_get` / `list_get_checked`, `list_len`, … |
 | `cyset` | `set` / `frozenset` | public + cimport | `set_add`, `set_contains`, … |
 | `cytuple` | `tuple` | public + cimport | `tuple_get`, `tuple_len`, `tuple_pack*`; builders mostly cimport |
-| `cybytes` | `bytes` | public + cimport | `bytes_len`, `bytes_contains`, `bytes_eq`; `bytes_as_string` cimport-only |
+| `cybytes` | `bytes` | public + cimport | `bytes_len`, `bytes_contains`, `bytes_eq`, `bytes_ne`; `bytes_as_string` cimport-only |
 | `cybytearray` | `bytearray` | public + cimport | `bytearray_len`, `bytearray_eq`, `bytearray_from_object`, … |
 | `cystr` | `str` value ops | public subset + cimport | `str_len`, `str_eq`, `str_contains`, coerce helpers, … |
 | `cyunicode` | UTF-8 / intern | public subset + cimport | `uintern`, `uutf8_bytes`; `unicode_from_string` / `uutf8` cimport |

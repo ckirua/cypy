@@ -136,6 +136,7 @@ Ratio = cypy `cdef` loop / typed Cython baseline loop (opaque + sink). **Informa
 | Why large lose | CPython `bytes_contains` → `_Py_bytes_contains` / `stringlib_find` (not exported); glibc `memmem` slower here past ~256B |
 | Fix | `hlen > 256` → fall back to `needle in haystack` |
 | `beq` / `bytes_eq` | Identity + len short-circuit + `memcmp` on `PyBytes_AS_STRING` (mirror `streq`). Tier A **0.59–0.68x** vs Python `==`; Tier B ~tie vs typed Cython `==` — export to `cypy.hot` |
+| `bne` / `bytes_ne` | `not beq` — API sibling of `str_ne`; public + hot |
 | `bnew` | `FromStringAndSize(NULL,n)` leaves **previous heap contents**; `bytes(n)` zeros — **cdef only** |
 | `_PyBytes_Resize` | Unlike `_PyTuple_Resize`, non-unique path **allocates a copy** and DECREFs old `*pv` (expects owned ref). Mis-wrapping without owning the ref is UB |
 | `PyBytes_Concat` / `ConcatAndDel` | Unique+exact → resize in place; else new object via `SETREF`. Both aliased (`bconcat`, `bconcat_and_del`) |
@@ -149,3 +150,4 @@ Ratio = cypy `cdef` loop / typed Cython baseline loop (opaque + sink). **Informa
 - [x] Bench results + experiment conclusions
 - [x] Before merge: `.pyi` one-liners; lean `.pxd`; `bnew` not public
 - [x] `bytes_eq` / `beq` (issue #2) — public + hot
+- [x] `bytes_ne` / `bne` (issue #8) — public + hot

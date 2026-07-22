@@ -20,6 +20,7 @@ from .cybytes import (
     bytes_check_exact,
     bytes_contains,
     bytes_eq,
+    bytes_ne,
     bytes_len,
     bytes_size,
 )
@@ -33,6 +34,7 @@ __all__: tuple[str, ...] = (
     "bytes_size",
     "bytes_contains",
     "bytes_eq",
+    "bytes_ne",
     "bytearray_check",
     "bytearray_check_exact",
     "bytearray_eq",
