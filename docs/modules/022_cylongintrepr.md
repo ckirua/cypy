@@ -19,7 +19,7 @@ Digit-level `int` internals for advanced builders. Not safe as a public Python A
 | Symbol | Export | Notes |
 |--------|--------|-------|
 | longrepr_new | cimport | `_PyLong_New` — uninit digits |
-| longrepr_digits | cimport | `ob_digit` pointer |
+| longrepr_digits | cimport | `long_value.ob_digit` (3.14 layout) |
 | digit / sdigit / py_long | cimport | re-export types |
 | PyLong_SHIFT / BASE / MASK | cimport | re-export constants |
 
@@ -35,8 +35,8 @@ Digit-level `int` internals for advanced builders. Not safe as a public Python A
 
 | Field | Value |
 |-------|--------|
-| Iteration | 1 |
-| Last pass | 2026-07-21 — Phase 4 Tier B n/a |
+| Iteration | 2 |
+| Last pass | 2026-07-22 — `longrepr_digits` via `long_value.ob_digit` (barrel cimport) |
 | Next action | — |
 
 ## Decision log
@@ -45,6 +45,7 @@ Digit-level `int` internals for advanced builders. Not safe as a public Python A
 |----------|-------|----------|-----------|
 | _PyLong_New | ABI present; uninit digits | APPROVED (cimport) | 1 |
 | public wrap | would leak uninit / layout | REJECTED | 1 |
+| longrepr_digits | flat `ob_digit` vs 3.14 `long_value` | APPROVED — C helper for layout | 2 |
 
 ## Bench notes
 

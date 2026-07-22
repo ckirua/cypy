@@ -22,7 +22,7 @@ Nogil lock acquire/release + GIL save/restore for extension hot paths.
 | PyThread_type_lock | cypy | cdef | cimport | lock typedef |
 | thread_allocate_lock / thread_free_lock | cypy | cdef | cimport | allocate/free siblings |
 | thread_acquire / thread_release | cypy | cdef | cimport | nogil |
-| thread_get_ident | cypy | cdef | cimport | `PyThread_get_thread_ident` |
+| thread_get_ident | cypy | cdef | cimport | `PyThread_get_thread_ident` (GIL; not nogil) |
 | eval_save_thread / eval_restore_thread | cypy | cdef | cimport | GIL release/reacquire |
 | TSS / start_new_thread / stacksize | C-API | tried | — | deferred / out of slice |
 
@@ -37,8 +37,8 @@ Nogil lock acquire/release + GIL save/restore for extension hot paths.
 
 | Field | Value |
 |-------|--------|
-| Iteration | 1 |
-| Last pass | 2026-07-21 — Phase 4 Tier B n/a |
+| Iteration | 2 |
+| Last pass | 2026-07-22 — `thread_get_ident` drop nogil (barrel cimport) |
 | Next action | — |
 
 ## Decision log
@@ -46,6 +46,7 @@ Nogil lock acquire/release + GIL save/restore for extension hot paths.
 | Function | Hypothesis | Bench | Result | Decision | Iteration |
 |----------|------------|-------|--------|----------|-----------|
 | thread_* / eval_* | Need cdef mirrors | n/a | ABI present | APPROVED (cimport) | 1 |
+| thread_get_ident | nogil wrapper | cythonize | GIL-marked API — drop nogil | APPROVED (cimport) | 2 |
 
 ## Bench notes
 

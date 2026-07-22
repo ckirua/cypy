@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.43.1] — 2026-07-22 — package-barrel `from cypy cimport` fix
+
+- Drop unused wchar `Py_Get/SetProgramName` externs from `cypylifecycle.pxd` (undeclared `wchar_t` broke `__init__.pxd` re-exports).
+- Remove `nogil` from `thread_get_ident` (Cython marks `PyThread_get_thread_ident` as GIL-requiring).
+- Fix `longrepr_digits` for Python 3.14 `long_value.ob_digit` layout (barrel consumers compile all inlined pxds).
+- Add out-of-tree smoke: `examples/cimport_ext/` + `scripts/smoke_barrel_cimport.sh`.
+
 All notable changes to `cypy` are documented here. Version from
 [`src/cypy/__about__.py`](src/cypy/__about__.py).
 

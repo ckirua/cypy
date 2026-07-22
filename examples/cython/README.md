@@ -3,10 +3,13 @@
 Public Python examples cannot wrap these APIs honestly. Use the corresponding `src/cypy/cy*.pxd` from a `.pyx`:
 
 ```cython
-from cypy.cyerr cimport *          # example pattern — see each .pxd
+from cypy cimport list_len, bytes_eq   # package barrel (__init__.pxd)
+from cypy.cyerr cimport *              # submodule — see each .pxd
 # cyerr / cymem / cythread / cyatomic / cylongintrepr / cyref
 # cygetargs / cyceval / cypystate / cypylifecycle / cypyport / cyversion
 ```
+
+Out-of-tree barrel smoke: [`../cimport_ext/`](../cimport_ext/).
 
 Full inventory and safety notes: `docs/modules/NNN_cy{name}.md`.
 

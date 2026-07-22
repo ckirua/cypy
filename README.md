@@ -62,6 +62,8 @@ assert list_len([1, 2]) == 2
 
 Also supported: `from cypy.cydict import dict_get` / `from cypy import dict_get`, and Cython `cimport`. Soft letter/bare aliases were removed in **0.3** — use preferred names. Prefer a release-tag pin. Avoid `from cypy import *`.
 
+Cython: both **`from cypy cimport …`** (package barrel) and **`from cypy.cybytes cimport …`** (submodule) work after install. Out-of-tree regression: [`examples/cimport_ext/`](examples/cimport_ext/) / `bash scripts/smoke_barrel_cimport.sh`.
+
 Full public surface remains on `from cypy import …` / `cypy.cy*`.
 
 **Footgun:** C-string helpers take **`bytes`**, not `str`. Prefer `*_cstr` (`map_getitem_cstr`) — see `examples/py_cstr_bytes.py`. Broader trusted-caller notes (unchecked OOB, borrowed pointers, `marshal_loads`): [`docs/SAFETY.md`](docs/SAFETY.md).
