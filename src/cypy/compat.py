@@ -205,6 +205,7 @@ COMPAT_MAP: dict[str, str] = {
     "tget": "tuple_get",
     "tget_checked": "tuple_get_checked",
     "time_time": "time_wall",
+    "teq": "tuple_eq",
     "tlen": "tuple_len",
     "tpack2": "tuple_pack2",
     "tpack3": "tuple_pack3",

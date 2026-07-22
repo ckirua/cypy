@@ -26,6 +26,11 @@ def tuple_len(t: tuple[object, ...]) -> int:
     """Return ``len(t)`` via ``PyTuple_GET_SIZE``."""
     ...
 
+def tuple_eq(a: tuple, b: tuple) -> bool:
+    """Return True if typed tuples are equal (identity/len + richcompare)."""
+    ...
+
+
 def tuple_pack2(a: object, b: object) -> tuple[object, object]:
     """Return ``(a, b)`` via ``PyTuple_Pack``."""
     ...
