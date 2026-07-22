@@ -335,6 +335,9 @@ from .cybytes import (
     bytes_len,
     bytes_size,
 )
+from .cydeque import (
+    deque_eq,
+)
 from .cydict import (
     dict_check,
     dict_check_exact,
@@ -543,6 +546,7 @@ __all__: tuple[str, ...] = (
     "__version__",
     "dict_check",
     "dict_check_exact",
+    "deque_eq",
     "dict_get",
     "dict_get_ref",
     "dict_contains",

@@ -3,6 +3,14 @@
 All notable changes to `cypy` are documented here. Version from
 [`src/cypy/__about__.py`](src/cypy/__about__.py).
 
+## [1.39.0] — 2026-07-22 — `deque_eq`
+
+### Added
+
+- **`deque_eq`** (`cydeque`): `collections.deque` equality — identity +
+  richcompare (same as ``deque.__eq__``). Soft ``dqeq``. On ``cypy`` /
+  ``cypy.containers`` (not ``hot``).
+
 ## [1.38.0] — 2026-07-22 — `func_eq` / `method_eq` / `mod_eq` / `gen_eq` / `iter_eq`
 
 ### Added
