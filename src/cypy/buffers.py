@@ -6,7 +6,7 @@ Typed buffer-adjacent Core helpers. Prefer ``bytes_len`` / ``bytes_contains`` /
 
 from __future__ import annotations
 
-from .cyarray import array_check, array_check_exact, array_clone, array_len, array_zero
+from .cyarray import array_check, array_check_exact, array_clone, array_eq, array_len, array_zero
 from .cybuffer import buf_check
 from .cybytearray import (
     bytearray_check,
@@ -40,6 +40,7 @@ __all__: tuple[str, ...] = (
     "bytearray_size",
     "array_check",
     "array_check_exact",
+    "array_eq",
     "array_len",
     "array_clone",
     "array_zero",

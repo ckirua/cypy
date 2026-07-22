@@ -5,7 +5,7 @@ Run: python examples/pyarray.py
 
 from array import array
 
-from cypy import array_check, array_clone, array_len, array_zero
+from cypy import array_check, array_clone, array_eq, array_len, array_zero
 PAYLOAD = array("i", [1, 2, 3, 4])
 
 def main() -> None:
@@ -13,6 +13,10 @@ def main() -> None:
     print(f"array_len(payload) -> {array_len(PAYLOAD)!r}")
     assert array_check(PAYLOAD) is True
     assert array_len(PAYLOAD) == len(PAYLOAD)
+    assert array_eq(PAYLOAD, array("i", [1, 2, 3, 4]))
+    assert not array_eq(PAYLOAD, array("i", [1, 2, 3, 5]))
+    assert not array_eq(PAYLOAD, array("I", [1, 2, 3, 4]))  # typecode mismatch
+    assert array_eq(array("d"), array("d"))
 
     clone = array_clone(PAYLOAD, 4, zero=True)
     print(f"array_clone(..., zero=True) -> {list(clone)!r}")

@@ -10,6 +10,7 @@ from __future__ import annotations
 from .cyansi import ansi_fg8, ansi_strip, ansi_wrap
 from .cybytes import bytes_contains, bytes_eq, bytes_len
 from .cybytearray import bytearray_eq
+from .cyarray import array_eq
 from .cydict import dict_contains, dict_get, dict_len, dict_pop, dict_set, dict_setdefault
 from .cylist import list_append, list_get, list_get_checked, list_len
 from .cyset import set_add, set_contains
@@ -42,6 +43,8 @@ __all__: tuple[str, ...] = (
     "bytes_eq",
     # bytearray
     "bytearray_eq",
+    # array
+    "array_eq",
     # str
     "str_len",
     "str_eq",

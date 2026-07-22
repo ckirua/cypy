@@ -13,6 +13,8 @@ from cpython.array cimport (
     zero as _ay_zero,
 )
 from cpython.object cimport Py_SIZE
+from libc.stddef cimport size_t
+from libc.string cimport memcmp
 
 
 cdef inline bint aycheck(object p):
@@ -25,6 +27,21 @@ cdef inline bint aycheck_exact(object p):
 
 cdef inline Py_ssize_t aylen(array a) noexcept:
     return Py_SIZE(a)
+
+
+cdef inline bint ayeq(array a, array b) noexcept:
+    # Identity / typecode / len short-circuit + memcmp on item buffer.
+    if a is b:
+        return True
+    if a.ob_descr.typecode_char != b.ob_descr.typecode_char:
+        return False
+    cdef Py_ssize_t n = Py_SIZE(a)
+    if n != Py_SIZE(b):
+        return False
+    if n == 0:
+        return True
+    cdef size_t nbytes = <size_t>n * <size_t>a.ob_descr.itemsize
+    return memcmp(a.data.as_chars, b.data.as_chars, nbytes) == 0
 
 
 cdef inline array aycopy(array a):
@@ -78,6 +95,9 @@ cdef inline int array_extend_buffer(array self, char *stuff, Py_ssize_t n) excep
 
 cpdef inline Py_ssize_t array_len(array a) noexcept:
     return aylen(a)
+
+cpdef inline bint array_eq(array a, array b) noexcept:
+    return ayeq(a, b)
 
 cpdef inline int array_resize(array a, Py_ssize_t n) except -1:
     return ayresize(a, n)

@@ -36,6 +36,7 @@ COMPAT_MAP: dict[str, str] = {
     "aycheck_exact": "array_check_exact",
     "ayclone": "array_clone",
     "aycopy": "array_copy",
+    "ayeq": "array_eq",
     "ayextend": "array_extend",
     "aylen": "array_len",
     "ayresize": "array_resize",
