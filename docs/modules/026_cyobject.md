@@ -84,6 +84,16 @@ Ratio = cypy `cdef` loop / typed Cython baseline loop (opaque + sink). **Informa
 **Tier B takeaway:** primary `obj_type` **1.05x** vs typed Cython baseline (str).
 
 
+
+### `obj_eq` (Tier A depth)
+
+Harness: [`bench/cyeq_misc_bench.py`](../../bench/cyeq_misc_bench.py) · N=80_000 × runs=11 · CPython 3.14
+
+| operation | case | cypy mean±σ | p99 | ratio | p99× | verdict |
+|-----------|------|-------------|-----|-------|------|---------|
+| obj_eq | int eq | 1.03±0.08ms | 1.20ms | **0.67x** | 0.78x | APPROVED |
+| obj_eq | nan is nan | 1.19±0.03ms | 1.25ms | **0.76x** | 0.75x | APPROVED |
+
 ## Experiment conclusions
 
 **Tier B:** `obj_type`/`obj_len` ~**1.03–1.05x** — thin wrapper parity.
@@ -94,7 +104,7 @@ Ratio = cypy `cdef` loop / typed Cython baseline loop (opaque + sink). **Informa
 | Why richcompare wins | Avoids Python `==` bytecode / richcmp indirection in this microbench |
 | Prefer typed | Use container modules when type known |
 | Cheap alias | `obj_size` ≡ `obj_len` |
-| `obj_eq` | Same as `obj_richcompare_bool(..., Py_EQ)`; identity short-circuit (``nan is nan`` → True); prefer typed ``*_eq``; on `cypy.protocols`, leave off `hot` |
+| `obj_eq` | Richcompare EQ + identity short-circuit; Tier A **0.67–0.76x**. |
 | ABI | `PyObject_Cmp`/`Compare` gone; `Py_SIZE` is macro (not ctypes export) |
 | Malloc | Process heap via Python allocator — cdef only |
 

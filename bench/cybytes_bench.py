@@ -14,6 +14,7 @@ if str(_BENCH_ROOT) not in sys.path:
     sys.path.insert(0, str(_BENCH_ROOT))
 
 from cypy import (
+    bytes_bytearray_eq,
     bytes_check,
     bytes_check_exact,
     bytes_contains,
@@ -46,6 +47,10 @@ def py_bcontains(haystack: bytes, needle: bytes) -> bool:
 
 
 def py_beq(a: bytes, b: bytes) -> bool:
+    return a == b
+
+
+def py_bba_eq(a: object, b: object) -> bool:
     return a == b
 
 
@@ -114,6 +119,76 @@ def main() -> None:
     session.compare("bytes_eq", bytes_eq, py_beq, EQ_1K, EQ_1K, param="eq 1KiB")
     session.compare("bytes_eq", bytes_eq, py_beq, EQ_1K, EQ_1K_NE, param="ne 1KiB")
     session.compare("bytes_eq", bytes_eq, py_beq, b"", b"", param="eq empty")
+
+    session.section("bytes_bytearray_eq vs `==`  [cross-type + same-type]")
+    ba_short = bytearray(EQ_SHORT)
+    ba_short_ne = bytearray(EQ_SHORT_NE)
+    ba_1k = bytearray(EQ_1K)
+    ba_1k_ne = bytearray(EQ_1K_NE)
+    session.compare(
+        "bytes_bytearray_eq",
+        bytes_bytearray_eq,
+        py_bba_eq,
+        EQ_SHORT,
+        ba_short,
+        param="bytes→ba eq",
+    )
+    session.compare(
+        "bytes_bytearray_eq",
+        bytes_bytearray_eq,
+        py_bba_eq,
+        ba_short,
+        EQ_SHORT,
+        param="ba→bytes eq",
+    )
+    session.compare(
+        "bytes_bytearray_eq",
+        bytes_bytearray_eq,
+        py_bba_eq,
+        EQ_SHORT,
+        ba_short_ne,
+        param="bytes→ba ne",
+    )
+    session.compare(
+        "bytes_bytearray_eq",
+        bytes_bytearray_eq,
+        py_bba_eq,
+        EQ_1K,
+        ba_1k,
+        param="eq 1KiB cross",
+    )
+    session.compare(
+        "bytes_bytearray_eq",
+        bytes_bytearray_eq,
+        py_bba_eq,
+        EQ_1K,
+        ba_1k_ne,
+        param="ne 1KiB cross",
+    )
+    session.compare(
+        "bytes_bytearray_eq",
+        bytes_bytearray_eq,
+        py_bba_eq,
+        EQ_SHORT,
+        EQ_SHORT,
+        param="bytes↔bytes",
+    )
+    session.compare(
+        "bytes_bytearray_eq",
+        bytes_bytearray_eq,
+        py_bba_eq,
+        ba_short,
+        bytearray(EQ_SHORT),
+        param="ba↔ba",
+    )
+    session.compare(
+        "bytes_bytearray_eq",
+        bytes_bytearray_eq,
+        py_bba_eq,
+        b"",
+        bytearray(),
+        param="empty cross",
+    )
 
     session.section("bytes_len / bytes_size vs len")
     session.compare("bytes_len", bytes_len, py_blen, HAYSTACK, param="bytes_len")

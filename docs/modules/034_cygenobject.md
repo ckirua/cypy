@@ -72,6 +72,16 @@ Ratio = cypy `cdef` loop / typed Cython baseline loop (opaque + sink). **Informa
 **Tier B takeaway:** primary `gen_check` **0.43x** vs typed Cython baseline (gen).
 
 
+
+### `gen_eq` (Tier A depth)
+
+Harness: [`bench/cyeq_misc_bench.py`](../../bench/cyeq_misc_bench.py) · N=80_000 × runs=11 · CPython 3.14
+
+| operation | case | cypy mean±σ | p99 | ratio | p99× | verdict |
+|-----------|------|-------------|-----|-------|------|---------|
+| gen_eq | identity | 0.99±0.06ms | 1.12ms | **0.56x** | 0.62x | APPROVED |
+| gen_eq | ne | 1.05±0.08ms | 1.17ms | **0.57x** | 0.61x | APPROVED |
+
 ## Experiment conclusions
 
 **Tier B:** `gen_check` **0.43x** vs GeneratorType isinstance.

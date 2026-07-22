@@ -26,15 +26,15 @@ Context / ContextVar construction and checks for Cython.
 | Function | Status | Why |
 |----------|--------|-----|
 | checks / copy_current / new | APPROVED/API | see benches |
-| context_eq / ctxeq | APPROVED | `Context.__eq__` parity (issue #44); not `hot` |
+| context_eq / ctxeq | APPROVED | Tier A **0.55–0.81x** vs `==` (issue #44); not `hot` |
 | Get out-param | REJECTED as public | needs ``PyObject**``; use ContextVar.get in Python |
 
 ## Lifecycle
 
 | Field | Value |
 |-------|--------|
-| Iteration | 2 |
-| Last pass | 2026-07-22 — `context_eq` (#44) |
+| Iteration | 3 |
+| Last pass | 2026-07-22 — Tier A depth for `context_eq` |
 | Next action | — |
 
 ## Bench notes
@@ -64,6 +64,19 @@ Ratio = cypy `cdef` loop / typed Cython baseline loop (opaque + sink). **Informa
 **Tier B takeaway:** primary `ctx_check_exact` **0.53x** vs typed Cython baseline (Context).
 
 
+
+### `context_eq` (Tier A depth)
+
+Harness: [`bench/cycontextvars_bench.py`](../../bench/cycontextvars_bench.py) · N=80_000 × runs=11 · CPython 3.14
+
+| operation | case | cypy mean±σ | p99 | ratio | p99× | verdict |
+|-----------|------|-------------|-----|-------|------|---------|
+| context_eq | eq empty | 1.20±0.11ms | 1.38ms | **0.70x** | 0.78x | APPROVED |
+| context_eq | identity | 0.94±0.03ms | 0.99ms | **0.55x** | 0.56x | APPROVED |
+| context_eq | eq filled | 2.57±0.05ms | 2.65ms | **0.81x** | 0.79x | APPROVED |
+| context_eq | ne filled | 2.59±0.06ms | 2.70ms | **0.63x** | 0.42x | APPROVED |
+| context_eq | ne filled/empty | 1.30±0.21ms | 1.83ms | **0.76x** | 1.01x | APPROVED |
+
 ## Experiment conclusions
 
 **Tier B:** `ctx_check_exact` **0.52x** vs `type is Context`.
@@ -75,7 +88,7 @@ Ratio = cypy `cdef` loop / typed Cython baseline loop (opaque + sink). **Informa
 | ABI / ownership | `Get` uses `PyObject**` out-param — REJECTED as public; use `ContextVar.get` |
 | GIL / safety | Context enter/exit mutate thread-local state under GIL — pair carefully in Cython |
 | Prefer | Checks + New for Cython tooling; skip public Get out-param wrappers |
-| `context_eq` | Identity + richcompare — same as ``Context.__eq__`` (vars→values mapping). Soft `ctxeq`. Prefer over `obj_eq` when both sides are known Contexts. Skip dedicated ContextVar/Token eqs (identity → `obj_eq`). See [`EQ_RUNTIME.md`](../EQ_RUNTIME.md). |
+| `context_eq` | Identity + richcompare — same as ``Context.__eq__``. Tier A **0.55–0.81x** vs `==` (empty/filled/ne). Soft `ctxeq`. Prefer over `obj_eq` when both sides are known Contexts. Skip ContextVar/Token eqs → `obj_eq`. See [`EQ_RUNTIME.md`](../EQ_RUNTIME.md). |
 
 ## Done when
 

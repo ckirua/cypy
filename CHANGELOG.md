@@ -3,6 +3,16 @@
 All notable changes to `cypy` are documented here. Version from
 [`src/cypy/__about__.py`](src/cypy/__about__.py).
 
+## [1.42.1] — 2026-07-22 — eq Tier A depth pass
+
+### Fixed / docs
+
+- Replace smoke-placeholder ``*_eq`` tracker rows with measured Tier A
+  tables (``deque_eq``, ``range_eq``, ``bytes_bytearray_eq``, ``context_eq``,
+  identity misc). New harnesses: ``bench/cydeque_bench.py``,
+  ``bench/cyrange_bench.py``, ``bench/cyeq_misc_bench.py``; extended
+  ``cybytes`` / ``cycontextvars`` benches.
+
 ## [1.42.0] — 2026-07-22 — `context_eq` + Runtime eq stretch
 
 ### Added

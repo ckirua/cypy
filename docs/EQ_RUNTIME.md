@@ -44,3 +44,15 @@ Status key: **done** · **skip** · **n/a** (no comparable value type)
 - No mass identity wrappers that only alias `obj_eq`.
 
 Closes the acceptance checklist for [#44](https://github.com/ckirua/cypy/issues/44).
+
+
+## Bench follow-up (2026-07-22)
+
+Shipped helpers above were re-measured (no smoke placeholders):
+
+| Helper | Primary Tier A ratio | Harness |
+|--------|----------------------|---------|
+| `context_eq` | **0.55–0.81x** | `bench/cycontextvars_bench.py` |
+| identity misc (`func_eq` … `capsule_eq`) | **0.53–0.68x** | `bench/cyeq_misc_bench.py` |
+
+Skip decisions above are unchanged — no new Runtime eq wrappers.

@@ -78,6 +78,16 @@ Ratio = cypy `cdef` loop / typed Cython baseline loop (opaque + sink). **Informa
 **Tier B takeaway:** primary `method_check` **0.44x** vs typed Cython baseline (bound).
 
 
+
+### `method_eq` (Tier A depth)
+
+Harness: [`bench/cyeq_misc_bench.py`](../../bench/cyeq_misc_bench.py) · N=80_000 × runs=11 · CPython 3.14
+
+| operation | case | cypy mean±σ | p99 | ratio | p99× | verdict |
+|-----------|------|-------------|-----|-------|------|---------|
+| method_eq | same bound | 1.23±0.04ms | 1.31ms | **0.67x** | 0.68x | APPROVED |
+| method_eq | diff self | 1.27±0.07ms | 1.40ms | **0.68x** | 0.72x | APPROVED |
+
 ## Experiment conclusions
 
 **Tier B:** `method_check` **0.43x** vs MethodType isinstance.
@@ -92,7 +102,7 @@ Ratio = cypy `cdef` loop / typed Cython baseline loop (opaque + sink). **Informa
 | Scale | BindMethod ~tie with Python bind (1.04x) — API keep for Cython call sites |
 | Safety | GetFunction/GetSelf return borrowed refs — wrappers own for Python return |
 | Subtype | Check distinguishes builtin FunctionType vs bound method |
-| `method_eq` | Content equality (not identity): same function + `__self__` via `method_richcompare`. Soft `methodeq`. Leave off `hot` until measured win |
+| `method_eq` | Bound-method richcompare; Tier A **0.67–0.68x** vs `==`. |
 
 
 ## Done when
