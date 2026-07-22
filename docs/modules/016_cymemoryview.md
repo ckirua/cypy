@@ -107,9 +107,20 @@ Ratio = cypy `cdef` loop / typed Cython baseline `==` loop (opaque + sink). **In
 **Tier B `*_eq` notes:**
 - **`memoryview_eq`:** **0.39–0.41x** win vs typed Cython `memoryview == memoryview`.
 
+### `memoryview_ne` inventory (Tier A + B)
+
+Harness: [`bench/cyne_search_inventory_bench.py`](../../bench/cyne_search_inventory_bench.py) · Tier B [`bench/tier_b/cyne_search.py`](../../bench/tier_b/cyne_search.py).
+
+| operation | case | ratio A | ratio B | note |
+|-----------|------|---------|---------|------|
+| `memoryview_ne` | eq/ne short | **0.48–0.50x** | **0.45x** | pass |
+| `memoryview_ne` | eq/ne 1KiB | **0.02x** | — | Python `!=` path very slow on large views |
+
 ## Experiment conclusions
 
 **Tier B `*_eq` inventory:** see section **Tier B — `*_eq` (inventory)** table. **0.39–0.41x** win vs typed Cython `memoryview == memoryview`.
+
+**`memoryview_ne` inventory:** Tier A **0.48–0.50x** short / **0.02x** 1KiB; Tier B **0.45x**.
 
 **Tier B:** `mvcheck` **0.97x** vs isinstance — ~parity.
 

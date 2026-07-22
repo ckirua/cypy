@@ -21,8 +21,8 @@ Related: [`EQ_INVENTORY.md`](EQ_INVENTORY.md) · [`EQ_INVENTORY_TIERB.md`](EQ_IN
 |--------|------:|
 | Public barrel helpers | 438 |
 | `tierA` | 186 |
-| `tierB` | 105 |
-| `pending` | 147 |
+| `tierB` | 112 |
+| `pending` | 140 |
 | `n/a` | 0 |
 
 ## Checklist
@@ -43,7 +43,7 @@ Related: [`EQ_INVENTORY.md`](EQ_INVENTORY.md) · [`EQ_INVENTORY_TIERB.md`](EQ_IN
 | `array_eq` | tierB | Tier A + Tier B compare labels present |
 | `array_extend` | tierA | Tier A `session.compare` present |
 | `array_len` | tierB | Tier A + Tier B compare labels present |
-| `array_ne` | pending | awaiting inventory harness |
+| `array_ne` | tierB | Tier A+B ne/search inventory|
 | `array_resize` | tierA | Tier A `session.compare` present |
 | `array_resize_smart` | tierA | Tier A `session.compare` present |
 | `array_zero` | tierA | Tier A `session.compare` present |
@@ -58,24 +58,24 @@ Related: [`EQ_INVENTORY.md`](EQ_INVENTORY.md) · [`EQ_INVENTORY_TIERB.md`](EQ_IN
 | `bytearray_check` | tierB | Tier A + Tier B compare labels present |
 | `bytearray_check_exact` | tierB | Tier A + Tier B compare labels present |
 | `bytearray_concat` | tierA | Tier A `session.compare` present |
-| `bytearray_contains` | pending | awaiting inventory harness |
+| `bytearray_contains` | tierB | Tier A+B ne/search inventory|
 | `bytearray_eq` | tierB | Tier A + Tier B compare labels present |
 | `bytearray_from_object` | tierA | Tier A `session.compare` present |
 | `bytearray_len` | tierB | Tier A + Tier B compare labels present |
-| `bytearray_ne` | pending | awaiting inventory harness |
+| `bytearray_ne` | tierB | Tier A+B ne/search inventory|
 | `bytearray_resize` | tierA | Tier A `session.compare` present |
 | `bytearray_size` | tierA | Tier A `session.compare` present |
 | `bytes_bytearray_eq` | tierB | Tier A + Tier B compare labels present |
 | `bytes_check` | tierB | Tier A + Tier B compare labels present |
 | `bytes_check_exact` | tierB | Tier A + Tier B compare labels present |
 | `bytes_contains` | tierB | Tier A + Tier B compare labels present |
-| `bytes_endswith` | pending | awaiting inventory harness |
+| `bytes_endswith` | tierB | Tier A+B ne/search inventory|
 | `bytes_eq` | tierB | Tier A + Tier B compare labels present |
 | `bytes_from_object` | tierA | Tier A `session.compare` present |
 | `bytes_len` | tierB | Tier A + Tier B compare labels present |
-| `bytes_ne` | pending | awaiting inventory harness |
+| `bytes_ne` | tierB | Tier A+B ne/search inventory|
 | `bytes_size` | tierA | Tier A `session.compare` present |
-| `bytes_startswith` | pending | awaiting inventory harness |
+| `bytes_startswith` | tierB | Tier A+B ne/search inventory|
 | `calliter_check` | tierA | Tier A `session.compare` present |
 | `calliter_new` | tierA | Tier A `session.compare` present |
 | `capsule_check_exact` | tierB | Tier A + Tier B compare labels present |
@@ -274,7 +274,7 @@ Related: [`EQ_INVENTORY.md`](EQ_INVENTORY.md) · [`EQ_INVENTORY_TIERB.md`](EQ_IN
 | `memoryview_eq` | tierB | Tier A + Tier B compare labels present |
 | `memoryview_from_object` | tierA | Tier A `session.compare` present |
 | `memoryview_get_contiguous` | tierA | Tier A `session.compare` present |
-| `memoryview_ne` | pending | awaiting inventory harness |
+| `memoryview_ne` | tierB | Tier A+B ne/search inventory|
 | `method_check` | tierB | Tier A + Tier B compare labels present |
 | `method_eq` | tierB | Tier A + Tier B compare labels present |
 | `method_get_function` | tierA | Tier A `session.compare` present |

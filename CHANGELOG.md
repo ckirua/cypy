@@ -3,6 +3,16 @@
 All notable changes to `cypy` are documented here. Version from
 [`src/cypy/__about__.py`](src/cypy/__about__.py).
 
+## [1.42.5] — 2026-07-22 — ne/search ops inventory (Tier A+B)
+
+### Docs / benches
+
+- ``bench/cyne_search_inventory_bench.py`` + Tier B ``bench/tier_b/cyne_search*`` for
+  ``bytes_ne`` / ``bytes_startswith`` / ``bytes_endswith``, ``bytearray_ne`` /
+  ``bytearray_contains``, ``array_ne``, ``memoryview_ne``. All gate-pass Tier A;
+  Tier B wins (notably ``bytearray_contains`` **0.24x**, ``memoryview_ne`` 1KiB
+  Tier A **0.02x** vs slow Python). Tracker paste + ``OPS_INVENTORY`` → ``tierB``.
+
 ## [1.42.4] — 2026-07-22 — public ops inventory coverage foundation
 
 ### Docs / tooling

@@ -73,7 +73,7 @@ Scanner hot paths plus full include try-all. Depth showed pure `memmem` **loses*
 |-------|--------|
 | Freeze | **1.0 Core** — public + documented cimport; see COVERAGE § 1.0 freeze |
 | Iteration | 8 |
-| Last pass | 2026-07-22 — Tier B `*_eq` inventory|
+| Last pass | 2026-07-22 — ne/search inventory (Tier A+B) |
 | Next action | — |
 
 ## Decision log
@@ -168,9 +168,21 @@ Ratio = cypy `cdef` loop / typed Cython baseline `==` loop (opaque + sink). **In
 - **`bytes_eq`:** Equal ~tie; ne **1.13x** lose (extra len/memcmp vs Cython `==`). 1KiB eq **0.95x**. Matches prior `cybytes` Tier B.
 - **`bytes_bytearray_eq`:** **0.19–0.22x** win — typed memcmp path beats Cython cross-type `==` (buffer protocol / coerce).
 
+### ne / startswith / endswith inventory (Tier A + B)
+
+Harness: [`bench/cyne_search_inventory_bench.py`](../../bench/cyne_search_inventory_bench.py) · Tier B [`bench/tier_b/cyne_search.py`](../../bench/tier_b/cyne_search.py) · N=80_000 × runs=11 (A) / `CPY_TIERB_N=2_000_000` × runs=5 (B).
+
+| operation | case | ratio A | ratio B | note |
+|-----------|------|---------|---------|------|
+| `bytes_ne` | eq/ne short + 1KiB | **0.59–0.67x** | **0.68–0.95x** | pass |
+| `bytes_startswith` | hit/miss + 1KiB | **0.60–0.61x** | **0.74x** hit | pass |
+| `bytes_endswith` | hit/miss + 1KiB | **0.57–0.60x** | **0.89x** hit | pass |
+
 ## Experiment conclusions
 
 **Tier B `*_eq` inventory:** see section **Tier B — `*_eq` (inventory)** table. Equal ~tie; ne **1.13x** lose (extra len/memcmp vs Cython `==`). 1KiB eq **0.95x**. Matches prior `cybytes` Tier B.
+
+**ne/search inventory:** `bytes_ne` / `bytes_startswith` / `bytes_endswith` all gate-pass Tier A; Tier B still ahead of typed Cython `!=` / `startswith` / `endswith`.
 
 **Tier B:** primary `bcontains` **0.04x** vs typed `in` (memmem path wins in cdef loop).
 
