@@ -3,6 +3,15 @@
 All notable changes to `cypy` are documented here. Version from
 [`src/cypy/__about__.py`](src/cypy/__about__.py).
 
+## [1.42.4] — 2026-07-22 — public ops inventory coverage foundation
+
+### Docs / tooling
+
+- Add ``scripts/ops_inventory_coverage.py``: public ``cy*`` barrel vs
+  ``session.compare`` labels in ``bench/**``; checklist in
+  ``docs/OPS_INVENTORY.md`` (seed: covered → ``tierA``/``tierB``, gaps →
+  ``pending``). Link from ``docs/README.md``.
+
 ## [1.42.3] — 2026-07-22 — full `*_eq` Tier B inventory
 
 ### Docs / benches
