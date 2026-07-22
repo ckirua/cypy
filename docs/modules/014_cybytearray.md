@@ -27,6 +27,7 @@ Hot-path len/check/from_object/concat/resize for typed exact `bytearray`, plus f
 | baresize | cypy | cpdef | public | `PyByteArray_Resize` |
 | baas_string | cypy | cdef | cimport | `PyByteArray_AS_STRING` |
 | baas_string_checked | cypy | cdef | cimport | `PyByteArray_AsString` |
+| baeq | cypy | cpdef | public | identity/len/`memcmp` (soft); preferred `bytearray_eq` |
 | bafrom_string_and_size | cypy | cdef | cimport | `PyByteArray_FromStringAndSize` |
 | banew | cypy | cdef | cimport | uninit — `FromStringAndSize(NULL, n)` |
 | PyByteArray_* | C-API | used-by | — | all 10 include symbols mapped |
@@ -41,6 +42,7 @@ Hot-path len/check/from_object/concat/resize for typed exact `bytearray`, plus f
 | bafrom_object | APPROVED | **0.76–0.81x** |
 | baconcat | APPROVED | **0.77–0.79x** |
 | baresize | APPROVED | **0.61–0.71x** vs extend/del |
+| baeq / bytearray_eq | APPROVED | mirrors `bytes_eq` / `str_eq` |
 | baas_string* / from_string_and_size | APPROVED (cimport) | C pointers / builders |
 | banew | APPROVED (cimport) | uninit ≠ `bytearray(n)` |
 | ConcatAndDel | REJECTED | no C-API sibling on 3.14 include |

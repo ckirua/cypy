@@ -11,6 +11,7 @@ from .cybuffer import buf_check
 from .cybytearray import (
     bytearray_check,
     bytearray_check_exact,
+    bytearray_eq,
     bytearray_len,
     bytearray_size,
 )
@@ -34,6 +35,7 @@ __all__: tuple[str, ...] = (
     "bytes_eq",
     "bytearray_check",
     "bytearray_check_exact",
+    "bytearray_eq",
     "bytearray_len",
     "bytearray_size",
     "array_check",
