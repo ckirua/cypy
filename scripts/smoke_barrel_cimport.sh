@@ -10,4 +10,4 @@ python -c "import cypy; print('cypy', cypy.__version__)"
 cd "${EXT}"
 rm -f demo.c demo*.so demo*.pyd
 python setup.py build_ext --inplace
-python -c "import demo; assert demo.check_barrel(); assert demo.check_submodule() == 2; print('barrel cimport ok')"
+python -c "import demo; assert demo.check_barrel(); assert demo.check_submodule() == 2; assert demo.check_uuid(); print('barrel cimport ok')"

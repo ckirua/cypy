@@ -5,6 +5,9 @@ include setup.py
 graft src
 graft examples
 graft docs
+prune examples/cimport_ext/build
+exclude examples/cimport_ext/demo.c
+global-exclude *.o
 global-exclude *.so *.pyc *.pyo
 global-exclude __pycache__
 global-exclude .git*

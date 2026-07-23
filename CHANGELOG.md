@@ -1,5 +1,15 @@
 # Changelog
 
+## [1.44.0] — 2026-07-23 — C-backed UUID values and generation
+
+- Move the optimized UUID implementation from Cycel into `cypy.uuid`.
+- Add `UUID`, `uuid4()`, and `uuid4_bytes()` to the Python and Cython package
+  barrels while retaining stdlib `uuid.UUID` interoperability.
+- Preserve thread-local buffered OpenSSL entropy, fork reset behavior, type
+  declarations, benchmarks, and CPython 3.14t compatibility coverage.
+- Carry the upstream asyncpg/Picoid attribution and Apache-2.0 terms for the
+  adapted UUID portions; cypy remains MIT as a whole.
+
 ## [1.43.1] — 2026-07-22 — package-barrel `from cypy cimport` fix
 
 - Drop unused wchar `Py_Get/SetProgramName` externs from `cypylifecycle.pxd` (undeclared `wchar_t` broke `__init__.pxd` re-exports).

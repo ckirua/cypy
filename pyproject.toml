@@ -9,9 +9,10 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "cypy"
-description = "Fast CPython C-API helpers for Cython (dict/str/bytes and friends)"
+description = "Fast CPython C-API helpers and C-backed UUID values for Cython"
 readme = "README.md"
 license = "MIT"
+license-files = ["LICENSE", "LICENSES/Apache-2.0.txt", "NOTICE"]
 authors = [{ name = "ckirua", email = "aquipongoalgo.dsz@gmail.com" }]
 requires-python = ">=3.14"
 dynamic = ["version"]
@@ -23,6 +24,7 @@ keywords = [
     "dict",
     "str",
     "bytes",
+    "uuid",
 ]
 classifiers = [
     "Development Status :: 4 - Beta",
@@ -47,7 +49,7 @@ Issues = "https://github.com/ckirua/cypy/issues"
 Documentation = "https://github.com/ckirua/cypy#readme"
 
 [project.optional-dependencies]
-dev = ["pytest>=8.0.0", "build", "twine"]
+dev = ["pytest>=8.0.0", "pyperf>=2.10.0", "build", "twine"]
 
 [tool.setuptools]
 include-package-data = true

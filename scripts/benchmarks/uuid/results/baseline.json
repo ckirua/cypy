@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "suite": "cypy.uuid",
+  "unit": "nanosecond",
+  "provenance": {
+    "source": "latest 60-sample run",
+    "sample_count": 60,
+    "runtime": {
+      "implementation": "CPython",
+      "version": "3.14.6"
+    },
+    "cpu": {
+      "model": "Intel(R) Core(TM) Ultra 7 265"
+    },
+    "system": {
+      "system": "Linux",
+      "machine": "x86_64"
+    }
+  },
+  "operations": {
+    "uuid4": {
+      "median_ns": 26.361247840861468,
+      "gate": true
+    },
+    "uuid4_bytes": {
+      "median_ns": 20.512750715032113,
+      "gate": true
+    }
+  }
+}

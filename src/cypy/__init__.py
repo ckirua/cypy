@@ -533,6 +533,7 @@ from .cyunicode import (
     unicode_eq,
     uutf8_bytes,
 )
+from .uuid import UUID, uuid4, uuid4_bytes
 
 
 def __getattr__(name: str):
@@ -549,6 +550,9 @@ __all__: tuple[str, ...] = (
     # Core-curated star-import surface (preferred names). Frozen at 1.0.
     # Soft aliases removed in 0.3.
     "__version__",
+    "UUID",
+    "uuid4",
+    "uuid4_bytes",
     "dict_check",
     "dict_check_exact",
     "deque_eq",

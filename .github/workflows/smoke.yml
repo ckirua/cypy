@@ -17,8 +17,11 @@ jobs:
         with:
           python-version: "3.14"
 
+      - name: Install UUID native dependency
+        run: sudo apt-get update && sudo apt-get install --yes --no-install-recommends libssl-dev
+
       - name: Install build deps
-        run: pip install setuptools wheel Cython picobuild
+        run: pip install setuptools wheel Cython picobuild pytest
 
       - name: Install package (portable, no native march)
         env:
@@ -28,6 +31,9 @@ jobs:
       - name: Import smoke
         run: |
           python -c "from cypy.hot import bytes_len, dict_get, str_len; assert bytes_len(b'ok') == 2; print('ok', __import__('cypy').__version__)"
+
+      - name: Run test suite
+        run: python -m pytest tests -q
 
       - name: Export / COMPAT_MAP gates
         run: python scripts/check_exports.py

@@ -790,8 +790,12 @@ from .cyunicode cimport (
     uutf8_eq,
     uutf8_bytes,
 )
+from .uuid cimport UUID, uuid4, uuid4_bytes
 
 __all__: tuple[str, ...] = (
+    "UUID",
+    "uuid4",
+    "uuid4_bytes",
     "ayextend_buffer",
     "atomic_cas_weak_relaxed",
     "atomic_fetch_add_relaxed",

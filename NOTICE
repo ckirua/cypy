@@ -1,0 +1,13 @@
+cypy
+
+Portions of cypy.uuid are adapted from the asyncpg project by
+MagicStack Inc. and contributors.
+
+Copyright (C) 2016-present the asyncpg authors and contributors
+
+The original asyncpg portions are licensed under the Apache License,
+Version 2.0. A copy is provided in LICENSES/Apache-2.0.txt.
+
+This attribution and the Apache License apply only to those adapted portions;
+they do not license cypy as a whole under Apache-2.0. cypy's primary license
+remains MIT as stated in LICENSE.

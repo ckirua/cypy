@@ -16,8 +16,19 @@ if os.environ.get("CPY_NATIVE", "").strip() in ("1", "true", "yes"):
 cythonized_extensions = cythonize(
     [
         Extension(
+            "cypy.uuid._uuid",
+            [
+                "src/cypy/uuid/_uuid.pyx",
+                "src/cypy/uuid/uuid.c",
+            ],
+            include_dirs=["src/cypy/uuid"],
+            extra_compile_args=_compile_args,
+            libraries=["crypto"],
+            language="c",
+        ),
+        Extension(
             "cypy.*",
-            ["src/cypy/**/*.pyx"],
+            ["src/cypy/*.pyx"],
             include_dirs=["src/cypy"],
             extra_compile_args=_compile_args,
             language="c",
