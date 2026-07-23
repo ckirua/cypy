@@ -7,7 +7,7 @@
   barrels while retaining stdlib `uuid.UUID` interoperability.
 - Preserve thread-local buffered OpenSSL entropy, fork reset behavior, type
   declarations, benchmarks, and CPython 3.14t compatibility coverage.
-- Carry the upstream asyncpg/Picoid attribution and Apache-2.0 terms for the
+- Carry the upstream asyncpg attribution and Apache-2.0 terms for the
   adapted UUID portions; cypy remains MIT as a whole.
 
 ## [1.43.1] — 2026-07-22 — package-barrel `from cypy cimport` fix

@@ -1,7 +1,7 @@
 /*
- * Thread-local entropy buffering modeled on Picoid's UUID generator.  This
- * implementation replaces Picoid's process-global atomic buffer with private
- * per-thread storage and uses OpenSSL as cypy's entropy source. Picoid and
+ * Thread-local entropy buffering adapted from asyncpg's UUID generator. This
+ * implementation replaces the original process-global atomic buffer with
+ * private per-thread storage and uses OpenSSL as cypy's entropy source.
  * asyncpg provenance for cypy.uuid is recorded in the repository NOTICE;
  * applicable Apache terms are in LICENSES/Apache-2.0.txt.
  */

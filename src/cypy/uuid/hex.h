@@ -1,5 +1,5 @@
 /*
- * Adapted from Picoid's hex.h and the asyncpg UUID implementation.
+ * Adapted from the asyncpg UUID implementation.
  * Copyright (C) 2016-present the asyncpg authors and contributors.
  * See the repository NOTICE and LICENSES/Apache-2.0.txt for attribution and
  * Apache License, Version 2.0 terms applying to this adapted code.

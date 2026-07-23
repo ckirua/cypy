@@ -1,5 +1,5 @@
 /*
- * cypy UUID generation helper. The buffering design is modeled on Picoid;
+ * cypy UUID generation helper adapted from asyncpg;
  * see the repository NOTICE and LICENSES/Apache-2.0.txt for UUID provenance.
  */
 
