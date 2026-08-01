@@ -1,4 +1,8 @@
-"""Public :mod:`cypy.cycodecs` stubs."""
+"""Public :mod:`cypy.cycodecs` stubs.
+
+Tier A losers (ratio > 1.02 vs Python) are omitted from stubs but remain
+``cpdef`` on the extension for Cython / future work.
+"""
 
 def codec_register(search_function: object) -> int:
     """Register a codec search function (``PyCodec_Register``). Returns 0 on success; errors raise — do not use as bool."""
@@ -6,14 +10,6 @@ def codec_register(search_function: object) -> int:
 
 def codec_known(encoding: bytes) -> bool:
     """Return True if ``encoding`` is a known codec (``PyCodec_KnownEncoding``; ``encoding`` must be ``bytes``, not ``str``)."""
-    ...
-
-def codec_encode(o: object, encoding: bytes, errors: bytes | None = None) -> object:
-    """Encode ``o`` with ``encoding`` via ``PyCodec_Encode``."""
-    ...
-
-def codec_decode(o: object, encoding: bytes, errors: bytes | None = None) -> object:
-    """Decode ``o`` with ``encoding`` via ``PyCodec_Decode``."""
     ...
 
 def codec_encoder(encoding: bytes) -> object:
