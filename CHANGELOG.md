@@ -1,5 +1,10 @@
 # Changelog
 
+## [1.44.4] — 2026-08-02 — stub-hide Tier A losers in `cysequence`
+
+- Omit `seq_len` / `seq_size` / `seq_count` from `cysequence.pyi` (Tier A `>1.02x`).
+- Drop `seq_len` / `seq_size` from `cypy.protocols`; keep winning sequence helpers stubbed.
+
 ## [1.44.3] — 2026-08-02 — stub-hide Tier A losers in `cynumber`
 
 - Omit measured Tier A losers from `cynumber.pyi` (`num_add` / `mul` / `neg` / …).
