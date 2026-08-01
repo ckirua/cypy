@@ -18,7 +18,7 @@ Abstract mapping protocol. Prefer ``cydict`` when type known.
 
 | Symbol | Export | Notes |
 |--------|--------|-------|
-| map_check / len / has_key* / del* / keys / values / items / getitem_string / setitem_string | public | |
+| map_check / len / has_key* / del* / keys / values / items / getitem_string / setitem_string | public (cpdef) | `map_len` stub-hidden (Tier A `>1.02x` vs `len`) |
 | mapeq | public | identity/size + richcompare; preferred `map_eq` |
 
 ## Workflow status
@@ -26,7 +26,8 @@ Abstract mapping protocol. Prefer ``cydict`` when type known.
 | Function | Status | Why |
 |----------|--------|-----|
 | map_check / has_key / getitem_string | APPROVED | see benches |
-| map_len / keys | APPROVED (API) | often lose to builtins |
+| map_len | APPROVED (API) | Tier A **~1.10x** vs `len` — stub-hidden from `.pyi` |
+| map_keys | APPROVED | Tier A win vs `list(o.keys())` — remains stubbed |
 | mapeq / map_eq | APPROVED | identity/size + richcompare (issue #24) |
 
 ## Lifecycle
@@ -35,7 +36,7 @@ Abstract mapping protocol. Prefer ``cydict`` when type known.
 |-------|--------|
 | Freeze | **Provisional (Protocols)** after 1.0 — not Core; may evolve under minors |
 | Iteration | 1 |
-P26-07-22 — `*_eq` inventory Tier A (`cyeq_inventory_bench`)|
+| Last pass | 2026-08-02 — stub-hide Tier A `>1.02x` from `.pyi` |
 | Next action | — |
 
 ## Decision log
