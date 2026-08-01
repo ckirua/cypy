@@ -1,5 +1,9 @@
 # Changelog
 
+## [1.44.7] — 2026-08-02 — stub-hide Tier A losers in `cyfloat`
+
+- Omit ``float_from_double``, ``float_from_cstr``, ``float_as_double`` from `cyfloat.pyi` (Tier A `>1.02x`; still `cpdef`).
+
 ## [1.44.6] — 2026-08-02 — stub-hide Tier A losers in `cylong`
 
 - Omit ``long_from_long``, ``long_from_ssize``, ``long_from_double``, ``long_as_long``, ``long_as_ssize``, ``long_as_double`` from `cylong.pyi` (Tier A `>1.02x`; still `cpdef`).
