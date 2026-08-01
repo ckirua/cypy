@@ -20,7 +20,7 @@ Abstract number protocol for unknown concrete types. Prefer typed modules (`cylo
 |--------|--------|-------|
 | num_check / num_index_check | public | |
 | num_eq | public | RichCompare; soft `neq_num`; prefer typed `*_eq` |
-| binary / unary / inplace / convert | public | full protocol minus ABI-missing |
+| binary / unary / inplace / convert | public (cpdef) | Tier A losers stub-hidden from `.pyi` when `> 1.02x` |
 | PyNumber_Divide / InPlaceDivide / Coerce | — | REJECTED (ABI missing 3.14) |
 
 ## Workflow status
@@ -30,7 +30,8 @@ Abstract number protocol for unknown concrete types. Prefer typed modules (`cylo
 | num_check / index_check | APPROVED | **0.30–0.45x** |
 | num_inplace_add | APPROVED | **0.78x** |
 | num_eq / neq_num | APPROVED | RichCompare (issue #29); not on `hot` |
-| binary / unary / convert | APPROVED (API) | **1.07–1.34x** — protocol completeness |
+| binary / unary / convert | APPROVED (API) | **1.07–1.34x** — protocol completeness; stub-hidden when Tier A `> 1.02x` |
+| stub visibility | checks + wins | `.pyi` keeps `num_check*` / `num_eq` / `num_floordiv` / `num_inplace_add` (+ unmeasured) |
 | Divide / InPlaceDivide / Coerce | REJECTED | missing from libpython3.14 |
 
 ## Lifecycle
@@ -39,7 +40,7 @@ Abstract number protocol for unknown concrete types. Prefer typed modules (`cylo
 |-------|--------|
 | Freeze | **Provisional (Protocols)** after 1.0 — not Core; may evolve under minors |
 | Iteration | 1 |
-P26-07-22 — `*_eq` inventory Tier A (`cyeq_inventory_bench`)|
+| Last pass | 2026-08-02 — stub-hide Tier A `>1.02x` from `.pyi` |
 | Next action | — |
 
 ## Decision log
