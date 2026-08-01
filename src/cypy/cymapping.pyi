@@ -1,12 +1,13 @@
-"""Public :mod:`cypy.cymapping` stubs."""
+"""Public :mod:`cypy.cymapping` stubs.
+
+Tier A losers (ratio > 1.02 vs Python) are omitted from stubs but remain
+``cpdef``. Prefer ``len`` / ``dict_len`` when the concrete type is known.
+"""
 def map_check(o: object) -> bool:
     """Return True if ``o`` provides the mapping protocol."""
     ...
 def map_eq(a: object, b: object) -> bool:
     """Return True if mappings are equal (identity/size short-circuit + richcompare; prefer ``dict_eq`` when typed)."""
-    ...
-def map_len(o: object) -> int:
-    """Return ``len(o)`` via ``PyMapping_Length``."""
     ...
 def map_has_key(o: object, key: object) -> bool:
     """Return True if mapping ``o`` has ``key``."""

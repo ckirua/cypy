@@ -7,7 +7,7 @@ when the concrete type is unknown. May still evolve under post-1.0 minors.
 
 from __future__ import annotations
 
-from .cymapping import map_check, map_eq, map_has_key, map_len
+from .cymapping import map_check, map_eq, map_has_key
 from .cynumber import num_check, num_eq
 from .cyobject import obj_eq
 from .cysequence import seq_check, seq_contains, seq_eq, seq_get
@@ -16,7 +16,6 @@ __all__: tuple[str, ...] = (
     "map_check",
     "map_eq",
     "map_has_key",
-    "map_len",
     "seq_check",
     "seq_eq",
     "seq_get",

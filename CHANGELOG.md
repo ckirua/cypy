@@ -1,5 +1,9 @@
 # Changelog
 
+## [1.44.5] — 2026-08-02 — stub-hide Tier A losers in `cymapping`
+
+- Omit `map_len` from `cymapping.pyi` / `cypy.protocols` (Tier A `>1.02x` vs `len`).
+
 ## [1.44.4] — 2026-08-02 — stub-hide Tier A losers in `cysequence`
 
 - Omit `seq_len` / `seq_size` / `seq_count` from `cysequence.pyi` (Tier A `>1.02x`).
