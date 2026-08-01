@@ -2,23 +2,20 @@
 
 Run: python examples/pyobject.py
 """
-from cypy import obj_eq, obj_hasattr, obj_getattr_cstr, obj_len, obj_type
+from cypy import obj_eq, obj_richcompare_bool
 from cypy import protocols
+
+EQ = 2  # Py_EQ
 
 
 def main() -> None:
-    xs = [1, 2]
-    assert obj_hasattr(xs, "append")
-    meth = obj_getattr_cstr(xs, b"append")
-    assert callable(meth)
-    meth(3)
-    assert xs == [1, 2, 3]
-    assert obj_len(xs) == 3
-    assert obj_type(xs) is list
+    xs = [1, 2, 3]
     assert obj_eq(xs, [1, 2, 3]) and not obj_eq(xs, [1, 2])
     assert obj_eq(xs, xs)
+    assert obj_richcompare_bool(1, 1, EQ)
+    assert not obj_richcompare_bool(1, 2, EQ)
     assert protocols.obj_eq("a", "a") and not protocols.obj_eq("a", "b")
-    print("ok", obj_len(xs))
+    print("ok", obj_eq(xs, [1, 2, 3]))
 
 
 if __name__ == "__main__":
