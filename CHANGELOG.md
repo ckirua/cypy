@@ -1,5 +1,10 @@
 # Changelog
 
+## [1.44.3] — 2026-08-02 — stub-hide Tier A losers in `cynumber`
+
+- Omit measured Tier A losers from `cynumber.pyi` (`num_add` / `mul` / `neg` / …).
+- Keep stubbed: `num_check*` / `num_eq` / `num_floordiv` / `num_inplace_add` (+ unmeasured siblings).
+
 ## [1.44.2] — 2026-08-02 — stub-hide Tier A losers in `cyobject`
 
 - Omit Tier A losers (`ratio > 1.02` vs builtins) from `cyobject.pyi`
