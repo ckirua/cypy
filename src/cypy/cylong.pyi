@@ -1,4 +1,8 @@
-"""Public :mod:`cypy.cylong` stubs (signatures + docstrings for IDE / typecheckers)."""
+"""Public :mod:`cypy.cylong` stubs (signatures + docstrings for IDE / typecheckers).
+
+Tier A losers (ratio > 1.02 vs Python) are omitted from stubs but remain
+``cpdef`` on the extension for Cython / future work.
+"""
 
 def long_check(p: object) -> bool:
     """Return True if ``p`` is an :class:`int` or subtype (``PyLong_Check``)."""
@@ -16,16 +20,8 @@ def int_eq(a: object, b: object) -> bool:
     """Return True if ``a == b`` — thin alias of ``long_eq`` (same semantics)."""
     ...
 
-def long_from_long(v: int) -> object:
-    """Return ``int(v)`` via ``PyLong_FromLong``."""
-    ...
-
 def long_from_ulong(v: int) -> object:
     """Return an :class:`int` from an unsigned long via ``PyLong_FromUnsignedLong``."""
-    ...
-
-def long_from_ssize(v: int) -> object:
-    """Return an :class:`int` from ``Py_ssize_t`` via ``PyLong_FromSsize_t``."""
     ...
 
 def long_from_size(v: int) -> object:
@@ -40,20 +36,8 @@ def long_from_ulonglong(v: int) -> object:
     """Return an :class:`int` from ``unsigned long long`` via ``PyLong_FromUnsignedLongLong``."""
     ...
 
-def long_from_double(v: float) -> object:
-    """Return ``int(v)`` via ``PyLong_FromDouble`` (truncates toward zero)."""
-    ...
-
-def long_as_long(pylong: object) -> int:
-    """Return a C ``long`` via ``PyLong_AsLong`` (raises on overflow)."""
-    ...
-
 def long_as_long_overflow(pylong: object) -> tuple[int, int]:
     """Return ``(value, overflow)`` via ``PyLong_AsLongAndOverflow``."""
-    ...
-
-def long_as_ssize(pylong: object) -> int:
-    """Return a ``Py_ssize_t`` via ``PyLong_AsSsize_t``."""
     ...
 
 def long_as_ulong(pylong: object) -> int:
@@ -76,6 +60,3 @@ def long_as_ulonglong_mask(io: object) -> int:
     """Return ``PyLong_AsUnsignedLongLongMask`` (wrap on overflow; no exception)."""
     ...
 
-def long_as_double(pylong: object) -> float:
-    """Return a C ``double`` via ``PyLong_AsDouble``."""
-    ...
