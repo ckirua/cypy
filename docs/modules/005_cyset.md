@@ -181,3 +181,8 @@ Ratio = cypy `cdef` loop / typed Cython baseline `==` loop (opaque + sink). **In
 - [x] Present measuring: try-all **and** depth checklist in **this tracker’s** Experiment conclusions (**no skip**)
 - [x] **Bench results** table filled in **this file** (not only PR)
 - [x] **Before merge:** public PEP 257 one-liners in `cyset.pyi`; `.pxd` lean — [`PIPELINE.md`](../PIPELINE.md)
+
+### Stub visibility (2026-08-02)
+
+- Stub-hidden (Tier A `>1.02x`): `set_pop`. Still `cpdef`.
+

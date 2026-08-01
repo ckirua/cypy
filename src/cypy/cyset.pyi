@@ -1,4 +1,8 @@
-"""Public :mod:`cypy.cyset` stubs (signatures + docstrings for IDE / typecheckers)."""
+"""Public :mod:`cypy.cyset` stubs (signatures + docstrings for IDE / typecheckers).
+
+Tier A losers (ratio > 1.02 vs Python) are omitted from stubs but remain
+``cpdef`` on the extension for Cython / future work.
+"""
 
 # Preferred public names (0.3 hard trim)
 
@@ -72,10 +76,6 @@ def set_eq(a: set, b: set) -> bool:
 
 def set_new(iterable: object) -> set:
     """Return a new set from ``iterable`` via ``PySet_New``."""
-    ...
-
-def set_pop(s: set) -> object:
-    """Remove and return an arbitrary element via ``PySet_Pop`` (raises ``KeyError`` if empty)."""
     ...
 
 def set_size(anyset: object) -> int:

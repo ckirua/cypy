@@ -1,5 +1,9 @@
 # Changelog
 
+## [1.44.12] — 2026-08-02 — stub-hide Tier A losers in `cyset`
+
+- Omit ``set_pop`` from `cyset.pyi` (Tier A `>1.02x`; still `cpdef`).
+
 ## [1.44.11] — 2026-08-02 — stub-hide Tier A losers in `cymethod`
 
 - Omit ``method_new`` from `cymethod.pyi` (Tier A `>1.02x`; still `cpdef`).
