@@ -1,5 +1,9 @@
 # Changelog
 
+## [1.44.8] — 2026-08-02 — stub-hide Tier A losers in `cyiterobject`
+
+- Omit ``seqiter_new``, ``calliter_new`` from `cyiterobject.pyi` (Tier A `>1.02x`; still `cpdef`).
+
 ## [1.44.7] — 2026-08-02 — stub-hide Tier A losers in `cyfloat`
 
 - Omit ``float_from_double``, ``float_from_cstr``, ``float_as_double`` from `cyfloat.pyi` (Tier A `>1.02x`; still `cpdef`).
