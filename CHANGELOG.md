@@ -1,5 +1,9 @@
 # Changelog
 
+## [1.44.14] — 2026-08-02 — stub-hide Tier A losers in `cytype`
+
+- Omit ``type_is_subtype`` from `cytype.pyi` (Tier A `>1.02x`; still `cpdef`).
+
 ## [1.44.13] — 2026-08-02 — stub-hide Tier A losers in `cytime`
 
 - Omit ``time_wall`` from `cytime.pyi` (Tier A `>1.02x`; still `cpdef`).
