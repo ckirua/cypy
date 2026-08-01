@@ -18,7 +18,7 @@ Abstract sequence protocol for unknown concrete types. Prefer typed modules (`cy
 
 | Symbol | Export | Notes |
 |--------|--------|-------|
-| sqcheck / sqsize / sqlen | public | Length is Size alias (cheap sibling) |
+| sqcheck / sqsize / sqlen | public (cpdef) | `seq_len`/`seq_size` stub-hidden (Tier A `>1.02x` vs `len`) |
 | sqeq | public | identity/size + richcompare; preferred `seq_eq` |
 | sqconcat / sqrepeat / inplace_* | public | |
 | sqget / sqslice / sqset / sqdel / slice mutators | public | |
@@ -33,8 +33,9 @@ Abstract sequence protocol for unknown concrete types. Prefer typed modules (`cy
 | sqget (primary) | APPROVED | list **0.93x** / tuple **0.72x** |
 | sqcheck / contains / concat / repeat / slice / list / index | APPROVED | 0.37–0.91x |
 | sqeq / seq_eq | APPROVED | identity/size + richcompare (issue #23) |
-| sqsize / sqlen | APPROVED (API) | **1.09–1.10x** vs `len` — keep for abstract protocol |
-| sqcount / sqtuple | APPROVED (API) | **1.05–1.09x** — protocol completeness |
+| sqsize / sqlen | APPROVED (API) | **~1.12x** vs `len` — stub-hidden from `.pyi` |
+| sqcount | APPROVED (API) | **~1.07x** — stub-hidden from `.pyi` |
+| sqtuple | APPROVED | Tier A ~tie (**1.01x**) — remains stubbed |
 | sqfast* / sqitem | APPROVED (cimport) | borrowed / unchecked |
 
 ## Lifecycle
@@ -43,7 +44,7 @@ Abstract sequence protocol for unknown concrete types. Prefer typed modules (`cy
 |-------|--------|
 | Freeze | **Provisional (Protocols)** after 1.0 — not Core; may evolve under minors |
 | Iteration | 1 |
-P26-07-22 — `*_eq` inventory Tier A (`cyeq_inventory_bench`)|
+| Last pass | 2026-08-02 — stub-hide Tier A `>1.02x` from `.pyi` |
 | Next action | — |
 
 ## Decision log
