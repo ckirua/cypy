@@ -114,3 +114,8 @@ Ratio = cypy `cdef` loop / typed Cython baseline `==` loop (opaque + sink). **In
 ## Done when
 
 - [x] Try-all + depth + benches + `.pyi`
+
+### Stub visibility (2026-08-02)
+
+- Stub-hidden (Tier A `>1.02x`): `iter_next`. Still `cpdef`.
+
