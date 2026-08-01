@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.44.1] — 2026-08-01 — GCC 14 / 3.14 pxd compile fixes
+
+- Declare `_PySet_Update` via a local prototype in `cyset.pxd` (exported from
+  libpython but absent from public `Python.h` on 3.14).
+- Type `PyType_*` externs as `type` / `unsigned long` in `cytype.pxd` and cast
+  at call sites so GCC 14+ does not reject `PyObject*` vs `PyTypeObject*`.
+
 ## [1.44.0] — 2026-07-23 — C-backed UUID values and generation
 
 - Move the optimized UUID implementation from Cycel into `cypy.uuid`.

@@ -21,7 +21,16 @@ cdef extern from "Python.h":
     int PySet_Discard(object set, object key) except -1
     object PySet_Pop(object set)
     int PySet_Clear(object set) except -1
-    # Internal — same path as ``set.update()``; exported from libpython.
+
+# Exported from libpython but not declared in public Python.h (3.14+).
+# Provide our own prototype so GCC does not treat the call as an implicit decl.
+cdef extern from *:
+    """
+    #ifndef Cypy_PySet_Update_H
+    #define Cypy_PySet_Update_H
+    PyAPI_FUNC(int) _PySet_Update(PyObject *set, PyObject *iterable);
+    #endif
+    """
     int _PySet_Update(object s, object iterable) except -1
 
 

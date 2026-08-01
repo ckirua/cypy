@@ -168,7 +168,7 @@ Ratio = cypy `cdef` loop / typed Cython baseline `==` loop (opaque + sink). **In
 - **Mutators lose from Python:** fresh-set benches are dominated by allocation; `set.add`/`discard`/`pop`/`update` bytecode beats an extra `cpdef` call (**1.01–1.13x**). Still APPROVED as C-API mirrors for Cython call sites (inline/`cdef` path), not as Python speedups.
 - **`spop` safety:** removed prior `noexcept`→`None` swallow; empty set now raises **`KeyError`** like `set.pop()` / `PySet_Pop`.
 - **No `PySet_Remove`:** ABI has only `Discard` (0/1/-1). No sibling alias to add.
-- **`supdate`:** uses exported `_PySet_Update` (no public `PySet_Update` in 3.14); same path as `set.update()`. Free-threaded: set mutators still need the usual object lock / critical section discipline as plain `set` methods.
+- **`supdate`:** uses exported `_PySet_Update` (not in public `Python.h` on 3.14 — declared via a local prototype in `cyset.pxd`); same path as `set.update()`. Free-threaded: set mutators still need the usual object lock / critical section discipline as plain `set` methods.
 - **Private rejects:** `_PySet_AddTakeRef`, `_PySet_Contains`, `_PySet_NextEntry*`, `_PySet_Dummy` — not wrapped.
 
 ## Done when
