@@ -1,5 +1,9 @@
 # Changelog
 
+## [1.44.9] — 2026-08-02 — stub-hide Tier A losers in `cycodecs`
+
+- Omit ``codec_encode``, ``codec_decode`` from `cycodecs.pyi` (Tier A `>1.02x`; still `cpdef`).
+
 ## [1.44.8] — 2026-08-02 — stub-hide Tier A losers in `cyiterobject`
 
 - Omit ``seqiter_new``, ``calliter_new`` from `cyiterobject.pyi` (Tier A `>1.02x`; still `cpdef`).

@@ -88,3 +88,8 @@ Ratio = cypy `cdef` loop / typed Cython baseline loop (opaque + sink). **Informa
 ### Ops remaining inventory (Tier A)
 
 Harnesses: [`bench/cyaccessors_inventory_bench.py`](../../bench/cyaccessors_inventory_bench.py) / [`bench/cyruntime_inventory_bench.py`](../../bench/cyruntime_inventory_bench.py). See [`OPS_INVENTORY.md`](../OPS_INVENTORY.md) + [`OPS_INVENTORY_TIERB.md`](../OPS_INVENTORY_TIERB.md) for status / Tier B n/a.
+
+### Stub visibility (2026-08-02)
+
+- Stub-hidden (Tier A `>1.02x`): `codec_encode`, `codec_decode`. Still `cpdef`.
+
