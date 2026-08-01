@@ -1,5 +1,9 @@
 # Changelog
 
+## [1.44.15] — 2026-08-02 — expand pytest suite beyond UUID
+
+- Add focused pytest modules for `cypy.hot`, Core containers, `cypy.protocols`, export gates, and example ``main()`` smokes (no API change).
+
 ## [1.44.14] — 2026-08-02 — stub-hide Tier A losers in `cytype`
 
 - Omit ``type_is_subtype`` from `cytype.pyi` (Tier A `>1.02x`; still `cpdef`).
