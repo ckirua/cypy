@@ -18,9 +18,9 @@ Abstract object protocol for Cython call sites. From Python, builtins usually wi
 
 | Symbol | Export | Notes |
 |--------|--------|-------|
-| attr / call / truth / len / item / type helpers | public | |
+| attr / call / truth / len / item / type helpers | public (cpdef) | Tier A losers stub-hidden from `.pyi` (still importable) |
 | obj_eq / oeq | public | RichCompareBool(EQ); soft `oeq`; on `protocols`, not `hot` |
-| obj_size | public | Length alias |
+| obj_size | public (cpdef) | Length alias; stub-hidden with `obj_len` |
 | typecheck / TYPE / Generic* / Malloc* | cimport | |
 | Cmp / Compare | — | REJECTED (ABI missing) |
 | CallFunction* varargs | — | REJECTED (unwrappable varargs; use Call) |
@@ -32,7 +32,8 @@ Abstract object protocol for Cython call sites. From Python, builtins usually wi
 |----------|--------|-----|
 | obj_richcompare_bool | APPROVED | **0.71x** |
 | obj_eq / oeq | APPROVED | thin EQ wrap of richcompare_bool (issue #35); on `protocols`, not `hot` |
-| most public helpers | APPROVED (API) | **0.98–1.23x** — Cython bridge |
+| most public helpers | APPROVED (API) | **0.98–1.23x** — Cython bridge; stub-hidden when Tier A `> 1.02x` |
+| stub visibility | equality family | `.pyi` keeps `obj_richcompare*` / `obj_eq` (+ unmeasured mutators); losers omitted |
 | typecheck / malloc / generic | APPROVED (cimport) | pointers / allocator |
 | Cmp / Compare | REJECTED | missing 3.14 |
 | CallFunction/Method varargs | REJECTED | use `obj_call` |
@@ -44,7 +45,7 @@ Abstract object protocol for Cython call sites. From Python, builtins usually wi
 |-------|--------|
 | Freeze | **Provisional (Protocols)** after 1.0 — not Core; may evolve under minors |
 | Iteration | 1 |
-| Last pass | 2026-07-22 — Tier B `*_eq` inventory|
+| Last pass | 2026-08-02 — stub-hide Tier A `>1.02x` from `.pyi` |
 | Next action | — |
 
 ## Decision log

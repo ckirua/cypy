@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.44.2] — 2026-08-02 — stub-hide Tier A losers in `cyobject`
+
+- Omit Tier A losers (`ratio > 1.02` vs builtins) from `cyobject.pyi`
+  (`obj_hasattr` / `getattr` / `type` / `len` / …); keep `cpdef` for Cython.
+- Keep stubbed equality winners: `obj_richcompare`, `obj_richcompare_bool`, `obj_eq`.
+- Drop `obj_len` / `obj_size` from `cypy.protocols`; example smoke uses equality helpers.
+
 ## [1.44.1] — 2026-08-01 — GCC 14 / 3.14 pxd compile fixes
 
 - Declare `_PySet_Update` via a local prototype in `cyset.pxd` (exported from
