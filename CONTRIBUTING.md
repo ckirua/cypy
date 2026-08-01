@@ -21,6 +21,9 @@ After changing public symbols or trackers:
 # smoke
 python -c "from cypy.hot import bytes_len, dict_get, list_len, str_len"
 
+# pytest (UUID + Core/hot/protocols/exports + example mains)
+python -m pytest tests -q
+
 # examples
 for f in examples/py*.py examples/wrap_ansi.py; do python "$f"; done
 
