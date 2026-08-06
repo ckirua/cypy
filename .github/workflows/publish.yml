@@ -1,0 +1,86 @@
+# Publish picop to PyPI (Trusted Publishing / OIDC).
+#
+# One-time setup (before the first tag publish):
+#   1. Create a PyPI account and claim the pending publisher for project "picop":
+#        https://pypi.org/manage/account/publishing/
+#      Owner: ckirua  ·  Repo: cypy  ·  Workflow: publish.yml  ·  Environment: pypi
+#   2. (Optional) Same for TestPyPI with environment: testpypi
+#   3. Create matching GitHub Environments "pypi" / "testpypi" (optional protection rules).
+#
+# Trigger: annotated version tags (vX.Y.Z) after the version bump is on main.
+# Manual: workflow_dispatch → choose testpypi or pypi.
+
+name: publish
+
+on:
+  push:
+    tags: ["v*"]
+  workflow_dispatch:
+    inputs:
+      repository:
+        description: "Target index"
+        required: true
+        type: choice
+        options:
+          - testpypi
+          - pypi
+        default: testpypi
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: Build sdist + wheel
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python 3.14
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.14"
+
+      - name: Install UUID native dependency
+        run: sudo apt-get update && sudo apt-get install --yes --no-install-recommends libssl-dev
+
+      - name: Install build tools
+        run: pip install --upgrade build twine
+
+      - name: Build portable artifacts
+        env:
+          CPY_NATIVE: "0"
+        run: python -m build
+
+      - name: Check metadata
+        run: twine check dist/*
+
+      - name: Upload dist artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: python-package-distributions
+          path: dist/
+
+  publish:
+    name: Publish to ${{ github.event_name == 'workflow_dispatch' && inputs.repository || 'pypi' }}
+    needs: build
+    runs-on: ubuntu-latest
+    environment: ${{ github.event_name == 'workflow_dispatch' && inputs.repository || 'pypi' }}
+    permissions:
+      id-token: write
+    steps:
+      - name: Download dist artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: python-package-distributions
+          path: dist/
+
+      - name: Publish to TestPyPI
+        if: github.event_name == 'workflow_dispatch' && inputs.repository == 'testpypi'
+        uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          repository-url: https://test.pypi.org/legacy/
+
+      - name: Publish to PyPI
+        if: github.event_name == 'push' || (github.event_name == 'workflow_dispatch' && inputs.repository == 'pypi')
+        uses: pypa/gh-action-pypi-publish@release/v1

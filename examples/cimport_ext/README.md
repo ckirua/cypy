@@ -7,7 +7,7 @@ Regression check that **`from cypy cimport …`** (package barrel via `__init__.
 ```bash
 # from repo root
 pip install -e . --no-build-isolation
-# or: pip install dist/cypy-*.whl
+# or: pip install dist/picop-*.whl
 ```
 
 ## Build + assert
