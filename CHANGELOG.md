@@ -4,6 +4,7 @@
 
 - PyPI distribution name is **`picop`** (`pip install picop`); import package remains **`cypy`**.
 - Add Trusted Publishing workflow [`.github/workflows/publish.yml`](.github/workflows/publish.yml) (tag `v*` → PyPI; manual → TestPyPI/PyPI).
+- Publish **sdist only** (PyPI rejects untagged `linux_x86_64` wheels; manylinux via cibuildwheel is follow-up).
 
 ## [1.44.15] — 2026-08-02 — expand pytest suite beyond UUID
 

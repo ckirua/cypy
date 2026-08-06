@@ -81,7 +81,8 @@ EOF
 ```
 
 Pushing the tag runs [`.github/workflows/publish.yml`](../.github/workflows/publish.yml)
-(Trusted Publishing → PyPI project **`picop`**). Import package stays **`cypy`**.
+(Trusted Publishing → PyPI project **`picop`**, **sdist only**). Import package stays **`cypy`**.
+Plain `linux_*` wheels are rejected by PyPI; add manylinux via cibuildwheel later if needed.
 
 ### One-time PyPI Trusted Publisher
 

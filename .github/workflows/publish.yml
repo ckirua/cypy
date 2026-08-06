@@ -9,6 +9,10 @@
 #
 # Trigger: annotated version tags (vX.Y.Z) after the version bump is on main.
 # Manual: workflow_dispatch → choose testpypi or pypi.
+#
+# Artifacts: sdist only. PyPI rejects plain linux_x86_64 wheels; manylinux
+# wheels need cibuildwheel (follow-up). Users build from sdist (C toolchain +
+# OpenSSL headers).
 
 name: publish
 
@@ -31,7 +35,7 @@ permissions:
 
 jobs:
   build:
-    name: Build sdist + wheel
+    name: Build sdist
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -41,16 +45,13 @@ jobs:
         with:
           python-version: "3.14"
 
-      - name: Install UUID native dependency
-        run: sudo apt-get update && sudo apt-get install --yes --no-install-recommends libssl-dev
-
       - name: Install build tools
         run: pip install --upgrade build twine
 
-      - name: Build portable artifacts
+      - name: Build sdist
         env:
           CPY_NATIVE: "0"
-        run: python -m build
+        run: python -m build --sdist
 
       - name: Check metadata
         run: twine check dist/*
