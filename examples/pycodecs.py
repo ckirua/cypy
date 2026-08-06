@@ -1,8 +1,8 @@
-"""Python usage for cypy cycodecs.
+"""Python usage for picop cycodecs.
 
 Run: python examples/pycodecs.py
 """
-from cypy import codec_known, codec_encode, codec_decode
+from picop import codec_known, codec_encode, codec_decode
 
 def main() -> None:
     assert codec_known(b"utf-8") is True

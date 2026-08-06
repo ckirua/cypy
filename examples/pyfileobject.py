@@ -1,11 +1,11 @@
-"""Python usage for cypy cyfileobject.
+"""Python usage for picop cyfileobject.
 
 Run: python examples/pyfileobject.py
 """
 import os
 import tempfile
 
-from cypy import file_from_fd, file_write_cstr
+from picop import file_from_fd, file_write_cstr
 
 def main() -> None:
     with tempfile.TemporaryDirectory() as td:

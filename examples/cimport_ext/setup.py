@@ -1,4 +1,4 @@
-"""Build the out-of-tree ``demo`` extension in-place against an installed cypy.
+"""Build the out-of-tree ``demo`` extension in-place against an installed picop.
 
 Run from this directory after ``pip install -e .`` (or a wheel) at the repo root::
 
@@ -11,7 +11,7 @@ from Cython.Build import cythonize
 from setuptools import Extension, setup
 
 setup(
-    name="cypy_cimport_ext_demo",
+    name="picop_cimport_ext_demo",
     ext_modules=cythonize(
         [
             Extension(

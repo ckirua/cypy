@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.0.0] — 2026-08-06 — rename import package to picop (soft cypy alias)
+
+- Move implementation tree to `src/picop/` (preferred import: `from picop…` / `from picop… cimport`).
+- Keep `src/cypy/` as a soft shim: re-exports `picop`, emits `DeprecationWarning` on import; Cython `cimport` shims mirror the same surface.
+- PyPI distribution name was already **`picop`** (`pip install picop`); version **2.0.0**.
+- Fix `cyceval` cimport helper: `PyEval_ThreadsInitialized` removed on 3.14 — `eval_threads_initialized` always returns true so barrel cimport builds.
+- **3.0 plan:** remove the `cypy` import package and cimport shims entirely — migrate call sites to `picop` before then.
+
 ## [1.44.16] — 2026-08-06 — PyPI name `picop` + publish CI
 
 - PyPI distribution name is **`picop`** (`pip install picop`); import package remains **`cypy`**.

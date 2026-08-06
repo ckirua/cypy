@@ -1,9 +1,9 @@
-"""Python usage of :func:`cypy` dict helpers.
+"""Python usage of :func:`picop` dict helpers.
 
 Run: python examples/pydict.py
 """
 
-from cypy import (
+from picop import (
     dict_clear,
     dict_contains,
     dict_copy,

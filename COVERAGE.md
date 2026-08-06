@@ -1,10 +1,12 @@
-# cypy Coverage
+# picop Coverage
 
-Product contract for what `cypy` is, what it ships, and how to choose helpers.
+Product contract for what `picop` is, what it ships, and how to choose helpers.
 
-`cypy` is **not** a reimplementation of the Python standard library, and it is **not** a full 1:1 port of Cython’s `Includes/cpython`. It is a curated **CPython C-API accelerator** for Cython on **Python ≥ 3.14**.
+`picop` is **not** a reimplementation of the Python standard library, and it is **not** a full 1:1 port of Cython’s `Includes/cpython`. It is a curated **CPython C-API accelerator** for Cython on **Python ≥ 3.14**.
 
-Authoritative symbol lists: `src/cypy/__init__.py` / `__init__.pxd` `__all__`, plus `cypy.hot` for micro-opt starters. Per-module decisions: [`docs/modules/`](docs/modules/).
+**Import (2.0):** prefer `picop`. Deprecated soft alias `cypy` (`DeprecationWarning`) until **3.0**, then removed. Pip name is already `picop`.
+
+Authoritative symbol lists: `src/picop/__init__.py` / `__init__.pxd` `__all__`, plus `picop.hot` for micro-opt starters. Per-module decisions: [`docs/modules/`](docs/modules/).
 Timed public-ops checklist: [`docs/OPS_INVENTORY.md`](docs/OPS_INVENTORY.md) (gate: `scripts/ops_inventory_coverage.py --strict`).
 
 ---
@@ -13,9 +15,9 @@ Timed public-ops checklist: [`docs/OPS_INVENTORY.md`](docs/OPS_INVENTORY.md) (ga
 
 | Tier | Who | Import | Contents |
 |------|-----|--------|----------|
-| **Core** | Micro-opts / typed hot paths | `cypy.hot` (preferred) or `from cypy import …` | Typed containers, bytes/str, ANSI, GC toggles, string value ops |
-| **Protocols** | Unknown concrete type | `cypy` / `cypy.cy*` | Abstract mapping/sequence/number/object bridges |
-| **Runtime** | Extension / embedding authors | `cypy` public + **cimport** SDK | datetime, codecs, marshal, file, weakref, capsule, contextvars, thin clocks, process plumbing |
+| **Core** | Micro-opts / typed hot paths | `picop.hot` (preferred) or `from picop import …` | Typed containers, bytes/str, ANSI, GC toggles, string value ops |
+| **Protocols** | Unknown concrete type | `picop` / `picop.cy*` | Abstract mapping/sequence/number/object bridges |
+| **Runtime** | Extension / embedding authors | `picop` public + **cimport** SDK | datetime, codecs, marshal, file, weakref, capsule, contextvars, thin clocks, process plumbing |
 
 **Rule of thumb:** prefer **Core** when the type is known; use **Protocols** only when it is not; use **Runtime** for non-hot-path / embedding needs.
 
@@ -37,7 +39,7 @@ Timed public-ops checklist: [`docs/OPS_INVENTORY.md`](docs/OPS_INVENTORY.md) (ga
 | `cygc` | GC | public | `gc_collect`, `gc_is_enabled`, … |
 | `cyarray` / `cymemoryview` / `cybuffer` / `cyslice` | buffers / slice | public | `array_eq` / `array_ne`; `memoryview_eq` / `memoryview_ne`; `buf_eq`; `slice_eq`; sequences/buffers adjacent to Core |
 
-**Curated starter export:** [`cypy.hot`](src/cypy/hot.py) — see [`examples/STARTER.md`](examples/STARTER.md).
+**Curated starter export:** [`picop.hot`](src/picop/hot.py) — see [`examples/STARTER.md`](examples/STARTER.md).
 
 ### 1.0 freeze (Core + cimport contracts)
 
@@ -45,15 +47,16 @@ As of **`1.0.0`**:
 
 | Surface | Frozen? | Contract |
 |---------|---------|----------|
-| `cypy.__all__` | **Yes** | Core star-import / discovery set — additive in minors; drop/rename/semantic change → major |
-| `cypy.hot.__all__` | **Yes** | Micro-opt marketing set — same policy |
-| Full public barrel (`from cypy import name` beyond `__all__`) | Protocols/Runtime **provisional** | Still importable; may evolve under minors (see CHANGELOG) |
-| `cimport cypy` / `from cypy.cy* cimport …` | **Documented SDK** | Wider than Python; per-module **Surface** + inventory in [`docs/modules/`](docs/modules/) are authoritative |
+| `picop.__all__` | **Yes** | Core star-import / discovery set — additive in minors; drop/rename/semantic change → major |
+| `picop.hot.__all__` | **Yes** | Micro-opt marketing set — same policy |
+| Full public barrel (`from picop import name` beyond `__all__`) | Protocols/Runtime **provisional** | Still importable; may evolve under minors (see CHANGELOG) |
+| `cimport picop` / `from picop.cy* cimport …` | **Documented SDK** | Wider than Python; per-module **Surface** + inventory in [`docs/modules/`](docs/modules/) are authoritative |
 | Core names that are also `cpdef`/`cdef` | **Yes** | Same symbol, same semantics as public Core |
 | `cdef`-only helpers (builders, unique-ref fill, C-string keys, borrow pointers, …) | **Documented cimport** | Keep for Cython; never promote to pure-Python without a minor; demote/remove → major after advertise |
 | Soft letter/bare/`*_string` (post-0.3) | Implementation only | Not a public or cimport *product* contract; prefer word-prefix / `*_cstr` |
+| Deprecated `cypy` import / cimport (2.0 soft window) | Soft alias | Prefer `picop`; **removed in 3.0** |
 
-**Authoritative lists:** `src/cypy/__init__.py` / `hot.py` `__all__`, `src/cypy/__init__.pxd` + `cy*.pxd`, tracker inventories.
+**Authoritative lists:** `src/picop/__init__.py` / `hot.py` `__all__`, `src/picop/__init__.pxd` + `cy*.pxd`, tracker inventories.
 
 ### Protocols (typed unknown)
 
@@ -68,8 +71,8 @@ As of **`1.0.0`**:
 
 | Module | Surface | Notes |
 |--------|---------|--------|
-| `cydatetime`, `cycodecs`, `cymarshal`, `cyfileobject`, `cyweakref`, `cypycapsule`, `cycontextvars` | public (+ some cimport) | Higher-level C-API bridges; `dt_*_eq` / `capsule_eq` / `weakref_eq` / `context_eq` on `cypy` (not `hot`); see `docs/EQ_RUNTIME.md` |
-| `cytime` | public | Thin `time_wall` / `time_time` / `time_monotonic` / `time_perf_counter` — **Runtime**, not Core (`cypy.hot` excludes them). Prefer stdlib `time` unless you need these wrappers; prefer `time_wall` over stutter `time_time`. |
+| `cydatetime`, `cycodecs`, `cymarshal`, `cyfileobject`, `cyweakref`, `cypycapsule`, `cycontextvars` | public (+ some cimport) | Higher-level C-API bridges; `dt_*_eq` / `capsule_eq` / `weakref_eq` / `context_eq` on `picop` (not `hot`); see `docs/EQ_RUNTIME.md` |
+| `cytime` | public | Thin `time_wall` / `time_time` / `time_monotonic` / `time_perf_counter` — **Runtime**, not Core (`picop.hot` excludes them). Prefer stdlib `time` unless you need these wrappers; prefer `time_wall` over stutter `time_time`. |
 | `cyfunction`, `cymethod`, `cymodule`, `cyiterator`, `cyiterobject`, `cygenobject`, `cycellobject`, `cydescr`, `cytype`, `cylong`, `cyfloat`, … | public | Object-model / scalar helpers; `func_eq` / `method_eq` / `mod_eq` / `gen_eq` / `iter_eq` / `type_eq` identity-or-richcompare / `cell_eq` content (not `hot`) |
 | `cyerr`, `cymem`, `cythread`, `cyatomic`, `cyref`, `cygetargs`, `cyceval`, `cypystate`, `cypylifecycle`, `cypyport`, `cyversion`, `cylongintrepr` | **cimport only** | Embedding / process footguns — not pure-Python |
 | `cyinstance` | **none** | Classic-class ABI gone on 3.14 |
@@ -80,12 +83,13 @@ As of **`1.0.0`**:
 
 | Entry | Role |
 |-------|------|
-| `from cypy.hot import …` | **Core marketing surface** — micro-opt starters |
-| `import cypy` / `from cypy import …` | Full public barrel; Core discovery via `__all__` (frozen at 1.0) |
-| `from cypy.cydict import dget` | Module-scoped public |
-| `cimport cypy` / `from cypy.cydict cimport …` | **Full Cython SDK** (wider than Python; includes cimport-only) |
+| `from picop.hot import …` | **Core marketing surface** — micro-opt starters |
+| `import picop` / `from picop import …` | Full public barrel; Core discovery via `__all__` (frozen at 1.0) |
+| `from picop.cydict import dict_get` | Module-scoped public |
+| `cimport picop` / `from picop.cydict cimport …` | **Full Cython SDK** (wider than Python; includes cimport-only) |
+| `from cypy…` / `from cypy… cimport` | **Deprecated** soft alias (2.0); emits `DeprecationWarning`; **removed in 3.0** |
 
-Discourage `from cypy import *`.
+Discourage `from picop import *`.
 
 ---
 
@@ -125,23 +129,23 @@ Still too dynamic?
 | Checks | `{type}_check` / `{type}_check_exact` | Subtype vs exact; `str_is` ≡ `str_check_exact` |
 | Length | `*_len(typed)` vs `*_size(object)` | Macro/unchecked vs checked — **semantic twins**, never identity |
 
-Full table: [`docs/NAMING.md`](docs/NAMING.md). Removed soft aliases (0.3+): [`cypy.compat.COMPAT_MAP`](src/cypy/compat.py).
+Full table: [`docs/NAMING.md`](docs/NAMING.md). Removed soft aliases (0.3+): [`picop.compat.COMPAT_MAP`](src/picop/compat.py).
 
 ### Category facades (optional discovery)
 
 | Import | Contents |
 |--------|----------|
-| `cypy.hot` | Micro-opt starters (preferred; **Core frozen**) |
-| `cypy.containers` | dict / list / set / tuple (Core-adjacent) |
-| `cypy.buffers` | bytes / bytearray / array / memoryview / buffer / slice |
-| `cypy.protocols` | mapping / sequence / number / object — **provisional** after 1.0 |
+| `picop.hot` | Micro-opt starters (preferred; **Core frozen**) |
+| `picop.containers` | dict / list / set / tuple (Core-adjacent) |
+| `picop.buffers` | bytes / bytearray / array / memoryview / buffer / slice |
+| `picop.protocols` | mapping / sequence / number / object — **provisional** after 1.0 |
 
 ---
 
 ## Layers (implementation)
 
 | Layer | Entry | Role |
-|-------|--------|------|
+|-------|-------|------|
 | Public Python | `__init__.py`, `hot.py` | Callable helpers |
 | Cython cimport | `__init__.pxd`, `cy*.pxd` | Wider SDK |
 | Implementation | `cy*.pxd` (+ `.pyx`) | Inline C-API wrappers |
@@ -154,7 +158,7 @@ Full table: [`docs/NAMING.md`](docs/NAMING.md). Removed soft aliases (0.3+): [`c
 - Restoring builtin monkey-patches ([`docs/future/MONKEY.md`](docs/future/MONKEY.md))
 - Treating Protocol/Runtime losers as Core micro-opt defaults
 
-Historical note: an older tree lived as `cycel.core.cpy`. **`cytime` ships in cypy as Runtime** (not deferred to `cycel.time`). Broader clock/RFC utilities may still live in sibling packages.
+Historical note: an older tree lived as `cycel.core.cpy`. **`cytime` ships in picop as Runtime** (not deferred to `cycel.time`). Broader clock/RFC utilities may still live in sibling packages. Pre-2.0 import name was `cypy` (soft alias until 3.0).
 
 ---
 

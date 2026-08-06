@@ -1,9 +1,9 @@
-"""Python usage for cypy cymodule.
+"""Python usage for picop cymodule.
 
 Run: python examples/pymodule.py
 """
 import sys
-from cypy import mod_check, mod_eq, mod_get_name
+from picop import mod_check, mod_eq, mod_get_name
 
 
 def main() -> None:

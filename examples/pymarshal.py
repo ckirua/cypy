@@ -1,8 +1,8 @@
-"""Python usage for cypy cymarshal.
+"""Python usage for picop cymarshal.
 
 Run: python examples/pymarshal.py
 """
-from cypy import marshal_dumps, marshal_loads
+from picop import marshal_dumps, marshal_loads
 
 def main() -> None:
     blob = marshal_dumps({"k": 1})

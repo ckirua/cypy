@@ -11,13 +11,13 @@ from setuptools.command.build_ext import build_ext
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
 SOURCE_ROOT = PROJECT_ROOT / "src"
-UUID_SOURCE_ROOT = SOURCE_ROOT / "cypy" / "uuid"
+UUID_SOURCE_ROOT = SOURCE_ROOT / "picop" / "uuid"
 BUILD_ROOT = PROJECT_ROOT / "build" / "uuid-freethreaded"
 
 
 def main() -> None:
     extension = Extension(
-        "cypy.uuid._uuid",
+        "picop.uuid._uuid",
         sources=[
             str(UUID_SOURCE_ROOT / "_uuid.pyx"),
             str(UUID_SOURCE_ROOT / "uuid.c"),

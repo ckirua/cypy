@@ -30,7 +30,8 @@ jobs:
 
       - name: Import smoke
         run: |
-          python -c "from cypy.hot import bytes_len, dict_get, str_len; assert bytes_len(b'ok') == 2; print('ok', __import__('cypy').__version__)"
+          python -c "from picop.hot import bytes_len, dict_get, str_len; assert bytes_len(b'ok') == 2; print('ok', __import__('picop').__version__)"
+          python -W default -c "import cypy; from cypy.hot import bytes_len; assert bytes_len(b'ok') == 2; print('shim', cypy.__version__)"
 
       - name: Run test suite
         run: python -m pytest tests -q

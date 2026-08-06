@@ -1,8 +1,8 @@
-"""Python usage for cypy cymethod.
+"""Python usage for picop cymethod.
 
 Run: python examples/pymethod.py
 """
-from cypy import (
+from picop import (
     method_check,
     method_eq,
     method_new,

@@ -1,9 +1,9 @@
-"""Python usage for cypy cyslice.
+"""Python usage for picop cyslice.
 
 Run: python examples/pyslice.py
 """
-from cypy import slice_check, slice_eq, slice_new, slice_unpack
-from cypy.buffers import slice_eq as buffers_slice_eq
+from picop import slice_check, slice_eq, slice_new, slice_unpack
+from picop.buffers import slice_eq as buffers_slice_eq
 
 
 def main() -> None:

@@ -1,9 +1,9 @@
-"""Python usage of :func:`cypy` list helpers.
+"""Python usage of :func:`picop` list helpers.
 
 Run: python examples/pylist.py
 """
 
-from cypy import (
+from picop import (
     list_append,
     list_clear,
     list_copy,

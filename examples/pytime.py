@@ -1,8 +1,8 @@
-"""Python usage for cypy cytime.
+"""Python usage for picop cytime.
 
 Run: python examples/pytime.py
 """
-from cypy import time_wall, time_monotonic, time_perf_counter
+from picop import time_wall, time_monotonic, time_perf_counter
 
 def main() -> None:
     t = time_wall()

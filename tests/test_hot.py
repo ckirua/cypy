@@ -1,4 +1,4 @@
-"""Behavioral parity checks for every name in :mod:`cypy.hot`."""
+"""Behavioral parity checks for every name in :mod:`picop.hot`."""
 
 from __future__ import annotations
 
@@ -6,8 +6,8 @@ from array import array as Array
 
 import pytest
 
-import cypy.hot as hot
-from cypy.hot import (
+import picop.hot as hot
+from picop.hot import (
     ansi_fg8,
     ansi_strip,
     ansi_wrap,
@@ -178,6 +178,6 @@ def test_str_helpers_match_python() -> None:
 
 def test_ansi_helpers_roundtrip() -> None:
     prefix = ansi_fg8(32)
-    wrapped = ansi_wrap(prefix, "cypy", "\x1b[0m")
-    assert "cypy" in wrapped
-    assert ansi_strip(wrapped) == "cypy"
+    wrapped = ansi_wrap(prefix, "picop", "\x1b[0m")
+    assert "picop" in wrapped
+    assert ansi_strip(wrapped) == "picop"

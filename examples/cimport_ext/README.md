@@ -1,6 +1,8 @@
 # External barrel `cimport` smoke
 
-Regression check that **`from cypy cimport …`** (package barrel via `__init__.pxd`) and submodule paths both cythonize against an **installed** `cypy` (editable or wheel).
+Regression check that **`from picop cimport …`** (package barrel via `__init__.pxd`) and submodule paths both cythonize against an **installed** `picop` (editable or wheel).
+
+(`cypy` still works as a deprecated alias until 3.0.)
 
 ## Prerequisites
 
@@ -25,4 +27,4 @@ python setup.py build_ext --inplace
 python -c "import demo; assert demo.check_barrel(); assert demo.check_submodule() == 2"
 ```
 
-`demo.pyx` uses barrel (`bytes_eq`, `list_len`, `str_eq`) and `from cypy.cybytes cimport bytes_len`.
+`demo.pyx` uses barrel (`bytes_eq`, `list_len`, `str_eq`) and `from picop.cybytes cimport bytes_len`.

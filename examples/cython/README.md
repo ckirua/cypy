@@ -1,13 +1,15 @@
 # Cython recipes (cimport-only modules)
 
-Public Python examples cannot wrap these APIs honestly. Use the corresponding `src/cypy/cy*.pxd` from a `.pyx`:
+Public Python examples cannot wrap these APIs honestly. Use the corresponding `src/picop/cy*.pxd` from a `.pyx`:
 
 ```cython
-from cypy cimport list_len, bytes_eq   # package barrel (__init__.pxd)
-from cypy.cyerr cimport *              # submodule — see each .pxd
+from picop cimport list_len, bytes_eq   # package barrel (__init__.pxd)
+from picop.cyerr cimport *              # submodule — see each .pxd
 # cyerr / cymem / cythread / cyatomic / cylongintrepr / cyref
 # cygetargs / cyceval / cypystate / cypylifecycle / cypyport / cyversion
 ```
+
+(`cypy` still works as a deprecated alias until 3.0.)
 
 Out-of-tree barrel smoke: [`../cimport_ext/`](../cimport_ext/).
 

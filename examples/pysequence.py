@@ -1,8 +1,8 @@
-"""Python usage for cypy cysequence.
+"""Python usage for picop cysequence.
 
 Run: python examples/pysequence.py
 """
-from cypy import seq_check, seq_concat, seq_eq, seq_get
+from picop import seq_check, seq_concat, seq_eq, seq_get
 
 
 def main() -> None:

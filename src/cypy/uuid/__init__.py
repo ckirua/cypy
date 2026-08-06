@@ -1,7 +1,17 @@
-"""Fast C-backed UUID values and version 4 generation."""
+"""Deprecated :mod:`cypy.uuid` alias for :mod:`picop.uuid` (removal in 3.0)."""
 
 from __future__ import annotations
 
-from ._uuid import UUID, uuid4, uuid4_bytes
+import sys
+import warnings
 
-__all__ = ("UUID", "uuid4", "uuid4_bytes")
+warnings.warn(
+    "cypy.uuid is deprecated; use picop.uuid (removal planned in picop 3.0).",
+    DeprecationWarning,
+    stacklevel=2,
+)
+
+import picop.uuid as _uuid
+from picop.uuid import *  # noqa: F403
+
+sys.modules.setdefault("cypy.uuid", _uuid)

@@ -1,11 +1,11 @@
-"""Python usage of :mod:`cypy` array helpers.
+"""Python usage of :mod:`picop` array helpers.
 
 Run: python examples/pyarray.py
 """
 
 from array import array
 
-from cypy import array_check, array_clone, array_eq, array_len, array_ne, array_zero
+from picop import array_check, array_clone, array_eq, array_len, array_ne, array_zero
 PAYLOAD = array("i", [1, 2, 3, 4])
 
 def main() -> None:

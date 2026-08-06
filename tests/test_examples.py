@@ -21,7 +21,7 @@ def _example_paths() -> list[Path]:
 
 @pytest.mark.parametrize("path", _example_paths(), ids=lambda p: p.name)
 def test_example_main(path: Path) -> None:
-    spec = importlib.util.spec_from_file_location(f"_cypy_example_{path.stem}", path)
+    spec = importlib.util.spec_from_file_location(f"_picop_example_{path.stem}", path)
     assert spec is not None and spec.loader is not None
     module = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(module)

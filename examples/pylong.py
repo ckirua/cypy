@@ -1,8 +1,8 @@
-"""Python usage for cypy cylong.
+"""Python usage for picop cylong.
 
 Run: python examples/pylong.py
 """
-from cypy import int_eq, long_check, long_eq, long_from_long, long_from_ssize
+from picop import int_eq, long_check, long_eq, long_from_long, long_from_ssize
 
 
 def main() -> None:

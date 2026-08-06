@@ -1,18 +1,20 @@
-# cypy
+# picop
 
 Fast CPython C-API helpers for Cython — typed hot-path wrappers plus C-backed UUID values.
 
 Requires **Python ≥ 3.14**. Map of what is covered: [`COVERAGE.md`](COVERAGE.md). Primary license: [`LICENSE`](LICENSE) (MIT); adapted UUID portions retain their notices in [`NOTICE`](NOTICE) and [`LICENSES/Apache-2.0.txt`](LICENSES/Apache-2.0.txt). Contributing: [`CONTRIBUTING.md`](CONTRIBUTING.md). Security: [`SECURITY.md`](SECURITY.md). Safety / footguns: [`docs/SAFETY.md`](docs/SAFETY.md). Contributor process lives under [`docs/`](docs/) (not required for end users).
 
+**Import rename (2.0):** prefer `import picop` / `from picop…`. The `cypy` import package is a **deprecated soft alias** (emits `DeprecationWarning`) and will be **removed in 3.0**. PyPI name was already `picop`.
+
 ## Install
 
-PyPI distribution name is **`picop`**; the import package remains **`cypy`**.
+PyPI distribution name and import package are both **`picop`**.
 
 ### From PyPI
 
 ```bash
 pip install picop
-# pin: pip install "picop==1.44.16"
+# pin: pip install "picop==2.0.0"
 ```
 
 Build deps (`setuptools`, `wheel`, `Cython`, `picobuild`) are pulled via `pyproject.toml` `[build-system]`. Source installs need a C toolchain and OpenSSL headers (`libssl-dev` on Debian/Ubuntu).
@@ -20,7 +22,7 @@ Build deps (`setuptools`, `wheel`, `Cython`, `picobuild`) are pulled via `pyproj
 ### From git (users)
 
 ```bash
-pip install "picop @ git+https://github.com/ckirua/cypy.git@v1.44.16"
+pip install "picop @ git+https://github.com/ckirua/cypy.git@v2.0.0"
 # or unpinned tip of main:
 # pip install "git+https://github.com/ckirua/cypy.git"
 ```
@@ -52,8 +54,8 @@ Optional typecheck smoke (after install):
 
 ```bash
 # requires pyright or mypy
-pyright -c 'from cypy.hot import dict_get, list_append'  # or:
-python -c "from cypy.hot import dict_get, list_len; reveal_type = print"  # stubs via py.typed
+pyright -c 'from picop.hot import dict_get, list_append'  # or:
+python -c "from picop.hot import dict_get, list_len; reveal_type = print"  # stubs via py.typed
 ```
 
 ## Smoke
@@ -61,7 +63,7 @@ python -c "from cypy.hot import dict_get, list_len; reveal_type = print"  # stub
 Prefer the curated starters module for micro-opts:
 
 ```python
-from cypy.hot import bytes_len, dict_get, list_len, str_len
+from picop.hot import bytes_len, dict_get, list_len, str_len
 
 assert bytes_len(b"ok") == 2
 assert str_len("hi") == 2
@@ -69,20 +71,20 @@ assert dict_get({"a": 1}, "a") == 1
 assert list_len([1, 2]) == 2
 ```
 
-Also supported: `from cypy.cydict import dict_get` / `from cypy import dict_get`, and Cython `cimport`. Soft letter/bare aliases were removed in **0.3** — use preferred names. Prefer a release-tag pin. Avoid `from cypy import *`.
+Also supported: `from picop.cydict import dict_get` / `from picop import dict_get`, and Cython `cimport`. Soft letter/bare aliases were removed in **0.3** — use preferred names. Prefer a release-tag pin. Avoid `from picop import *`.
 
-Cython: both **`from cypy cimport …`** (package barrel) and **`from cypy.cybytes cimport …`** (submodule) work after install. Out-of-tree regression: [`examples/cimport_ext/`](examples/cimport_ext/) / `bash scripts/smoke_barrel_cimport.sh`.
+Cython: both **`from picop cimport …`** (package barrel) and **`from picop.cybytes cimport …`** (submodule) work after install. Out-of-tree regression: [`examples/cimport_ext/`](examples/cimport_ext/) / `bash scripts/smoke_barrel_cimport.sh`.
 
-Full public surface remains on `from cypy import …` / `cypy.cy*`.
+Full public surface remains on `from picop import …` / `picop.cy*`. Deprecated: `from cypy…` / `from cypy… cimport` (soft alias until **3.0**).
 
 **Footgun:** C-string helpers take **`bytes`**, not `str`. Prefer `*_cstr` (`map_getitem_cstr`) — see `examples/py_cstr_bytes.py`. Broader trusted-caller notes (unchecked OOB, borrowed pointers, `marshal_loads`): [`docs/SAFETY.md`](docs/SAFETY.md).
 
 ## UUID values
 
-`cypy.uuid` provides matching Python and Cython entry points:
+`picop.uuid` provides matching Python and Cython entry points:
 
 ```python
-from cypy.uuid import UUID, uuid4, uuid4_bytes
+from picop.uuid import UUID, uuid4, uuid4_bytes
 
 value = uuid4()
 raw = uuid4_bytes()
@@ -90,7 +92,7 @@ assert UUID(raw).version == 4
 ```
 
 ```cython
-from cypy.uuid cimport UUID, uuid4, uuid4_bytes
+from picop.uuid cimport UUID, uuid4, uuid4_bytes
 ```
 
 The C-backed `UUID` is final, accepts 32–36 character hexadecimal text or
@@ -109,7 +111,9 @@ python examples/pydict.py
 
 ## Compatibility
 
-**1.0 policy:** **Core** (`cypy.__all__` + `cypy.hot`) and documented cimport contracts are frozen. Soft aliases were removed in **0.3**. Protocols / Runtime remain provisional under minors. See [`docs/RELEASE.md`](docs/RELEASE.md). Semantic twins like `dict_len`/`dict_size` stay dual (never identity-aliased). Prefer pin: `pip install "picop==1.44.16"`.
+**1.0 policy:** **Core** (`picop.__all__` + `picop.hot`) and documented cimport contracts are frozen. Soft aliases were removed in **0.3**. Protocols / Runtime remain provisional under minors. See [`docs/RELEASE.md`](docs/RELEASE.md). Semantic twins like `dict_len`/`dict_size` stay dual (never identity-aliased). Prefer pin: `pip install "picop==2.0.0"`.
+
+**2.0 soft rename:** import package is **`picop`**; deprecated **`cypy`** alias remains until **3.0** (then removed). Pip install name was already `picop`.
 
 Product tiers (Core / Protocols / Runtime): [`COVERAGE.md`](COVERAGE.md).
 

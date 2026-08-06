@@ -1,8 +1,8 @@
-# Out-of-tree smoke: package-barrel + submodule cimport against an installed cypy.
+# Out-of-tree smoke: package-barrel + submodule cimport against an installed picop.
 # Build: see README.md / scripts/smoke_barrel_cimport.sh
 
-from cypy cimport UUID, bytes_eq, list_len, str_eq, uuid4_bytes
-from cypy.cybytes cimport bytes_len
+from picop cimport UUID, bytes_eq, list_len, str_eq, uuid4_bytes
+from picop.cybytes cimport bytes_len
 
 
 cpdef bint check_barrel():

@@ -1,9 +1,9 @@
-"""Smoke for :mod:`cypy.hot` (DX-01 curated starters).
+"""Smoke for :mod:`picop.hot` (DX-01 curated starters).
 
 Run: python examples/pyhot.py
 """
 
-from cypy.hot import (
+from picop.hot import (
     array_eq,
     array_ne,
     bytearray_contains,

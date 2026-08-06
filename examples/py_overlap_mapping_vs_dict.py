@@ -7,7 +7,7 @@ from __future__ import annotations
 
 from types import MappingProxyType
 
-from cypy import dict_contains, dict_get, dict_len, map_check, map_has_key, map_len
+from picop import dict_contains, dict_get, dict_len, map_check, map_has_key, map_len
 
 def main() -> None:
     known: dict[str, int] = {"a": 1, "b": 2}

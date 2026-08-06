@@ -1,8 +1,8 @@
-"""Python usage for cypy cyiterator.
+"""Python usage for picop cyiterator.
 
 Run: python examples/pyiterator.py
 """
-from cypy import iter_check, iter_eq, iter_next
+from picop import iter_check, iter_eq, iter_next
 
 
 def main() -> None:

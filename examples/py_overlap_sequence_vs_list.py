@@ -5,7 +5,7 @@ Run: python examples/py_overlap_sequence_vs_list.py
 
 from __future__ import annotations
 
-from cypy import list_get, list_len, seq_check, seq_get, seq_len, tuple_get, tuple_len
+from picop import list_get, list_len, seq_check, seq_get, seq_len, tuple_get, tuple_len
 
 def main() -> None:
     xs: list[int] = [10, 20, 30]

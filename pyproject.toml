@@ -8,7 +8,7 @@ requires = [
 build-backend = "setuptools.build_meta"
 
 [project]
-# PyPI distribution name (import package remains ``cypy``).
+# PyPI distribution name (preferred import package is ``picop``; ``cypy`` is a deprecated soft alias).
 name = "picop"
 description = "Fast CPython C-API helpers and C-backed UUID values for Cython"
 readme = "README.md"
@@ -60,4 +60,4 @@ addopts = "-q"
 include-package-data = true
 
 [tool.setuptools.dynamic]
-version = { attr = "cypy.__about__.__version__" }
+version = { attr = "picop.__about__.__version__" }

@@ -1,9 +1,9 @@
-"""Smoke checks for the provisional :mod:`cypy.protocols` facade."""
+"""Smoke checks for the provisional :mod:`picop.protocols` facade."""
 
 from __future__ import annotations
 
-import cypy.protocols as protocols
-from cypy.protocols import (
+import picop.protocols as protocols
+from picop.protocols import (
     map_check,
     map_eq,
     map_has_key,

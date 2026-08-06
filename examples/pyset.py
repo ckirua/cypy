@@ -1,9 +1,9 @@
-"""Python usage of :func:`cypy` set helpers.
+"""Python usage of :func:`picop` set helpers.
 
 Run: python examples/pyset.py
 """
 
-from cypy import (
+from picop import (
     frozenset_eq,
     set_add,
     set_clear,

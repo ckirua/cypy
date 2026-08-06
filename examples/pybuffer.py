@@ -1,10 +1,10 @@
-"""Python usage for cypy cybuffer.
+"""Python usage for picop cybuffer.
 
 Run: python examples/pybuffer.py
 """
 from array import array
 
-from cypy import buf_check, buf_copy_data, buf_eq
+from picop import buf_check, buf_copy_data, buf_eq
 
 
 def main() -> None:

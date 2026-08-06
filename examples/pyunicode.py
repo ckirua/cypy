@@ -1,10 +1,10 @@
-"""Python usage for cypy cyunicode.
+"""Python usage for picop cyunicode.
 
 Run: python examples/pyunicode.py
 
 Cimport-only ``unicode_from_string`` / ``uutf8_eq``: see ``bench/tier_b/cyunicode_tb.pyx`` smoke.
 """
-from cypy import uutf8_bytes, uintern, unicode_eq
+from picop import uutf8_bytes, uintern, unicode_eq
 
 def main() -> None:
     b = uutf8_bytes("hi")

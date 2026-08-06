@@ -1,8 +1,8 @@
-"""Python usage for cypy cytype.
+"""Python usage for picop cytype.
 
 Run: python examples/pytype.py
 """
-from cypy import type_check, type_check_exact, type_eq, type_is_subtype
+from picop import type_check, type_check_exact, type_eq, type_is_subtype
 
 
 def main() -> None:

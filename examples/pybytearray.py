@@ -1,8 +1,8 @@
-"""Python usage for cypy cybytearray.
+"""Python usage for picop cybytearray.
 
 Run: python examples/pybytearray.py
 """
-from cypy import (
+from picop import (
     bytearray_check,
     bytearray_contains,
     bytearray_eq,

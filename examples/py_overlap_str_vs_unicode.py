@@ -5,7 +5,7 @@ Run: python examples/py_overlap_str_vs_unicode.py
 
 from __future__ import annotations
 
-from cypy import (
+from picop import (
     str_check,
     str_check_exact,
     str_contains,

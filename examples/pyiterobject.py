@@ -1,8 +1,8 @@
-"""Python usage for cypy cyiterobject.
+"""Python usage for picop cyiterobject.
 
 Run: python examples/pyiterobject.py
 """
-from cypy import seqiter_check, seqiter_new, calliter_check
+from picop import seqiter_check, seqiter_new, calliter_check
 
 def main() -> None:
     it = seqiter_new([1, 2, 3])

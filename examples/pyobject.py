@@ -1,9 +1,9 @@
-"""Python usage for cypy cyobject.
+"""Python usage for picop cyobject.
 
 Run: python examples/pyobject.py
 """
-from cypy import obj_eq, obj_richcompare_bool
-from cypy import protocols
+from picop import obj_eq, obj_richcompare_bool
+from picop import protocols
 
 EQ = 2  # Py_EQ
 

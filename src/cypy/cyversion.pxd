@@ -1,12 +1,2 @@
-# cyversion.pxd
-# Compile-time Python version constants. cimport-only.
-
-from cpython.version cimport (
-    PY_MAJOR_VERSION,
-    PY_MICRO_VERSION,
-    PY_MINOR_VERSION,
-    PY_RELEASE_LEVEL,
-    PY_RELEASE_SERIAL,
-    PY_VERSION,
-    PY_VERSION_HEX,
-)
+# Deprecated cimport alias — use picop.cyversion (removal in 3.0).
+from picop.cyversion cimport *

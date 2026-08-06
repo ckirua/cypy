@@ -2,12 +2,12 @@
 """Wave 5/6 export + COMPAT_MAP gates (0.3 hard trim).
 
 Checks:
-1. Preferred names in COMPAT_MAP are present on ``cypy``.
-2. Soft aliases in COMPAT_MAP are **absent** from ``cypy`` (hard trim);
+1. Preferred names in COMPAT_MAP are present on ``picop``.
+2. Soft aliases in COMPAT_MAP are **absent** from ``picop`` (hard trim);
    ``__getattr__`` raises ``AttributeError`` with ``soft_alias_removal_hint``.
 3. Semantic twins are **not** identity-aliased.
-4. Cimport-only modules (tracker Surface) are not imported into ``cypy.__init__``.
-5. Core ``cypy.__all__`` names are importable from ``cypy``.
+4. Cimport-only modules (tracker Surface) are not imported into ``picop.__init__``.
+5. Core ``picop.__all__`` names are importable from ``picop``.
 
 Exit 0 on success.
 """
@@ -20,7 +20,7 @@ import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-INIT_PY = ROOT / "src" / "cypy" / "__init__.py"
+INIT_PY = ROOT / "src" / "picop" / "__init__.py"
 MODULES = ROOT / "docs" / "modules"
 
 CIMPORT_ONLY_SURFACE = re.compile(
@@ -51,21 +51,21 @@ def init_imported_modules() -> set[str]:
 
 def main() -> int:
     # Import after path is the installed/editable package
-    import cypy
-    from cypy.compat import COMPAT_MAP, SEMANTIC_TWINS, soft_alias_removal_hint
+    import picop
+    from picop.compat import COMPAT_MAP, SEMANTIC_TWINS, soft_alias_removal_hint
 
     errors: list[str] = []
 
     # 1) Preferred names present
     for soft, pref in sorted(COMPAT_MAP.items()):
-        if not hasattr(cypy, pref):
-            errors.append(f"COMPAT preferred missing on cypy: {pref} (from {soft})")
+        if not hasattr(picop, pref):
+            errors.append(f"COMPAT preferred missing on picop: {pref} (from {soft})")
 
     # 2) Soft aliases removed from root; __getattr__ hints
     for soft in sorted(COMPAT_MAP):
         # Use getattr to exercise __getattr__ (hasattr may swallow AttributeError)
         try:
-            getattr(cypy, soft)
+            getattr(picop, soft)
         except AttributeError as exc:
             hint = soft_alias_removal_hint(soft)
             if hint is None:
@@ -75,14 +75,14 @@ def main() -> int:
                     f"soft {soft}: AttributeError missing hint text: {exc!r}"
                 )
         else:
-            errors.append(f"COMPAT soft still on cypy after 0.3 trim: {soft}")
+            errors.append(f"COMPAT soft still on picop after 0.3 trim: {soft}")
 
     # 3) Semantic twins must not be identity
     for a, b in SEMANTIC_TWINS:
-        if not (hasattr(cypy, a) and hasattr(cypy, b)):
+        if not (hasattr(picop, a) and hasattr(picop, b)):
             errors.append(f"twin missing: {a} / {b}")
             continue
-        if getattr(cypy, a) is getattr(cypy, b):
+        if getattr(picop, a) is getattr(picop, b):
             errors.append(f"semantic twin collapsed to identity: {a} is {b}")
 
     # 4) cimport-only modules must not be Python-imported in __init__.py
@@ -92,8 +92,8 @@ def main() -> int:
             errors.append(f"cimport-only module imported in __init__.py: {mod}")
 
     # 5) Core __all__ importable
-    for name in cypy.__all__:
-        if not hasattr(cypy, name):
+    for name in picop.__all__:
+        if not hasattr(picop, name):
             errors.append(f"__all__ name missing: {name}")
 
     if errors:
@@ -106,7 +106,7 @@ def main() -> int:
         f"check_exports OK: {len(COMPAT_MAP)} soft aliases trimmed, "
         f"{len(SEMANTIC_TWINS)} twins, "
         f"{len(cimport_only_modules())} cimport-only modules clean, "
-        f"{len(cypy.__all__)} Core __all__"
+        f"{len(picop.__all__)} Core __all__"
     )
     return 0
 

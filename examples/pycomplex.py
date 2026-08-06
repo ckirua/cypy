@@ -1,8 +1,8 @@
-"""Python usage for cypy cycomplex.
+"""Python usage for picop cycomplex.
 
 Run: python examples/pycomplex.py
 """
-from cypy import (
+from picop import (
     complex_check,
     complex_eq,
     complex_from_doubles,

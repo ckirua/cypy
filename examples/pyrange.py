@@ -1,8 +1,8 @@
-"""Python usage for cypy cyrange.
+"""Python usage for picop cyrange.
 
 Run: python examples/pyrange.py
 """
-from cypy import range_eq
+from picop import range_eq
 
 
 def main() -> None:

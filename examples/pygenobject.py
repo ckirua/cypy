@@ -1,8 +1,8 @@
-"""Python usage for cypy cygenobject.
+"""Python usage for picop cygenobject.
 
 Run: python examples/pygenobject.py
 """
-from cypy import gen_check, gen_check_exact, gen_eq
+from picop import gen_check, gen_check_exact, gen_eq
 
 
 def main() -> None:
