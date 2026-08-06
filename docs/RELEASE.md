@@ -60,6 +60,21 @@ Protocols / Runtime remain **provisional** under post-1.0 minor policy (see
 
 ## Tag and GitHub Release
 
+Preferred: [`scripts/release.sh`](../scripts/release.sh)
+
+```bash
+# bump patch from __about__.py, commit, tag, GitHub Release, watch PyPI publish
+scripts/release.sh --patch --title "short highlight"
+
+# or explicit version
+scripts/release.sh 1.44.17 --title "short highlight"
+
+# preview only
+scripts/release.sh --patch --dry-run
+```
+
+Manual equivalent:
+
 ```bash
 git checkout main && git pull
 # after version bump is on main:
