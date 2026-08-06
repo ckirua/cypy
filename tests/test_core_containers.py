@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from cypy import (
+from picop import (
     bytes_contains,
     bytes_eq,
     bytes_len,

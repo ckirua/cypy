@@ -46,16 +46,16 @@ jobs:
 
           assert not sys._is_gil_enabled(), "CPython 3.14t did not start with the GIL disabled"
 
-          # This focused job builds only cypy.uuid; provide its parent package
-          # without importing the unrelated prebuilt cypy extension set.
-          package = types.ModuleType("cypy")
-          package.__path__ = [str(Path("src/cypy").resolve())]
-          sys.modules["cypy"] = package
+          # This focused job builds only picop.uuid; provide its parent package
+          # without importing the unrelated prebuilt picop extension set.
+          package = types.ModuleType("picop")
+          package.__path__ = [str(Path("src/picop").resolve())]
+          sys.modules["picop"] = package
 
-          from cypy.uuid import UUID, uuid4, uuid4_bytes
+          from picop.uuid import UUID, uuid4, uuid4_bytes
 
           assert sys._is_gil_enabled(), (
-              "cypy.uuid._uuid falsely loaded as native no-GIL compatible"
+              "picop.uuid._uuid falsely loaded as native no-GIL compatible"
           )
           assert uuid.UUID in UUID.__mro__
 

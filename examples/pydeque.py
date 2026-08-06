@@ -1,10 +1,10 @@
-"""Python usage for cypy cydeque.
+"""Python usage for picop cydeque.
 
 Run: python examples/pydeque.py
 """
 from collections import deque
 
-from cypy import deque_eq
+from picop import deque_eq
 
 
 def main() -> None:

@@ -1,9 +1,9 @@
-"""Python usage of :func:`cypy` str helpers.
+"""Python usage of :func:`picop` str helpers.
 
 Run: python examples/pystr.py
 """
 
-from cypy import (
+from picop import (
     str_all_alnum_ascii,
     str_all_digits,
     str_as_or_empty,
@@ -25,7 +25,7 @@ from cypy import (
 SYMBOL: str = "BTCUSDT"
 HAYSTACK: str = "abcabc"
 
-# Which coerce helper? (usually skip on hot paths — not in cypy.hot)
+# Which coerce helper? (usually skip on hot paths — not in picop.hot)
 # - str_or_empty: truthy exact str → self; else ""
 # - str_as_or_empty: exact str → self; else "" (keeps empty str)
 # - str_none_to_empty: exact str → self; else "" (incl. None)

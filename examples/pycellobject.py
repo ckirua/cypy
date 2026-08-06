@@ -1,10 +1,10 @@
-"""Python usage for cypy cycellobject.
+"""Python usage for picop cycellobject.
 
 Run: python examples/pycellobject.py
 """
 import types
 
-from cypy import cell_check, cell_eq, cell_new, cell_get, cell_set
+from picop import cell_check, cell_eq, cell_new, cell_get, cell_set
 
 
 def main() -> None:

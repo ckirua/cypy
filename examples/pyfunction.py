@@ -1,8 +1,8 @@
-"""Python usage for cypy cyfunction.
+"""Python usage for picop cyfunction.
 
 Run: python examples/pyfunction.py
 """
-from cypy import func_check, func_eq, func_get_code, func_get_globals
+from picop import func_check, func_eq, func_get_code, func_get_globals
 
 
 def main() -> None:

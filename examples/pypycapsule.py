@@ -1,10 +1,10 @@
-"""Python usage for cypy cypycapsule.
+"""Python usage for picop cypycapsule.
 
 Run: python examples/pypycapsule.py
 """
 import ctypes
 
-from cypy import capsule_check_exact, capsule_eq, capsule_is_valid
+from picop import capsule_check_exact, capsule_eq, capsule_is_valid
 
 
 def _capsule(ptr: int, name: bytes) -> object:
@@ -17,8 +17,8 @@ def _capsule(ptr: int, name: bytes) -> object:
 def main() -> None:
     assert capsule_check_exact(object()) is False
     assert capsule_is_valid(object(), b"x") is False
-    a = _capsule(0x1000, b"cypy.test")
-    b = _capsule(0x1000, b"cypy.test")
+    a = _capsule(0x1000, b"picop.test")
+    b = _capsule(0x1000, b"picop.test")
     assert capsule_check_exact(a)
     assert capsule_eq(a, a) and not capsule_eq(a, b)
     assert capsule_eq(a, a) is (a is a)

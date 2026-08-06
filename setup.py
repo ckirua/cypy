@@ -12,24 +12,24 @@ _compile_args = [
 if os.environ.get("CPY_NATIVE", "").strip() in ("1", "true", "yes"):
     _compile_args.insert(1, "-march=native")
 
-# Cython extensions — same shape as cycel.core.cpy, package name ``cypy``.
+# Cython extensions — same shape as cycel.core.cpy, package name ``picop`` (``cypy`` soft shim).
 cythonized_extensions = cythonize(
     [
         Extension(
-            "cypy.uuid._uuid",
+            "picop.uuid._uuid",
             [
-                "src/cypy/uuid/_uuid.pyx",
-                "src/cypy/uuid/uuid.c",
+                "src/picop/uuid/_uuid.pyx",
+                "src/picop/uuid/uuid.c",
             ],
-            include_dirs=["src/cypy/uuid"],
+            include_dirs=["src/picop/uuid"],
             extra_compile_args=_compile_args,
             libraries=["crypto"],
             language="c",
         ),
         Extension(
-            "cypy.*",
-            ["src/cypy/*.pyx"],
-            include_dirs=["src/cypy"],
+            "picop.*",
+            ["src/picop/*.pyx"],
+            include_dirs=["src/picop"],
             extra_compile_args=_compile_args,
             language="c",
         ),
@@ -41,6 +41,9 @@ if __name__ == "__main__":
     setup(
         packages=find_packages(where="src"),
         package_dir={"": "src"},
-        package_data={"cypy": ["py.typed", "**/*.pxd", "**/*.pxi", "**/*.h", "**/*.pyi"]},
+        package_data={
+            "picop": ["py.typed", "**/*.pxd", "**/*.pxi", "**/*.h", "**/*.pyi"],
+            "cypy": ["**/*.pxd", "**/*.pxi", "**/*.pyi"],
+        },
         ext_modules=cythonized_extensions,
     )

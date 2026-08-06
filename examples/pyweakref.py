@@ -1,8 +1,8 @@
-"""Python usage for cypy cyweakref.
+"""Python usage for picop cyweakref.
 
 Run: python examples/pyweakref.py
 """
-from cypy import weakref_check, weakref_eq, weakref_new_ref
+from picop import weakref_check, weakref_eq, weakref_new_ref
 
 
 def main() -> None:

@@ -1,6 +1,6 @@
 # Release checklist
 
-Ship a tagged `cypy` release from `main`. Version is sourced from [`src/cypy/__about__.py`](../src/cypy/__about__.py) (`pyproject.toml` dynamic version).
+Ship a tagged `picop` release from `main`. Version is sourced from [`src/picop/__about__.py`](../src/picop/__about__.py) (`pyproject.toml` dynamic version). GitHub repo remains `cypy`; PyPI / import package is **`picop`**. Soft `cypy` import alias until **3.0**.
 
 ## Compatibility (0.x → 1.0)
 
@@ -19,12 +19,16 @@ Ship a tagged `cypy` release from `main`. Version is sourced from [`src/cypy/__a
 
 **Version sketch:** `0.2` soft aliases + curated Core messaging → `0.3` hard trim of deprecated root names → `1.0` freeze **Core** public + documented cimport contracts. Protocols/Runtime may still evolve under minors after 1.0.
 
-**Current (`1.0.0`):** **Core** public (`cypy.__all__` + `cypy.hot`) and documented
+**Current (`1.0.0`+):** **Core** public (`picop.__all__` + `picop.hot`) and documented
 cimport contracts are frozen. Soft root aliases were trimmed in `0.3`. Preferred
-names only on `cypy`; ledger + `__getattr__` hints: [`cypy.compat`](../src/cypy/compat.py).
+names only on `picop`; ledger + `__getattr__` hints: [`picop.compat`](../src/picop/compat.py).
 Export gate: [`scripts/check_exports.py`](../scripts/check_exports.py).
 Protocols / Runtime remain **provisional** under post-1.0 minor policy (see
 [`CHANGELOG.md`](../CHANGELOG.md) / [`COVERAGE.md`](../COVERAGE.md)).
+
+**2.0 soft import rename:** preferred import is **`picop`**. Deprecated **`cypy`** shim
+(`DeprecationWarning` + cimport mirrors) until **3.0**, then removed. Pip name was
+already `picop`.
 
 **Alternative (not default):** Strategy A — single breaking `0.2` with **no** aliases (only if maintainers confirm near-zero external pins). Do not mix A and B halfway. **Chosen path was Strategy B** (soft then hard); do not reopen A for 1.x.
 
@@ -41,9 +45,15 @@ Protocols / Runtime remain **provisional** under post-1.0 minor policy (see
 
 ### 1.0 Core freeze checklist
 
-1. [x] Freeze Core public set (`cypy.__all__` + `cypy.hot`) and document cimport contracts in COVERAGE / module trackers.
+1. [x] Freeze Core public set (`picop.__all__` + `picop.hot`) and document cimport contracts in COVERAGE / module trackers.
 2. [x] Changelog: close “Provisional (non-Core)” — Protocols/Runtime under post-1.0 minor policy.
 3. [x] Tag `v1.0.0` (after merge to `main`).
+
+### 2.0 import rename checklist
+
+1. [x] Tree under `src/picop/`; soft `src/cypy/` shim + `DeprecationWarning`.
+2. [x] Cython cimport shims for `cypy` → `picop`.
+3. [ ] **3.0:** remove `cypy` Python package and cimport shims; require `picop` only.
 
 ## Before tagging
 
@@ -51,12 +61,12 @@ Protocols / Runtime remain **provisional** under post-1.0 minor policy (see
 |------|-------|
 | 1 | On latest `main`; working tree clean |
 | 2 | If any `docs/modules/` Lifecycle lines changed: `python scripts/grade_trackers.py` → **53/53 A** |
-| 3 | Local smoke: `pip install -e . --no-build-isolation` then `from cypy.hot import bytes_len, dict_get, str_len` |
+| 3 | Local smoke: `pip install -e . --no-build-isolation` then `from picop.hot import bytes_len, dict_get, str_len` |
 | 4 | Examples: `for f in examples/py*.py examples/wrap_ansi.py; do python "$f"; done` |
 | 5 | Export/compat: `python scripts/check_exports.py` |
-| 6 | Confirm [`future/MONKEY.md`](future/MONKEY.md) is **not** wired into `src/cypy` |
-| 7 | Bump `__about__.__version__` (PEP 440), e.g. `1.0.0` |
-| 8 | Update [`CHANGELOG.md`](../CHANGELOG.md) / [`README.md`](README.md) status / [`COVERAGE.md`](../COVERAGE.md) if surface/policy changed |
+| 6 | Confirm [`future/MONKEY.md`](future/MONKEY.md) is **not** wired into `src/picop` |
+| 7 | Bump `__about__.__version__` (PEP 440), e.g. `2.0.0` |
+| 8 | Update [`CHANGELOG.md`](../CHANGELOG.md) / [`README.md`](../README.md) status / [`COVERAGE.md`](../COVERAGE.md) if surface/policy changed |
 
 ## Tag and GitHub Release
 
@@ -67,7 +77,7 @@ Preferred: [`scripts/release.sh`](../scripts/release.sh)
 scripts/release.sh --patch --title "short highlight"
 
 # or explicit version
-scripts/release.sh 1.44.17 --title "short highlight"
+scripts/release.sh 2.0.0 --title "short highlight"
 
 # preview only
 scripts/release.sh --patch --dry-run
@@ -78,9 +88,9 @@ Manual equivalent:
 ```bash
 git checkout main && git pull
 # after version bump is on main:
-git tag -a "vX.Y.Z" -m "cypy vX.Y.Z"
+git tag -a "vX.Y.Z" -m "picop vX.Y.Z"
 git push origin "vX.Y.Z"
-gh release create "vX.Y.Z" --title "cypy vX.Y.Z" --notes-file - <<'EOF'
+gh release create "vX.Y.Z" --title "picop vX.Y.Z" --notes-file - <<'EOF'
 ## Highlights
 - …
 
@@ -96,7 +106,8 @@ EOF
 ```
 
 Pushing the tag runs [`.github/workflows/publish.yml`](../.github/workflows/publish.yml)
-(Trusted Publishing → PyPI project **`picop`**, **sdist only**). Import package stays **`cypy`**.
+(Trusted Publishing → PyPI project **`picop`**, **sdist only**). Preferred import is **`picop`**;
+deprecated **`cypy`** alias until **3.0**.
 Plain `linux_*` wheels are rejected by PyPI; add manylinux via cibuildwheel later if needed.
 
 ### One-time PyPI Trusted Publisher
@@ -123,7 +134,7 @@ twine check dist/*
 
 ```bash
 pip install "picop==X.Y.Z"
-python -c "from cypy.hot import bytes_len; assert bytes_len(b'ok') == 2"
+python -c "from picop.hot import bytes_len; assert bytes_len(b'ok') == 2"
 ```
 
 Portable builds are the default (`-O3` only). Contributors may set `CPY_NATIVE=1` for local tuned benches — do **not** require it for release artifacts.

@@ -1,9 +1,9 @@
-"""Python usage for cypy cynumber.
+"""Python usage for picop cynumber.
 
 Run: python examples/pynumber.py
 """
-from cypy import num_check, num_eq, num_floordiv, num_inplace_add
-from cypy import protocols
+from picop import num_check, num_eq, num_floordiv, num_inplace_add
+from picop import protocols
 
 
 def main() -> None:

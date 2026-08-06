@@ -1,10 +1,10 @@
-"""Python usage for cypy cydatetime.
+"""Python usage for picop cydatetime.
 
 Run: python examples/pydatetime.py
 """
 from datetime import date, datetime, time, timedelta, timezone
 
-from cypy import (
+from picop import (
     dt_date_check,
     dt_date_eq,
     dt_date_new,

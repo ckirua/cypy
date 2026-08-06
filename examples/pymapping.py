@@ -1,8 +1,8 @@
-"""Python usage for cypy cymapping.
+"""Python usage for picop cymapping.
 
 Run: python examples/pymapping.py
 """
-from cypy import map_check, map_eq, map_has_key, map_getitem_cstr
+from picop import map_check, map_eq, map_has_key, map_getitem_cstr
 
 def main() -> None:
     d = {"a": 1}

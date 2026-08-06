@@ -14,8 +14,8 @@ Public Python happy-path examples do not show ownership traps. Use this matrix w
 
 ```cython
 # cython: language_level=3
-from cypy.cydict cimport dict_get, dict_get_ref
-from cypy.cylist cimport list_get, list_get_checked
+from picop.cydict cimport dict_get, dict_get_ref
+from picop.cylist cimport list_get, list_get_checked
 
 cdef object demo(dict d, list xs):
     # borrowed — None means miss OR stored None

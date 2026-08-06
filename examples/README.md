@@ -11,7 +11,9 @@ How to read this index:
 
 **Start here:** [`STARTER.md`](STARTER.md) · [`pyhot.py`](pyhot.py) · [`py_cstr_bytes.py`](py_cstr_bytes.py) · overlap playbooks · core container scripts below.
 
-**Barrel cimport (out-of-tree):** [`cimport_ext/`](cimport_ext/) — `from cypy cimport …` against an installed package (`bash scripts/smoke_barrel_cimport.sh`).
+**Barrel cimport (out-of-tree):** [`cimport_ext/`](cimport_ext/) — `from picop cimport …` against an installed package (`bash scripts/smoke_barrel_cimport.sh`).
+
+(`cypy` still works as a deprecated alias until 3.0.)
 
 ```bash
 pip install picop
@@ -21,7 +23,7 @@ for f in examples/py*.py examples/wrap_ansi.py; do python "$f" || exit 1; done
 
 | Order | Module | Tier | Link / note |
 |------:|--------|------|-------------|
-| — | `cypy.hot` | starter | [`pyhot.py`](pyhot.py) |
+| — | `picop.hot` | starter | [`pyhot.py`](pyhot.py) |
 | — | C-string DX | starter | [`py_cstr_bytes.py`](py_cstr_bytes.py) |
 | — | overlap: mapping vs dict | starter | [`py_overlap_mapping_vs_dict.py`](py_overlap_mapping_vs_dict.py) |
 | — | overlap: sequence vs list | starter | [`py_overlap_sequence_vs_list.py`](py_overlap_sequence_vs_list.py) |

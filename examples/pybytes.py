@@ -1,9 +1,9 @@
-"""Python usage of :func:`cypy.bytes_len`, :func:`cypy.bytes_contains`, :func:`cypy.bytes_eq`, :func:`cypy.bytes_ne`, :func:`cypy.bytes_startswith`, :func:`cypy.bytes_endswith`.
+"""Python usage of :func:`picop.bytes_len`, :func:`picop.bytes_contains`, :func:`picop.bytes_eq`, :func:`picop.bytes_ne`, :func:`picop.bytes_startswith`, :func:`picop.bytes_endswith`.
 
 Run: python examples/pybytes.py
 """
 
-from cypy import (
+from picop import (
     bytes_bytearray_eq,
     bytes_contains,
     bytes_eq,

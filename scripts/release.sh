@@ -16,7 +16,7 @@ set -euo pipefail
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 cd "$ROOT"
 
-ABOUT="src/cypy/__about__.py"
+ABOUT="src/picop/__about__.py"
 CHANGELOG="CHANGELOG.md"
 DRY_RUN=0
 SKIP_CHECKS=0
@@ -269,7 +269,7 @@ else
     gh run watch "$run_id" --exit-status
     echo
     echo "PyPI: https://pypi.org/project/picop/${VERSION}/"
-    echo "Verify: pip install \"picop==${VERSION}\" && python -c \"from cypy.hot import bytes_len; assert bytes_len(b'ok')==2\""
+    echo "Verify: pip install \"picop==${VERSION}\" && python -c \"from picop.hot import bytes_len; assert bytes_len(b'ok')==2\""
   else
     echo "warn: publish run not found yet; check: gh run list --workflow=publish.yml"
   fi

@@ -1,4 +1,4 @@
-"""Behavioral tests for :mod:`cypy.uuid`."""
+"""Behavioral tests for :mod:`picop.uuid`."""
 
 from __future__ import annotations
 
@@ -10,9 +10,9 @@ import uuid as stdlib_uuid
 
 import pytest
 
-import cypy
-import cypy.uuid as cypy_uuid
-from cypy.uuid import UUID, uuid4, uuid4_bytes
+import picop
+import picop.uuid as picop_uuid
+from picop.uuid import UUID, uuid4, uuid4_bytes
 
 COMPACT = "12345678123456789abcdef012345678"
 CANONICAL = "12345678-1234-5678-9abc-def012345678"
@@ -20,15 +20,15 @@ VALUE_BYTES = bytes.fromhex(COMPACT)
 
 
 def test_public_exports_are_exactly_the_canonical_api() -> None:
-    assert tuple(cypy_uuid.__all__) == ("UUID", "uuid4", "uuid4_bytes")
-    assert cypy_uuid.UUID is UUID
-    assert cypy_uuid.uuid4 is uuid4
-    assert cypy_uuid.uuid4_bytes is uuid4_bytes
-    assert not hasattr(cypy_uuid, "randstr_16")
-    assert cypy.UUID is UUID
-    assert cypy.uuid4 is uuid4
-    assert cypy.uuid4_bytes is uuid4_bytes
-    assert {"UUID", "uuid4", "uuid4_bytes"} <= set(cypy.__all__)
+    assert tuple(picop_uuid.__all__) == ("UUID", "uuid4", "uuid4_bytes")
+    assert picop_uuid.UUID is UUID
+    assert picop_uuid.uuid4 is uuid4
+    assert picop_uuid.uuid4_bytes is uuid4_bytes
+    assert not hasattr(picop_uuid, "randstr_16")
+    assert picop.UUID is UUID
+    assert picop.uuid4 is uuid4
+    assert picop.uuid4_bytes is uuid4_bytes
+    assert {"UUID", "uuid4", "uuid4_bytes"} <= set(picop.__all__)
 
 
 def test_uuid_is_final_and_inherits_from_stdlib_uuid() -> None:
@@ -249,7 +249,7 @@ def test_stdlib_equality_hash_and_mapping_interoperability_is_symmetric() -> Non
     assert other != value
     assert hash(value) == hash(expected)
     assert len({value, expected}) == 1
-    assert {value: "cypy"}[expected] == "cypy"
+    assert {value: "picop"}[expected] == "picop"
     assert {expected: "stdlib"}[value] == "stdlib"
 
 

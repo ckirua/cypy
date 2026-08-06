@@ -2,7 +2,7 @@
 
 import uuid
 
-from cypy.uuid import UUID, uuid4, uuid4_bytes
+from picop.uuid import UUID, uuid4, uuid4_bytes
 
 value = uuid4()
 raw = uuid4_bytes()

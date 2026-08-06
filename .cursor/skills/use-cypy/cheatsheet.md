@@ -1,6 +1,8 @@
-# cypy consumer cheatsheet
+# picop consumer cheatsheet
 
 Read only when the high-value table in `SKILL.md` is not enough. Prefer examples under `examples/py*.py`.
+
+Default imports: `from picop.hot import …` / `from picop… cimport …`. Soft alias `cypy` is deprecated (removed in **3.0**).
 
 ## Core containers / strings (public)
 
@@ -24,7 +26,7 @@ Read only when the high-value table in `SKILL.md` is not enough. Prefer examples
 | sequence vs list/tuple | `examples/py_overlap_sequence_vs_list.py` |
 | str value ops vs unicode encode/intern | `examples/py_overlap_str_vs_unicode.py` |
 
-Facades: `cypy.containers`, `cypy.buffers`, `cypy.protocols` (discovery); prefer `cypy.hot` for micro-opts.
+Facades: `picop.containers`, `picop.buffers`, `picop.protocols` (discovery); prefer `picop.hot` for micro-opts.
 
 ## Other public modules
 
@@ -34,7 +36,7 @@ See `examples/README.md` Orders 14–21, 23–27, 29–36, 39–46, 51, 53 (`pyb
 
 Orders 10–13, 22, 28, 38, 47–50, 52: `cyerr`, `cymem`, `cythread`, `cyatomic`, `cylongintrepr`, `cyref`, `cygetargs`, `cyceval`, `cypystate`, `cypylifecycle`, `cypyport`, `cyversion`.
 
-Use `cimport` from `.pyx` only — see `examples/cython/README.md`.
+Use `cimport` from `.pyx` only — see `examples/cython/README.md`. Prefer `from picop… cimport` (not `cypy`).
 
 ## n/a
 

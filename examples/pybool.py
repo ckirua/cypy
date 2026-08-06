@@ -1,8 +1,8 @@
-"""Python usage for cypy cybool.
+"""Python usage for picop cybool.
 
 Run: python examples/pybool.py
 """
-from cypy import bool_check, bool_eq, bool_from_long, bool_true, bool_false
+from picop import bool_check, bool_eq, bool_from_long, bool_true, bool_false
 
 
 def main() -> None:

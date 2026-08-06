@@ -1,8 +1,8 @@
-"""Python usage for cypy cymemoryview.
+"""Python usage for picop cymemoryview.
 
 Run: python examples/pymemoryview.py
 """
-from cypy import memoryview_check, memoryview_eq, memoryview_from_object, memoryview_ne
+from picop import memoryview_check, memoryview_eq, memoryview_from_object, memoryview_ne
 
 def main() -> None:
     mv = memoryview_from_object(b"abc")

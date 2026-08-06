@@ -1,6 +1,6 @@
 # Contributing
 
-Thanks for contributing to **cypy** (copyright / author: **ckirua**).
+Thanks for contributing to **picop** (repo / copyright: **ckirua**; historical import name `cypy`).
 
 ## Setup
 
@@ -19,7 +19,7 @@ After changing public symbols or trackers:
 
 ```bash
 # smoke
-python -c "from cypy.hot import bytes_len, dict_get, list_len, str_len"
+python -c "from picop.hot import bytes_len, dict_get, list_len, str_len"
 
 # pytest (UUID + Core/hot/protocols/exports + example mains)
 python -m pytest tests -q
@@ -42,11 +42,13 @@ Use [`.github/PULL_REQUEST_TEMPLATE.md`](.github/PULL_REQUEST_TEMPLATE.md). Deep
 
 ## 1.0 Core freeze
 
-**Core** (`cypy.__all__` + `cypy.hot`) and documented cimport contracts are frozen at **1.0**:
+**Core** (`picop.__all__` + `picop.hot`) and documented cimport contracts are frozen at **1.0**:
 
 - Additive minors are OK.
 - Removals / semantic changes need a major.
 - Soft aliases removed in **0.3** — **do not revive** them.
+
+**2.0 soft rename:** prefer `picop` imports/cimports. Deprecated `cypy` alias until **3.0** (then removed).
 
 Protocols / Runtime remain provisional under post-1.0 minor policy. See [`docs/RELEASE.md`](docs/RELEASE.md) and [`COVERAGE.md`](COVERAGE.md).
 

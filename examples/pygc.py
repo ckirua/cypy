@@ -1,8 +1,8 @@
-"""Python usage for cypy cygc.
+"""Python usage for picop cygc.
 
 Run: python examples/pygc.py
 """
-from cypy import gc_is_enabled, gc_collect
+from picop import gc_is_enabled, gc_collect
 
 def main() -> None:
     assert isinstance(gc_is_enabled(), bool)

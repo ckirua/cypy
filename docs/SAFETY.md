@@ -1,6 +1,6 @@
 # Safety and trusted-caller footguns
 
-`cypy` wraps CPython C-API helpers for **known-type hot paths**. Some APIs skip checks that Python builtins always do. Misuse can crash the process or worse — treat them as **trusted-caller** tools, not as hardening against hostile input.
+`picop` wraps CPython C-API helpers for **known-type hot paths** (deprecated soft alias: `cypy`, removed in **3.0**). Some APIs skip checks that Python builtins always do. Misuse can crash the process or worse — treat them as **trusted-caller** tools, not as hardening against hostile input.
 
 ## Unchecked accessors (OOB is UB)
 

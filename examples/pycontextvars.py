@@ -1,10 +1,10 @@
-"""Python usage for cypy cycontextvars.
+"""Python usage for picop cycontextvars.
 
 Run: python examples/pycontextvars.py
 """
 import contextvars
 
-from cypy import (
+from picop import (
     context_eq,
     ctx_check_exact,
     ctx_copy_current,

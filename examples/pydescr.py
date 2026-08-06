@@ -1,8 +1,8 @@
-"""Python usage for cypy cydescr.
+"""Python usage for picop cydescr.
 
 Run: python examples/pydescr.py
 """
-from cypy import descr_is_data
+from picop import descr_is_data
 
 def main() -> None:
     assert descr_is_data(property()) is True

@@ -1,8 +1,8 @@
-"""Python usage for cypy cyfloat.
+"""Python usage for picop cyfloat.
 
 Run: python examples/pyfloat.py
 """
-from cypy import float_as_double, float_check, float_eq, float_from_double
+from picop import float_as_double, float_check, float_eq, float_from_double
 
 
 def main() -> None:

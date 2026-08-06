@@ -1,8 +1,8 @@
-"""Python usage for cypy cyconversion.
+"""Python usage for picop cyconversion.
 
 Run: python examples/pyconversion.py
 """
-from cypy import conv_cstr_to_double, conv_stricmp
+from picop import conv_cstr_to_double, conv_stricmp
 
 def main() -> None:
     assert conv_cstr_to_double(b"3.5") == 3.5

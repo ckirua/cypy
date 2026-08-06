@@ -3,7 +3,7 @@
 Run: python examples/py_cstr_bytes.py
 """
 
-from cypy import codec_known, map_getitem_cstr
+from picop import codec_known, map_getitem_cstr
 
 def main() -> None:
     d = {"a": 1}

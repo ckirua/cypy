@@ -1,9 +1,9 @@
-"""Python usage of :mod:`cypy` tuple helpers.
+"""Python usage of :mod:`picop` tuple helpers.
 
 Run: python examples/pytuple.py
 """
 
-from cypy import (
+from picop import (
     tuple_check,
     tuple_eq,
     tuple_get,
