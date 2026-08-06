@@ -1,5 +1,10 @@
 # Changelog
 
+## [Unreleased] — PyPI name `picop` + publish CI
+
+- PyPI distribution name is **`picop`** (`pip install picop`); import package remains **`cypy`**.
+- Add Trusted Publishing workflow [`.github/workflows/publish.yml`](.github/workflows/publish.yml) (tag `v*` → PyPI; manual → TestPyPI/PyPI).
+
 ## [1.44.15] — 2026-08-02 — expand pytest suite beyond UUID
 
 - Add focused pytest modules for `cypy.hot`, Core containers, `cypy.protocols`, export gates, and example ``main()`` smokes (no API change).

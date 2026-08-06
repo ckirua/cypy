@@ -23,8 +23,9 @@ description: >-
 ## Install (consumer project)
 
 ```bash
-pip install "cypy @ git+https://github.com/ckirua/cypy.git@v1.0.0"
-# or unpinned: pip install "git+https://github.com/ckirua/cypy.git"
+pip install picop
+# pin: pip install "picop==1.44.15"
+# or from git: pip install "picop @ git+https://github.com/ckirua/cypy.git@v1.44.15"
 ```
 
 Requires **Python ≥ 3.14**.
@@ -58,7 +59,7 @@ from cypy.hot import dict_get, dict_len, list_len, list_get, list_append, bytes_
 2. **`from cypy.cydict import dict_get`** / **`from cypy import dict_get`** — full public surface
 3. **`from cypy.cydict cimport dict_get`** — Cython hot paths
 
-Discourage `from cypy import *`. Prefer a **release tag** pin (`@v1.0.0` or newer) over unpinned `git+…`.
+Discourage `from cypy import *`. Prefer a **PyPI pin** (`pip install "picop==…"`) or a **release tag** over unpinned `git+…`.
 
 Letter/bare soft aliases (`dget`, `llen`, `contains`, `fg8`, …) were **removed in 0.3** — use word-prefix / `str_*` / `ansi_*`. See `cypy.compat.COMPAT_MAP` / package `__getattr__` hints. **Core** (`cypy.hot` / `cypy.__all__`) is frozen at **1.0**; Protocols / Runtime may still evolve under minors.
 

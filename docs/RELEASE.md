@@ -74,27 +74,39 @@ gh release create "vX.Y.Z" --title "cypy vX.Y.Z" --notes-file - <<'EOF'
 
 ## Install
 ```bash
-pip install "git+https://github.com/ckirua/cypy.git@vX.Y.Z"
+pip install "picop==X.Y.Z"
+# or: pip install "picop @ git+https://github.com/ckirua/cypy.git@vX.Y.Z"
 ```
 EOF
 ```
 
-## Artifacts / PyPI (optional)
+Pushing the tag runs [`.github/workflows/publish.yml`](../.github/workflows/publish.yml)
+(Trusted Publishing → PyPI project **`picop`**). Import package stays **`cypy`**.
+
+### One-time PyPI Trusted Publisher
+
+1. https://pypi.org/manage/account/publishing/ → pending publisher for **`picop`**
+2. Owner `ckirua`, repo `cypy`, workflow `publish.yml`, environment `pypi`
+3. Optional: same on TestPyPI with environment `testpypi`
+4. Create GitHub Environments `pypi` / `testpypi` (optional reviewers)
+
+Manual dry-run: Actions → **publish** → Run workflow → `testpypi`.
+
+## Artifacts / local PyPI check
 
 ```bash
 pip install build twine
-python -m build
+CPY_NATIVE=0 python -m build
 twine check dist/*
-# optional: twine upload --repository testpypi dist/*
-# optional: twine upload dist/*
+# optional local upload (prefer CI Trusted Publishing):
+# twine upload --repository testpypi dist/*
+# twine upload dist/*
 ```
-
-PyPI publish is **optional** for Phase 5 exit if git-tag install works. Mark deferred in QUEUE when secrets / name availability block upload.
 
 ## Post-release verify
 
 ```bash
-pip install "cypy @ git+https://github.com/ckirua/cypy.git@vX.Y.Z"
+pip install "picop==X.Y.Z"
 python -c "from cypy.hot import bytes_len; assert bytes_len(b'ok') == 2"
 ```
 

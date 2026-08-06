@@ -33,7 +33,7 @@ Ship / remaster via [`PIPELINE.md`](PIPELINE.md) + [`TEMPLATE.md`](TEMPLATE.md).
 | [`PIPELINE.md`](PIPELINE.md) | Full feature ship flow (branch → measure → PR) |
 | [`NAMING.md`](NAMING.md) | N3/N4 check + len/size conventions |
 | [`SAFETY.md`](SAFETY.md) | Trusted-caller footguns (OOB, borrow, marshal, `*_cstr`) |
-| [`RELEASE.md`](RELEASE.md) | Version / tag / GitHub Release / optional PyPI checklist |
+| [`RELEASE.md`](RELEASE.md) | Version / tag / GitHub Release / PyPI (`picop`) checklist |
 | [`../CHANGELOG.md`](../CHANGELOG.md) | Release notes; Core freeze at 1.0; Protocols/Runtime post-1.0 policy |
 | [`TEMPLATE.md`](TEMPLATE.md) | v2 tracker template |
 | [`modules/`](modules/) | **Trackers** — one `NNN_cy{name}.md` per module (Order `001`…`055`) |

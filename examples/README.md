@@ -14,7 +14,8 @@ How to read this index:
 **Barrel cimport (out-of-tree):** [`cimport_ext/`](cimport_ext/) — `from cypy cimport …` against an installed package (`bash scripts/smoke_barrel_cimport.sh`).
 
 ```bash
-pip install "git+https://github.com/ckirua/cypy.git"
+pip install picop
+# or: pip install "git+https://github.com/ckirua/cypy.git"
 for f in examples/py*.py examples/wrap_ansi.py; do python "$f" || exit 1; done
 ```
 

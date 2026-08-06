@@ -6,15 +6,24 @@ Requires **Python ≥ 3.14**. Map of what is covered: [`COVERAGE.md`](COVERAGE.m
 
 ## Install
 
+PyPI distribution name is **`picop`**; the import package remains **`cypy`**.
+
+### From PyPI
+
+```bash
+pip install picop
+# pin: pip install "picop==1.44.15"
+```
+
+Build deps (`setuptools`, `wheel`, `Cython`, `picobuild`) are pulled via `pyproject.toml` `[build-system]`. Source installs need a C toolchain and OpenSSL headers (`libssl-dev` on Debian/Ubuntu).
+
 ### From git (users)
 
 ```bash
-pip install "cypy @ git+https://github.com/ckirua/cypy.git@v1.0.0"
+pip install "picop @ git+https://github.com/ckirua/cypy.git@v1.44.15"
 # or unpinned tip of main:
 # pip install "git+https://github.com/ckirua/cypy.git"
 ```
-
-Build deps (`setuptools`, `wheel`, `Cython`, `picobuild`) are pulled via `pyproject.toml` `[build-system]`.
 
 ### Editable (contributors)
 
@@ -100,7 +109,7 @@ python examples/pydict.py
 
 ## Compatibility
 
-**1.0 policy:** **Core** (`cypy.__all__` + `cypy.hot`) and documented cimport contracts are frozen. Soft aliases were removed in **0.3**. Protocols / Runtime remain provisional under minors. See [`docs/RELEASE.md`](docs/RELEASE.md). Semantic twins like `dict_len`/`dict_size` stay dual (never identity-aliased). Prefer pin: `pip install "cypy @ git+https://github.com/ckirua/cypy.git@v1.0.0"`.
+**1.0 policy:** **Core** (`cypy.__all__` + `cypy.hot`) and documented cimport contracts are frozen. Soft aliases were removed in **0.3**. Protocols / Runtime remain provisional under minors. See [`docs/RELEASE.md`](docs/RELEASE.md). Semantic twins like `dict_len`/`dict_size` stay dual (never identity-aliased). Prefer pin: `pip install "picop==1.44.15"`.
 
 Product tiers (Core / Protocols / Runtime): [`COVERAGE.md`](COVERAGE.md).
 
