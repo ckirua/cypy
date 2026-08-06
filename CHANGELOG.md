@@ -1,6 +1,6 @@
 # Changelog
 
-## [Unreleased] — PyPI name `picop` + publish CI
+## [1.44.16] — 2026-08-06 — PyPI name `picop` + publish CI
 
 - PyPI distribution name is **`picop`** (`pip install picop`); import package remains **`cypy`**.
 - Add Trusted Publishing workflow [`.github/workflows/publish.yml`](.github/workflows/publish.yml) (tag `v*` → PyPI; manual → TestPyPI/PyPI).
